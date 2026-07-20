@@ -75,7 +75,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} flex flex-col justify-center items-center relative overflow-hidden p-4 transition-colors duration-300`}>
+    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-[#f8fafc] text-slate-900'} flex flex-col justify-center items-center relative overflow-hidden p-4 transition-colors duration-500`}>
       {/* Theme Toggle Top Right */}
       <div className="absolute top-6 right-6 z-20">
         <button
@@ -87,15 +87,23 @@ export default function LoginPage() {
         </button>
       </div>
 
-      {/* Dynamic Background Glows */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+      {/* Animated Background Blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className={`absolute top-[-15%] left-[-15%] w-[500px] h-[500px] rounded-full blur-[140px] animate-blob ${isDark ? 'bg-cyan-600/20' : 'bg-cyan-400/25'}`} />
+        <div className={`absolute bottom-[-15%] right-[-15%] w-[500px] h-[500px] rounded-full blur-[140px] animate-blob animation-delay-2000 ${isDark ? 'bg-indigo-600/15' : 'bg-indigo-400/20'}`} />
+        <div className={`absolute top-[40%] left-[60%] w-[350px] h-[350px] rounded-full blur-[120px] animate-blob animation-delay-4000 ${isDark ? 'bg-purple-600/10' : 'bg-purple-400/12'}`} />
+        {/* Animated ring */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px]">
+          <div className={`absolute inset-0 rounded-full border animate-orbit-ring ${isDark ? 'border-cyan-500/8' : 'border-cyan-400/10'}`} style={{ ['--speed' as string]: '30s' } as React.CSSProperties} />
+          <div className={`absolute inset-12 rounded-full border animate-orbit-reverse ${isDark ? 'border-indigo-500/6' : 'border-indigo-400/8'}`} style={{ ['--speed' as string]: '20s' } as React.CSSProperties} />
+        </div>
+      </div>
 
       {/* Main Container */}
       <div className="w-full max-w-md relative z-10">
         {/* Header Branding */}
-        <div className="text-center mb-8">
-          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${isDark ? 'bg-slate-900/80 border-slate-800 text-cyan-400' : 'bg-white border-slate-200 text-cyan-600'} border backdrop-blur-md mb-4 text-xs font-medium`}>
+        <div className="text-center mb-8 animate-fade-in-up">
+          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${isDark ? 'bg-slate-900/80 border-slate-800 text-cyan-400' : 'bg-white border-slate-200 text-cyan-600 shadow-lg shadow-cyan-500/5'} border backdrop-blur-md mb-4 text-xs font-bold animate-hero-float`}>
             <Brain className="w-4 h-4 animate-pulse" />
             <span>AEO / GEO Engine Expert</span>
           </div>
