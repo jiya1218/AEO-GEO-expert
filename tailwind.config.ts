@@ -20,6 +20,21 @@ const config: Config = {
           700: '#075985',
         }
       },
+      keyframes: {
+        'float-particle': {
+          '0%, 100%': { transform: 'translateY(0px) scale(1)', opacity: '0.3' },
+          '50%': { transform: 'translateY(-25px) scale(1.2)', opacity: '0.8' },
+        },
+        blob: {
+          '0%, 100%': { transform: 'translate(0px, 0px) scale(1)' },
+          '33%': { transform: 'translate(30px, -40px) scale(1.1)' },
+          '66%': { transform: 'translate(-20px, 20px) scale(0.95)' },
+        },
+      },
+      animation: {
+        'float-particle': 'float-particle 6s ease-in-out infinite',
+        blob: 'blob 10s infinite ease-in-out',
+      },
     },
   },
   plugins: [],

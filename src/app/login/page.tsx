@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Sparkles, ArrowRight, CheckCircle2, Lock, Mail, Brain, Sun, Moon } from 'lucide-react';
 import { toast } from 'sonner';
+import { AiBackground } from '@/components/ui/ai-background';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -76,6 +77,7 @@ export default function LoginPage() {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} flex flex-col justify-center items-center relative overflow-hidden p-4 transition-colors duration-300`}>
+      <AiBackground isDark={isDark} />
       {/* Theme Toggle Top Right */}
       <div className="absolute top-6 right-6 z-20">
         <button
@@ -86,10 +88,6 @@ export default function LoginPage() {
           <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
         </button>
       </div>
-
-      {/* Dynamic Background Glows */}
-      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main Container */}
       <div className="w-full max-w-md relative z-10">

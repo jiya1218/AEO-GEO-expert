@@ -10,6 +10,7 @@ import { SiteCrawlerView } from '@/components/dashboard/site-crawler-view';
 import { KeywordsResearchView } from '@/components/dashboard/keywords-research-view';
 import { AnalysisAnimation } from '@/components/dashboard/analysis-animation';
 import { ReportDownloadButton } from '@/components/dashboard/report-download-button';
+import { AiBackground } from '@/components/ui/ai-background';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
   Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot,
@@ -96,7 +97,8 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans transition-colors duration-200 relative`}>
+    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans transition-colors duration-200 relative overflow-hidden`}>
+      <AiBackground isDark={isDark} />
 
       {/* Full-Screen Analysis Animation Overlay */}
       {loading && (

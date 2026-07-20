@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Brain, Sparkles, ArrowRight, Bot, Zap, Layers, Sun, Moon, Search, Globe } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { AiBackground } from '@/components/ui/ai-background';
 
 export default function HomePage() {
   const [isDark, setIsDark] = useState(false);
@@ -18,7 +19,8 @@ export default function HomePage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} flex flex-col font-sans transition-colors duration-300`}>
+    <div className="min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-300">
+      <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
       <nav className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/60' : 'border-slate-200/80 bg-white/80'} backdrop-blur-xl sticky top-0 z-40`}>
