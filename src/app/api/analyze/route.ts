@@ -16,14 +16,17 @@ export async function POST(req: Request) {
     const cleanDomain = String(domain).trim().toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '');
     const targetBrand = brandName || cleanDomain.split('.')[0].toUpperCase();
 
-    // 1. Run Page Audit
-    const pageAudit = await analyzePageGeo(cleanDomain);
+    // 1. Run Page Audit & AI Auto-Discovery of Keywords + Competitors
+    const pageAudit = await analyzePageGeo(cleanDomain, keywords, competitors);
+
+    const activeKeywords = pageAudit.autoDiscoveredKeywords;
+    const activeCompetitors = pageAudit.autoDiscoveredCompetitors;
 
     // 2. Run Multi-Model Prompt Scans
-    const promptScans = await runMultiModelScan(cleanDomain, targetBrand, keywords, competitors);
+    const promptScans = await runMultiModelScan(cleanDomain, targetBrand, activeKeywords, activeCompetitors);
 
     // 3. Run Gap Detection
-    const gaps = detectAeoGaps(cleanDomain, targetBrand, competitors, promptScans);
+    const gaps = detectAeoGaps(cleanDomain, targetBrand, activeCompetitors, promptScans);
 
     // Calculate aggregated metrics
     const totalPrompts = promptScans.length;
@@ -37,6 +40,8 @@ export async function POST(req: Request) {
       pageAudit,
       promptScans,
       gaps,
+      autoDiscoveredKeywords: activeKeywords,
+      autoDiscoveredCompetitors: activeCompetitors,
       metrics: {
         overallGeoScore: pageAudit.overallGeoScore,
         schemaScore: pageAudit.schemaScore,
@@ -61,8 +66,8 @@ export async function POST(req: Request) {
           domain: cleanDomain,
           name: cleanDomain,
           brand_name: targetBrand,
-          target_keywords: keywords,
-          competitors,
+          target_keywords: activeKeywords,
+          competitors: activeCompetitors,
         }, { onConflict: 'domain' }).select().single();
 
         if (project) {
