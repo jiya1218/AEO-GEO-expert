@@ -6,17 +6,30 @@ import { AeoScoreCard } from '@/components/dashboard/aeo-score-card';
 import { MultiModelHeatmap } from '@/components/dashboard/multi-model-heatmap';
 import { CitationList } from '@/components/dashboard/citation-list';
 import { GapAnalysisTable } from '@/components/dashboard/gap-analysis-table';
-import { AuditModal } from '@/components/dashboard/audit-modal';
+import { SiteCrawlerView } from '@/components/dashboard/site-crawler-view';
 import {
   Brain, Plus, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
-  AlertTriangle, Shield, Download, FileSpreadsheet
+  Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot, ArrowRight,
+  TrendingUp, Building2
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+type ActiveTab = 'overview' | 'crawler' | 'heatmap' | 'citations' | 'gaps';
+
 export default function DashboardPage() {
-  const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
-  const [auditData, setAuditData] = useState<any>(null);
+  const [isDark, setIsDark] = useState(true);
+  const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [userEmail, setUserEmail] = useState<string | null>(null);
+
+  // Analysis State
+  const [targetDomainInput, setTargetDomainInput] = useState('');
+  const [targetBrandInput, setTargetBrandInput] = useState('');
+  const [targetKeywordsInput, setTargetKeywordsInput] = useState('');
+  const [targetCompetitorsInput, setTargetCompetitorsInput] = useState('');
+  
+  const [analyzedProjects, setAnalyzedProjects] = useState<any[]>([]);
+  const [activeAuditData, setActiveAuditData] = useState<any | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const supabase = createClient();
 
@@ -27,22 +40,53 @@ export default function DashboardPage() {
         setUserEmail(data.user.email || 'User');
       }
     });
-
-    // Run initial baseline analysis for demo domain
-    fetch('/api/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        domain: 'scalezix.com',
-        brandName: 'Scalezix',
-        keywords: ['AEO Engine', 'GEO Optimization', 'AI Search Visibility'],
-        competitors: ['Semrush.com', 'Ahrefs.com'],
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => setAuditData(data))
-      .catch((err) => console.error('Error fetching initial audit:', err));
   }, []);
+
+  const handleRunAnalysis = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!targetDomainInput) {
+      toast.error('Please enter a website URL or domain name');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const kwArray = targetKeywordsInput.split(',').map(k => k.trim()).filter(Boolean);
+      const compArray = targetCompetitorsInput.split(',').map(c => c.trim()).filter(Boolean);
+
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          domain: targetDomainInput,
+          brandName: targetBrandInput,
+          keywords: kwArray,
+          competitors: compArray,
+        }),
+      });
+
+      if (!res.ok) throw new Error('Failed to run AEO/GEO analysis');
+
+      const data = await res.json();
+      toast.success(`AEO/GEO Analysis completed for ${data.domain}!`);
+
+      setActiveAuditData(data);
+      setAnalyzedProjects((prev) => {
+        const filtered = prev.filter(p => p.domain !== data.domain);
+        return [data, ...filtered];
+      });
+
+      // Clear input fields
+      setTargetDomainInput('');
+      setTargetBrandInput('');
+      setTargetKeywordsInput('');
+      setTargetCompetitorsInput('');
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to complete analysis');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -50,21 +94,17 @@ export default function DashboardPage() {
     window.location.href = '/login';
   };
 
-  const handleAuditComplete = (newData: any) => {
-    setAuditData(newData);
-  };
-
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} flex flex-col font-sans transition-colors duration-300`}>
       {/* Top Navbar */}
-      <header className="border-b border-slate-800/80 bg-slate-900/60 backdrop-blur-xl sticky top-0 z-40">
+      <header className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/60' : 'border-slate-200/80 bg-white/80'} backdrop-blur-xl sticky top-0 z-40`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
-              <span className="font-extrabold text-base bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent">
+              <span className={`font-extrabold text-base ${isDark ? 'bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
                 AEO / GEO Expert Platform
               </span>
               <span className="block text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
@@ -73,25 +113,27 @@ export default function DashboardPage() {
             </div>
           </div>
 
+          {/* Right Header Action Items */}
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-xs">
-              <Globe className="w-3.5 h-3.5 text-cyan-400" />
-              <span className="text-slate-300 font-semibold">
-                {auditData?.domain || 'scalezix.com'}
-              </span>
-            </div>
-
+            {/* Theme Toggle */}
             <button
-              onClick={() => setIsAuditModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all"
+              onClick={() => setIsDark(!isDark)}
+              className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800 text-amber-400 hover:bg-slate-800' : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'} transition-all text-xs font-semibold flex items-center gap-1.5`}
+              title="Toggle Light / Dark Mode"
             >
-              <Plus className="w-4 h-4" />
-              <span>New Audit</span>
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              <span className="hidden sm:inline">{isDark ? 'Light' : 'Dark'}</span>
             </button>
+
+            {userEmail && (
+              <span className="hidden md:inline-block text-xs font-medium text-slate-400 border-l border-slate-800 pl-3">
+                {userEmail}
+              </span>
+            )}
 
             <button
               onClick={handleLogout}
-              className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+              className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-600 hover:text-slate-900'} transition-colors`}
               title="Sign Out"
             >
               <LogOut className="w-4 h-4" />
@@ -100,81 +142,243 @@ export default function DashboardPage() {
         </div>
       </header>
 
-      {/* Main Content Body */}
+      {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        {/* Header Title Section */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/60 pb-6">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-semibold mb-2">
-              <Sparkles className="w-3.5 h-3.5" /> Live AEO/GEO Visibility Audit
+        
+        {/* Website Search & Analysis Hero Section */}
+        <div className={`p-6 sm:p-8 rounded-3xl border ${isDark ? 'bg-slate-900/80 border-slate-800/80 shadow-2xl shadow-cyan-950/20' : 'bg-white border-slate-200 shadow-xl'} backdrop-blur-xl relative overflow-hidden`}>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="max-w-3xl">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 text-xs font-bold mb-3">
+              <Sparkles className="w-3.5 h-3.5" /> Unlimited Website AEO/GEO Analyzer
             </div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-              {auditData?.brandName || 'Scalezix'} AI Visibility Audit
+            <h1 className={`text-2xl sm:text-3xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} tracking-tight`}>
+              Analyze Any Website's AI Search Engine Visibility
             </h1>
-            <p className="text-slate-400 text-xs sm:text-sm mt-1">
-              Analyzing domain <span className="text-cyan-400 font-medium">{auditData?.domain || 'scalezix.com'}</span> across 6 Generative AI engines.
+            <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1.5`}>
+              Enter any domain URL to run live multi-model scans across ChatGPT, Gemini, Claude, DeepSeek, Grok, and Perplexity.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setIsAuditModalOpen(true)}
-              className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 hover:bg-slate-800 text-xs font-semibold text-slate-300 transition-colors"
-            >
-              <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
-              <span>Re-run Audit</span>
-            </button>
-          </div>
+          {/* Search Bar Form */}
+          <form onSubmit={handleRunAnalysis} className="mt-6 space-y-3">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <Globe className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
+                <input
+                  type="text"
+                  value={targetDomainInput}
+                  onChange={(e) => setTargetDomainInput(e.target.value)}
+                  placeholder="Enter website domain (e.g. stripe.com, scalezix.com, linear.app)"
+                  className={`w-full ${isDark ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-cyan-500 transition-all font-medium`}
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/25 transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Analyzing AI Engine Visibility...</span>
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-4 h-4" />
+                    <span>Run AEO/GEO Audit</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* Optional Advanced Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+              <input
+                type="text"
+                value={targetBrandInput}
+                onChange={(e) => setTargetBrandInput(e.target.value)}
+                placeholder="Brand Name (Optional)"
+                className={`w-full ${isDark ? 'bg-slate-950/60 border-slate-800/80 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-cyan-500`}
+              />
+              <input
+                type="text"
+                value={targetKeywordsInput}
+                onChange={(e) => setTargetKeywordsInput(e.target.value)}
+                placeholder="Target Keywords (comma-separated)"
+                className={`w-full ${isDark ? 'bg-slate-950/60 border-slate-800/80 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-cyan-500`}
+              />
+              <input
+                type="text"
+                value={targetCompetitorsInput}
+                onChange={(e) => setTargetCompetitorsInput(e.target.value)}
+                placeholder="Competitors (comma-separated)"
+                className={`w-full ${isDark ? 'bg-slate-950/60 border-slate-800/80 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-cyan-500`}
+              />
+            </div>
+          </form>
         </div>
 
-        {/* Score Breakdown Cards */}
-        <AeoScoreCard
-          overallGeoScore={auditData?.metrics?.overallGeoScore || 78}
-          schemaScore={auditData?.metrics?.schemaScore || 70}
-          citationScore={auditData?.metrics?.citationScore || 82}
-          entityScore={auditData?.metrics?.entityScore || 75}
-          readabilityScore={auditData?.metrics?.readabilityScore || 85}
-          shareOfVoice={auditData?.metrics?.shareOfVoice || 64}
-        />
-
-        {/* On-Page GEO Action Items Banner */}
-        {auditData?.pageAudit?.recommendations?.length > 0 && (
-          <div className="bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-cyan-500/30 rounded-2xl p-6 relative overflow-hidden backdrop-blur-md">
-            <h3 className="text-sm font-bold text-cyan-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" /> Priority GEO Recommendations for {auditData.domain}
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-slate-200">
-              {auditData.pageAudit.recommendations.map((rec: string, rIdx: number) => (
-                <div key={rIdx} className="flex items-start gap-2 bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
-                  <span>{rec}</span>
-                </div>
-              ))}
-            </div>
+        {/* Analyzed Websites Switcher Tabs */}
+        {analyzedProjects.length > 0 && (
+          <div className="flex items-center gap-2 overflow-x-auto pb-2">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider shrink-0 mr-2">
+              Analyzed Sites:
+            </span>
+            {analyzedProjects.map((proj) => {
+              const isSelected = activeAuditData?.domain === proj.domain;
+              return (
+                <button
+                  key={proj.domain}
+                  onClick={() => setActiveAuditData(proj)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shrink-0 border ${
+                    isSelected
+                      ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40 shadow-sm'
+                      : isDark
+                      ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                      : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Globe className="w-3.5 h-3.5" />
+                  <span>{proj.domain}</span>
+                </button>
+              );
+            })}
           </div>
         )}
 
-        {/* Multi-Model Heatmap Matrix */}
-        <MultiModelHeatmap promptScans={auditData?.promptScans || []} />
+        {/* Audit Results View or Initial Empty State */}
+        {!activeAuditData ? (
+          <div className={`p-12 text-center rounded-3xl border ${isDark ? 'bg-slate-900/40 border-slate-800/60' : 'bg-white border-slate-200 shadow-md'} space-y-4 max-w-xl mx-auto`}>
+            <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto">
+              <Search className="w-8 h-8" />
+            </div>
+            <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+              No Website Analyzed Yet
+            </h3>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed`}>
+              Enter any target domain in the search bar above to start live Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) multi-model auditing.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-8">
+            {/* Header Domain Banner & Module Nav Tabs */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/60 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-semibold mb-2">
+                  <Sparkles className="w-3.5 h-3.5" /> Audit Completed: {activeAuditData.domain}
+                </div>
+                <h2 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  {activeAuditData.brandName} AI Visibility Report
+                </h2>
+              </div>
 
-        {/* Two-Column Grid: Gaps & Citations */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <GapAnalysisTable gaps={auditData?.gaps || []} />
-          <CitationList domain={auditData?.domain || 'scalezix.com'} />
-        </div>
+              {/* Navigation Tabs */}
+              <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 rounded-2xl bg-slate-900/80 border border-slate-800 text-xs font-semibold">
+                <button
+                  onClick={() => setActiveTab('overview')}
+                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                    activeTab === 'overview' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <TrendingUp className="w-3.5 h-3.5" /> Overview
+                </button>
+                <button
+                  onClick={() => setActiveTab('crawler')}
+                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                    activeTab === 'crawler' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Layers className="w-3.5 h-3.5" /> Site Crawler & Schema
+                </button>
+                <button
+                  onClick={() => setActiveTab('heatmap')}
+                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                    activeTab === 'heatmap' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Bot className="w-3.5 h-3.5" /> Multi-Model Matrix
+                </button>
+                <button
+                  onClick={() => setActiveTab('gaps')}
+                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                    activeTab === 'gaps' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Target className="w-3.5 h-3.5" /> Gaps & GEO Briefs
+                </button>
+                <button
+                  onClick={() => setActiveTab('citations')}
+                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                    activeTab === 'citations' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Link2 className="w-3.5 h-3.5" /> Citations Map
+                </button>
+              </div>
+            </div>
+
+            {/* TAB CONTENT 1: OVERVIEW */}
+            {activeTab === 'overview' && (
+              <div className="space-y-8">
+                <AeoScoreCard
+                  overallGeoScore={activeAuditData.metrics?.overallGeoScore || 78}
+                  schemaScore={activeAuditData.metrics?.schemaScore || 70}
+                  citationScore={activeAuditData.metrics?.citationScore || 82}
+                  entityScore={activeAuditData.metrics?.entityScore || 75}
+                  readabilityScore={activeAuditData.metrics?.readabilityScore || 85}
+                  shareOfVoice={activeAuditData.metrics?.shareOfVoice || 64}
+                />
+
+                {activeAuditData.pageAudit?.recommendations?.length > 0 && (
+                  <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/80 border-cyan-500/30' : 'bg-white border-cyan-200 shadow-sm'}`}>
+                    <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" /> Top Actionable GEO Fixes for {activeAuditData.domain}
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                      {activeAuditData.pageAudit.recommendations.map((rec: string, rIdx: number) => (
+                        <div key={rIdx} className={`p-3 rounded-xl border ${isDark ? 'bg-slate-950/60 border-slate-800 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-800'} flex items-start gap-2`}>
+                          <CheckCircle2 className="w-4 h-4 text-cyan-500 shrink-0 mt-0.5" />
+                          <span>{rec}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} />
+              </div>
+            )}
+
+            {/* TAB CONTENT 2: CRAWLER & SCHEMA */}
+            {activeTab === 'crawler' && (
+              <SiteCrawlerView pageAudit={activeAuditData.pageAudit} isDark={isDark} />
+            )}
+
+            {/* TAB CONTENT 3: HEATMAP */}
+            {activeTab === 'heatmap' && (
+              <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} />
+            )}
+
+            {/* TAB CONTENT 4: GAPS */}
+            {activeTab === 'gaps' && (
+              <GapAnalysisTable gaps={activeAuditData.gaps || []} />
+            )}
+
+            {/* TAB CONTENT 5: CITATIONS */}
+            {activeTab === 'citations' && (
+              <CitationList domain={activeAuditData.domain} />
+            )}
+          </div>
+        )}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <p>© 2026 AEO / GEO Expert Platform. Designed for Next-Gen Generative Engine Optimization.</p>
+      <footer className={`border-t ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200 bg-white'} py-6 text-center text-xs text-slate-500`}>
+        © 2026 AEO / GEO Expert Platform. Unlimited Multi-Model Search Engine Analytics.
       </footer>
-
-      {/* Audit Modal */}
-      <AuditModal
-        isOpen={isAuditModalOpen}
-        onClose={() => setIsAuditModalOpen(false)}
-        onAuditComplete={handleAuditComplete}
-      />
     </div>
   );
 }
