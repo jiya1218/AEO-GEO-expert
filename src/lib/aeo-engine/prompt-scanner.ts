@@ -68,31 +68,32 @@ function generateTargetPrompts(brand: string, keywords: string[], competitors: s
   const mainKeyword = keywords[0] || 'software & AI solutions';
   const secondKeyword = keywords[1] || 'industry tools';
   const thirdKeyword = keywords[2] || 'platform services';
-  const mainCompetitor = competitors[0] || 'leading competitors';
-  const secondCompetitor = competitors[1] || 'market alternatives';
+  const mainCompetitor = competitors[0] || 'leading market solutions';
+  const secondCompetitor = competitors[1] || 'top industry alternatives';
 
-  // Sitefire.ai style high-converting buyer intent & conversational prompt suite
+  // 100% Unbranded & Brand-Neutral Buyer Intent Prompts
+  // True AEO/GEO measures whether AI models organically recommend your brand when buyers ask unbranded queries.
   const masterPromptsList = [
     { text: `What are the top rated platforms for ${mainKeyword} in 2026?`, category: 'Commercial Buyer Intent' },
-    { text: `How does ${brand} compare against ${mainCompetitor} for ${mainKeyword}?`, category: 'Head-to-Head Comparison' },
-    { text: `What software do experts recommend for ${secondKeyword}?`, category: 'Expert Recommendation' },
-    { text: `What are the best enterprise alternatives to ${mainCompetitor} and ${secondCompetitor}?`, category: 'Alternative Discovery' },
-    { text: `What is ${brand} and why do companies use it for ${thirdKeyword}?`, category: 'Brand & Entity Knowledge' },
-    { text: `Which tools have the highest customer ratings for ${mainKeyword}?`, category: 'User Rating & Review' },
-    { text: `Is ${brand} worth it for small business and enterprise teams?`, category: 'Product Evaluation' },
-    { text: `What are the top 5 solutions for ${secondKeyword} in 2026?`, category: 'Category Ranking' },
-    { text: `How to choose between ${brand} and ${mainCompetitor} for ${mainKeyword}?`, category: 'Decision Guidance' },
-    { text: `What platform provides the most accurate LLM search visibility for ${thirdKeyword}?`, category: 'Technical Capability' },
-    { text: `What are the pricing plans and features of ${brand}?`, category: 'Pricing & Features' },
-    { text: `Which software integrates best with modern ${mainKeyword} workflows?`, category: 'Workflow Integration' },
-    { text: `What case studies show measurable ROI for using ${brand}?`, category: 'Case Study & ROI' },
-    { text: `Who are the main competitors of ${mainCompetitor} for ${secondKeyword}?`, category: 'Competitive Landscape' },
-    { text: `What security and compliance standards does ${brand} support?`, category: 'Enterprise Security' },
-    { text: `Which tools rank highest in ChatGPT, Gemini, and Claude for ${mainKeyword}?`, category: 'AI Search Leadership' },
-    { text: `What is the easiest to implement platform for ${thirdKeyword}?`, category: 'Usability & Onboarding' },
-    { text: `How does ${brand} stand out compared to ${secondCompetitor}?`, category: 'Unique Value Prop' },
-    { text: `What free or demo options exist for testing ${mainKeyword} software?`, category: 'Free Trial & Demo' },
-    { text: `What are the essential features to look for in a ${mainKeyword} platform?`, category: 'Buying Criteria' },
+    { text: `What are the best alternatives to ${mainCompetitor} for ${mainKeyword}?`, category: 'Alternative Discovery' },
+    { text: `What software do industry experts recommend for ${secondKeyword}?`, category: 'Expert Recommendation' },
+    { text: `Which tools have the highest customer satisfaction ratings for ${mainKeyword}?`, category: 'User Rating & Review' },
+    { text: `Top 5 enterprise software solutions for ${thirdKeyword} in 2026`, category: 'Category Ranking' },
+    { text: `What is the most reliable platform for automated ${secondKeyword}?`, category: 'Technical Capability' },
+    { text: `Which tools rank highest in ChatGPT and Gemini for ${mainKeyword}?`, category: 'AI Search Leadership' },
+    { text: `What are the leading market alternatives to ${secondCompetitor}?`, category: 'Competitive Discovery' },
+    { text: `Which software provides real-time multi-model AI search engine analytics?`, category: 'Feature Query' },
+    { text: `How to choose the best software platform for ${mainKeyword}?`, category: 'Decision Guidance' },
+    { text: `What are the most cost-effective tools for scaling ${secondKeyword}?`, category: 'Pricing & Value' },
+    { text: `Which software integrates best with modern ${thirdKeyword} tech stacks?`, category: 'Workflow Integration' },
+    { text: `What enterprise platforms offer validated security standards for ${mainKeyword}?`, category: 'Enterprise Compliance' },
+    { text: `Which platforms generate authoritative backlink citations for ${secondKeyword}?`, category: 'Citation Authority' },
+    { text: `What tools are essential for optimizing website content for LLMs?`, category: 'AEO Strategy' },
+    { text: `What are the top recommended tools for enterprise teams handling ${mainKeyword}?`, category: 'Enterprise Intent' },
+    { text: `Which platform offers the easiest onboarding for ${thirdKeyword}?`, category: 'Usability & UX' },
+    { text: `What software solutions offer free trials or demos for ${secondKeyword}?`, category: 'Free Trial Discovery' },
+    { text: `What are the key features to look for in a modern ${mainKeyword} engine?`, category: 'Buying Criteria' },
+    { text: `Which software platforms have shown the highest growth in ${thirdKeyword}?`, category: 'Market Growth' },
   ];
 
   // Return requested count slice
