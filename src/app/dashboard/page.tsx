@@ -160,14 +160,14 @@ export default function DashboardPage() {
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         
         {/* Prominent Website Search & Audit Bar */}
         <div className={`p-6 sm:p-8 rounded-3xl border ${
           isDark
-            ? 'bg-slate-900/80 border-slate-800/80 shadow-2xl shadow-cyan-950/20'
-            : 'bg-white border-slate-200/90 shadow-xl shadow-slate-200/60'
-        } backdrop-blur-xl relative overflow-hidden space-y-6`}>
+            ? 'bg-slate-900/90 border-slate-800/80 shadow-2xl'
+            : 'bg-white border-slate-200 shadow-xl shadow-slate-200/60'
+        } backdrop-blur-md transition-all`}>
           
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
             <div className="max-w-3xl">
@@ -175,34 +175,35 @@ export default function DashboardPage() {
                 <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${
                   isDark
                     ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
-                    : 'bg-sky-100 text-sky-800 border-sky-200'
+                    : 'bg-sky-100 text-sky-900 border-sky-300'
                 } border text-xs font-extrabold`}>
                   <Cpu className="w-3.5 h-3.5" /> AI Automated AEO/GEO Auditor
                 </div>
 
                 {/* Model Disclosure Badge */}
                 <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ${
-                  isDark ? 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' : 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                  isDark ? 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' : 'bg-indigo-100 text-indigo-900 border-indigo-300'
                 } border text-xs font-bold`}>
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
                   <span>Model: <strong>Gemini 3.5 Flash</strong> (Google DeepMind)</span>
                 </div>
               </div>
 
-              <h1 className={`text-2xl sm:text-3xl font-black ${isDark ? 'text-white' : 'text-slate-900'} tracking-tight`}>
+              <h1 className={`text-2xl sm:text-3xl font-black ${isDark ? 'text-white' : 'text-slate-950'} tracking-tight`}>
                 Analyze Any Website's AI Search Visibility
               </h1>
-              <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1 font-medium`}>
+              <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-300' : 'text-slate-700'} mt-1 font-semibold`}>
                 Select the number of prompts to run per model. Scans Top 4 AI engines (ChatGPT 4o, Gemini 1.5 Pro, Claude 3.5 Sonnet, and DeepSeek V3).
               </p>
             </div>
 
-            {/* Prompt Count Selector */}
-            <div className={`p-4 rounded-2xl border ${
-              isDark ? 'bg-slate-950/80 border-slate-800' : 'bg-slate-50 border-slate-200'
-            } shrink-0 space-y-2`}>
-              <div className="flex items-center justify-between text-xs font-bold gap-4">
-                <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>Prompts Per Model:</span>
+            {/* Prompt Count Selector Switcher */}
+            <div className={`p-2 rounded-2xl border ${
+              isDark ? 'bg-slate-950/80 border-slate-800' : 'bg-slate-100 border-slate-300 shadow-inner'
+            } flex items-center justify-between sm:justify-start gap-2 self-start lg:self-center shrink-0`}>
+              <div className="flex items-center gap-1.5 px-2 text-xs font-bold">
+                <Tag className="w-3.5 h-3.5 text-cyan-600" />
+                <span className={`${isDark ? 'text-slate-300' : 'text-slate-800'}`}>Prompts per Model:</span>
                 <span className="text-cyan-600 font-extrabold">{selectedPromptCount} Prompts</span>
               </div>
               <div className="flex items-center gap-1.5">
@@ -216,7 +217,7 @@ export default function DashboardPage() {
                         ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30 scale-105'
                         : isDark
                         ? 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
-                        : 'bg-white border border-slate-300 text-slate-700 hover:text-slate-900'
+                        : 'bg-white border border-slate-300 text-slate-800 hover:text-slate-950 shadow-xs'
                     }`}
                   >
                     {count}
@@ -226,27 +227,26 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Clean Single URL Search Bar Form */}
-          <form onSubmit={(e) => handleRunAnalysis(e, false)} className="space-y-4">
-            <div className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleRunAnalysis} className="mt-6">
+            <div className="flex flex-col sm:flex-row items-stretch gap-3">
               <div className="relative flex-1">
-                <Globe className={`absolute left-4 top-3.5 h-5 w-5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
+                <Globe className="absolute left-4 top-3.5 h-4 w-4 text-slate-400" />
                 <input
                   type="text"
                   value={targetDomainInput}
                   onChange={(e) => setTargetDomainInput(e.target.value)}
                   placeholder="Enter website domain (e.g. stripe.com, scalezix.com, linear.app)"
+                  required
                   className={`w-full ${
                     isDark
                       ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-cyan-500'
-                      : 'bg-slate-50 border-slate-300 text-slate-900 font-semibold placeholder-slate-400 focus:border-cyan-600 focus:bg-white focus:ring-4 focus:ring-cyan-500/10'
-                  } border rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none transition-all shadow-xs`}
-                  required
+                      : 'bg-white border-slate-300 text-slate-900 font-semibold placeholder-slate-400 focus:border-cyan-600 shadow-xs'
+                  } border rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm focus:outline-none transition-all`}
                 />
               </div>
-
-              <div className="relative sm:w-56">
-                <Building2 className={`absolute left-3.5 top-3.5 h-4 w-4 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
+              
+              <div className="relative flex-1">
+                <Building2 className="absolute left-4 top-3.5 h-4 w-4 text-slate-400" />
                 <input
                   type="text"
                   value={targetBrandInput}
@@ -254,29 +254,34 @@ export default function DashboardPage() {
                   placeholder="Brand Name (Optional)"
                   className={`w-full ${
                     isDark
-                      ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500'
-                      : 'bg-slate-50 border-slate-300 text-slate-900 font-medium placeholder-slate-400 focus:bg-white'
-                  } border rounded-2xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-cyan-600 shadow-xs`}
+                      ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-cyan-500'
+                      : 'bg-white border-slate-300 text-slate-900 font-semibold placeholder-slate-400 focus:border-cyan-600 shadow-xs'
+                  } border rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm focus:outline-none transition-all`}
                 />
               </div>
 
               {/* Quick Scan Button */}
               <button
                 type="button"
-                onClick={(e) => handleRunAnalysis(e, true)}
+                onClick={(e) => {
+                  if (!targetDomainInput) {
+                    toast.error('Please enter a website domain first');
+                    return;
+                  }
+                  handleRunAnalysis(e, true);
+                }}
                 disabled={loading}
                 className={`px-4 py-3 rounded-2xl border ${
                   isDark
-                    ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800'
-                    : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
-                } font-extrabold text-xs transition-all flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50`}
-                title="Quick Site Audit extracts HTML, JSON-LD Schema, meta tags, and structural website details in under 2 seconds"
+                    ? 'bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20'
+                    : 'bg-amber-50 border-amber-300 text-amber-900 hover:bg-amber-100 shadow-xs'
+                } font-bold text-xs transition-all flex items-center justify-center gap-1.5 shrink-0`}
+                title="Quick Site Audit (Technical Schema & Meta Extraction)"
               >
-                <Zap className="w-4 h-4 text-amber-500" />
+                <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
                 <span>Quick Scan</span>
               </button>
 
-              {/* Full Multi-Model Audit Button */}
               <button
                 type="submit"
                 disabled={loading}
@@ -285,7 +290,7 @@ export default function DashboardPage() {
                 {loading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Scanning {selectedPromptCount} Prompts...</span>
+                    <span>Scanning...</span>
                   </>
                 ) : (
                   <>
@@ -301,7 +306,7 @@ export default function DashboardPage() {
         {/* Analyzed Websites Switcher Tabs */}
         {analyzedProjects.length > 0 && (
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
-            <span className={`text-xs font-bold ${isDark ? 'text-slate-400' : 'text-slate-600'} uppercase tracking-wider shrink-0 mr-2`}>
+            <span className={`text-xs font-black ${isDark ? 'text-slate-300' : 'text-slate-800'} uppercase tracking-wider shrink-0 mr-2`}>
               Analyzed Sites:
             </span>
             {analyzedProjects.map((proj) => {
@@ -314,10 +319,10 @@ export default function DashboardPage() {
                     isSelected
                       ? isDark
                         ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40 shadow-sm'
-                        : 'bg-cyan-600 text-white border-cyan-600 shadow-md'
+                        : 'bg-cyan-600 text-white border-cyan-600 shadow-md font-black'
                       : isDark
                       ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-                      : 'bg-white border-slate-300 text-slate-700 hover:text-slate-900 shadow-xs'
+                      : 'bg-white border-slate-300 text-slate-800 hover:text-slate-950 shadow-xs'
                   }`}
                 >
                   <Globe className="w-3.5 h-3.5" />
@@ -332,44 +337,44 @@ export default function DashboardPage() {
         {!activeAuditData ? (
           <div className={`p-12 text-center rounded-3xl border ${
             isDark
-              ? 'bg-slate-900/40 border-slate-800/60'
-              : 'bg-white border-slate-200/90 shadow-xl shadow-slate-200/50'
+              ? 'bg-slate-900/80 border-slate-800'
+              : 'bg-white border-slate-300 shadow-xl shadow-slate-200/70'
           } space-y-4 max-w-xl mx-auto`}>
             <div className={`w-16 h-16 rounded-2xl ${
-              isDark ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400' : 'bg-sky-100 border-sky-200 text-cyan-700'
+              isDark ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400' : 'bg-sky-100 border-sky-300 text-cyan-800'
             } border flex items-center justify-center mx-auto shadow-xs`}>
               <Search className="w-8 h-8" />
             </div>
-            <h3 className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h3 className={`text-xl font-black ${isDark ? 'text-white' : 'text-slate-950'}`}>
               No Website Analyzed Yet
             </h3>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed font-medium`}>
+            <p className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-800'} leading-relaxed font-semibold`}>
               Enter any target domain in the search bar above to start live Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) multi-model auditing.
             </p>
           </div>
         ) : (
           <div className="space-y-8">
             {/* Header Domain Banner & Module Nav Tabs */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-300/80 dark:border-slate-800 pb-4">
               <div>
                 <div className="flex items-center gap-3 mb-2">
                   <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${
-                    isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' : 'bg-sky-100 text-sky-800 border-sky-200'
-                  } border text-xs font-bold`}>
+                    isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' : 'bg-sky-100 text-sky-900 border-sky-300'
+                  } border text-xs font-extrabold`}>
                     <Sparkles className="w-3.5 h-3.5 text-cyan-600" /> Audit Completed: {activeAuditData.domain}
                   </div>
                   <ReportDownloadButton auditData={activeAuditData} isDark={isDark} />
                 </div>
-                <h2 className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                <h2 className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-950'}`}>
                   {activeAuditData.brandName} AI Visibility Report
                 </h2>
 
                 {/* AI Auto-Discovered Badges Banner */}
                 <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
-                  <span className={`font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>AI Discovered Competitors:</span>
+                  <span className={`font-bold ${isDark ? 'text-slate-400' : 'text-slate-700'}`}>AI Discovered Competitors:</span>
                   {activeAuditData.autoDiscoveredCompetitors?.map((comp: string, cIdx: number) => (
-                    <span key={cIdx} className={`px-2.5 py-0.5 rounded-md font-bold text-[11px] border ${
-                      isDark ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-white border-slate-300 text-slate-800 shadow-2xs'
+                    <span key={cIdx} className={`px-2.5 py-0.5 rounded-md font-extrabold text-[11px] border ${
+                      isDark ? 'bg-slate-800 border-slate-700 text-slate-200' : 'bg-white border-slate-300 text-slate-900 shadow-2xs'
                     }`}>
                       {comp}
                     </span>
@@ -379,14 +384,14 @@ export default function DashboardPage() {
 
               {/* Navigation Tabs */}
               <div className={`flex items-center gap-1.5 overflow-x-auto p-1.5 rounded-2xl border ${
-                isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-300 shadow-xs'
-              } text-xs font-semibold`}>
+                isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-white border-slate-300 shadow-md'
+              } text-xs font-bold`}>
                 <button
                   onClick={() => setActiveTab('overview')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     activeTab === 'overview'
-                      ? 'bg-cyan-600 text-white font-extrabold shadow-sm'
-                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-cyan-600 text-white font-black shadow-sm'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100'
                   }`}
                 >
                   <TrendingUp className="w-3.5 h-3.5" /> Overview
@@ -395,8 +400,8 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab('crawler')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     activeTab === 'crawler'
-                      ? 'bg-cyan-600 text-white font-extrabold shadow-sm'
-                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-cyan-600 text-white font-black shadow-sm'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100'
                   }`}
                 >
                   <Layers className="w-3.5 h-3.5" /> Site Crawler & Schema
@@ -405,8 +410,8 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab('heatmap')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     activeTab === 'heatmap'
-                      ? 'bg-cyan-600 text-white font-extrabold shadow-sm'
-                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-cyan-600 text-white font-black shadow-sm'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100'
                   }`}
                 >
                   <Bot className="w-3.5 h-3.5 text-amber-500" /> 🔥 AI Heatmap & Matrix
@@ -415,8 +420,8 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab('keywords')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     activeTab === 'keywords'
-                      ? 'bg-cyan-600 text-white font-extrabold shadow-sm'
-                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-cyan-600 text-white font-black shadow-sm'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100'
                   }`}
                 >
                   <Key className="w-3.5 h-3.5" /> Keywords & Research
@@ -425,8 +430,8 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab('gaps')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     activeTab === 'gaps'
-                      ? 'bg-cyan-600 text-white font-extrabold shadow-sm'
-                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-cyan-600 text-white font-black shadow-sm'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100'
                   }`}
                 >
                   <Target className="w-3.5 h-3.5" /> Gaps & GEO Briefs
@@ -435,8 +440,8 @@ export default function DashboardPage() {
                   onClick={() => setActiveTab('citations')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     activeTab === 'citations'
-                      ? 'bg-cyan-600 text-white font-extrabold shadow-sm'
-                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-cyan-600 text-white font-black shadow-sm'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-800 hover:text-slate-950 hover:bg-slate-100'
                   }`}
                 >
                   <Link2 className="w-3.5 h-3.5" /> Citations Map

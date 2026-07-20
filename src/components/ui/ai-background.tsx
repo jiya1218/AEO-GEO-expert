@@ -34,34 +34,29 @@ export function AiBackground({ isDark }: AiBackgroundProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
       {/* Background Gradient Base */}
       <div
         className={`absolute inset-0 transition-colors duration-500 ${
           isDark
             ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'
-            : 'bg-gradient-to-br from-sky-50/80 via-white to-cyan-50/70'
+            : 'bg-slate-50'
         }`}
       />
 
       {/* Ambient Radial Mesh Blobs */}
       <div
-        className={`absolute top-[-15%] left-[-10%] w-[650px] h-[650px] rounded-full blur-[130px] animate-blob ${
-          isDark ? 'bg-cyan-600/15' : 'bg-cyan-400/20'
+        className={`absolute top-[-15%] left-[-10%] w-[650px] h-[650px] rounded-full blur-[140px] pointer-events-none ${
+          isDark ? 'bg-cyan-600/10' : 'bg-cyan-200/40'
         }`}
       />
       <div
-        className={`absolute bottom-[-15%] right-[-10%] w-[550px] h-[550px] rounded-full blur-[130px] animate-blob animation-delay-2000 ${
-          isDark ? 'bg-purple-600/15' : 'bg-purple-400/15'
-        }`}
-      />
-      <div
-        className={`absolute top-[40%] left-[55%] w-[450px] h-[450px] rounded-full blur-[110px] animate-blob animation-delay-4000 ${
-          isDark ? 'bg-blue-600/10' : 'bg-sky-400/15'
+        className={`absolute bottom-[-15%] right-[-10%] w-[550px] h-[550px] rounded-full blur-[140px] pointer-events-none ${
+          isDark ? 'bg-purple-600/10' : 'bg-purple-200/30'
         }`}
       />
 
-      {/* Floating Particles */}
+      {/* Floating Particles (Soft Subtle Opacity) */}
       <div className="absolute inset-0">
         {particles.map((p) => (
           <div
@@ -74,7 +69,7 @@ export function AiBackground({ isDark }: AiBackgroundProps) {
               top: `${p.y}%`,
               width: `${p.size}px`,
               height: `${p.size}px`,
-              opacity: p.opacity,
+              opacity: isDark ? p.opacity * 0.7 : p.opacity * 0.25,
               animationDuration: `${p.duration}s`,
               animationDelay: `${p.delay}s`,
             }}
@@ -83,7 +78,7 @@ export function AiBackground({ isDark }: AiBackgroundProps) {
       </div>
 
       {/* Neural Network Line Grid */}
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+      <svg className="absolute inset-0 w-full h-full opacity-40" xmlns="http://www.w3.org/2000/svg">
         {connections.map((c) => (
           <line
             key={c.id}
@@ -91,7 +86,7 @@ export function AiBackground({ isDark }: AiBackgroundProps) {
             y1={`${c.y1}%`}
             x2={`${c.x2}%`}
             y2={`${c.y2}%`}
-            stroke={isDark ? 'rgba(6, 182, 212, 0.12)' : 'rgba(14, 165, 233, 0.15)'}
+            stroke={isDark ? 'rgba(6, 182, 212, 0.15)' : 'rgba(14, 165, 233, 0.12)'}
             strokeWidth="0.8"
             strokeDasharray="4 4"
             className="animate-pulse"
