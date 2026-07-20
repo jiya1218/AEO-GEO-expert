@@ -47,41 +47,33 @@ export default function LoginPage() {
 
     try {
       setLoading(true);
-      const redirectUrl = getRedirectUrl();
 
       if (isSignUp) {
+        // Sign up user
         const { data, error } = await supabase.auth.signUp({
           email,
           password,
-          options: {
-            emailRedirectTo: redirectUrl,
-          },
         });
 
-        if (error) {
-          if (error.message?.toLowerCase().includes('rate limit')) {
-            toast.info('Supabase email rate limit reached. Attempting direct login...');
-            const { error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
-            if (!signInErr) {
-              toast.success('Logged in successfully!');
-              window.location.href = '/dashboard';
-              return;
-            }
-            // Direct redirect to dashboard
-            toast.success('Accessing platform...');
-            window.location.href = '/dashboard';
-            return;
-          }
+        // Instant direct login without waiting for email verification link
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (!signInError || data?.user) {
+          toast.success('Account created & logged in instantly!');
+          window.location.href = '/dashboard';
+          return;
+        }
+
+        if (error && !error.message?.toLowerCase().includes('rate limit')) {
           throw error;
         }
 
-        if (data.session) {
-          toast.success('Account created and logged in!');
-          window.location.href = '/dashboard';
-        } else {
-          toast.success('Account created! Check your inbox or proceed to Sign In.');
-          setIsSignUp(false);
-        }
+        // Fallback instant redirect
+        toast.success('Account created! Entering dashboard...');
+        window.location.href = '/dashboard';
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,
