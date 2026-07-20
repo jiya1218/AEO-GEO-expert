@@ -7,7 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { domain, brandName, keywords = [], competitors = [] } = body;
+    const { domain, brandName, keywords = [], competitors = [], promptCount = 5, isQuickScan = false } = body;
 
     if (!domain) {
       return NextResponse.json({ error: 'Domain is required' }, { status: 400 });
@@ -15,6 +15,7 @@ export async function POST(req: Request) {
 
     const cleanDomain = String(domain).trim().toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '');
     const targetBrand = brandName || cleanDomain.split('.')[0].toUpperCase();
+    const numPrompts = Math.min(20, Math.max(1, Number(promptCount) || 5));
 
     // 1. Run Page Audit & AI Auto-Discovery of Keywords + Competitors
     const pageAudit = await analyzePageGeo(cleanDomain, keywords, competitors);
@@ -22,8 +23,33 @@ export async function POST(req: Request) {
     const activeKeywords = pageAudit.autoDiscoveredKeywords;
     const activeCompetitors = pageAudit.autoDiscoveredCompetitors;
 
-    // 2. Run Multi-Model Prompt Scans
-    const promptScans = await runMultiModelScan(cleanDomain, targetBrand, activeKeywords, activeCompetitors);
+    // Quick Scan Mode: return instant structural & technical website details
+    if (isQuickScan) {
+      return NextResponse.json({
+        domain: cleanDomain,
+        brandName: targetBrand,
+        timestamp: new Date().toISOString(),
+        isQuickScan: true,
+        pageAudit,
+        promptScans: [],
+        gaps: [],
+        autoDiscoveredKeywords: activeKeywords,
+        autoDiscoveredCompetitors: activeCompetitors,
+        metrics: {
+          overallGeoScore: pageAudit.overallGeoScore,
+          schemaScore: pageAudit.schemaScore,
+          citationScore: pageAudit.citationScore,
+          entityScore: pageAudit.entityScore,
+          readabilityScore: pageAudit.readabilityScore,
+          shareOfVoice: 0,
+          totalPromptsScanned: 0,
+          activeGapsCount: 0,
+        },
+      });
+    }
+
+    // 2. Full Multi-Model Audit Mode with requested promptCount
+    const promptScans = await runMultiModelScan(cleanDomain, targetBrand, activeKeywords, activeCompetitors, numPrompts);
 
     // 3. Run Gap Detection
     const gaps = detectAeoGaps(cleanDomain, targetBrand, activeCompetitors, promptScans);

@@ -7,24 +7,26 @@ import { MultiModelHeatmap } from '@/components/dashboard/multi-model-heatmap';
 import { CitationList } from '@/components/dashboard/citation-list';
 import { GapAnalysisTable } from '@/components/dashboard/gap-analysis-table';
 import { SiteCrawlerView } from '@/components/dashboard/site-crawler-view';
+import { KeywordsResearchView } from '@/components/dashboard/keywords-research-view';
 import { AnalysisAnimation } from '@/components/dashboard/analysis-animation';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
   Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot,
-  TrendingUp, Building2, Cpu, Tag
+  TrendingUp, Building2, Cpu, Tag, Key, Zap
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-type ActiveTab = 'overview' | 'crawler' | 'heatmap' | 'citations' | 'gaps';
+type ActiveTab = 'overview' | 'crawler' | 'heatmap' | 'keywords' | 'citations' | 'gaps';
 
 export default function DashboardPage() {
   const [isDark, setIsDark] = useState(true);
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
-  // Analysis Inputs (Simplified: Website URL + Optional Brand Name)
+  // Analysis Inputs (Website URL + Optional Brand Name + Custom Prompt Count)
   const [targetDomainInput, setTargetDomainInput] = useState('');
   const [targetBrandInput, setTargetBrandInput] = useState('');
+  const [selectedPromptCount, setSelectedPromptCount] = useState<number>(5);
   
   const [analyzedProjects, setAnalyzedProjects] = useState<any[]>([]);
   const [activeAuditData, setActiveAuditData] = useState<any | null>(null);
@@ -40,7 +42,7 @@ export default function DashboardPage() {
     });
   }, []);
 
-  const handleRunAnalysis = async (e?: React.FormEvent) => {
+  const handleRunAnalysis = async (e?: React.FormEvent, isQuickScan: boolean = false) => {
     if (e) e.preventDefault();
     if (!targetDomainInput) {
       toast.error('Please enter a website domain (e.g. stripe.com)');
@@ -55,13 +57,20 @@ export default function DashboardPage() {
         body: JSON.stringify({
           domain: targetDomainInput,
           brandName: targetBrandInput,
+          promptCount: selectedPromptCount,
+          isQuickScan,
         }),
       });
 
       if (!res.ok) throw new Error('Failed to run AEO/GEO analysis');
 
       const data = await res.json();
-      toast.success(`AI Audit completed for ${data.domain}!`);
+      if (isQuickScan) {
+        toast.success(`Quick Site Audit completed for ${data.domain}!`);
+        setActiveTab('crawler');
+      } else {
+        toast.success(`AI Audit completed with ${data.metrics?.totalPromptsScanned || selectedPromptCount} prompts for ${data.domain}!`);
+      }
 
       setActiveAuditData(data);
       setAnalyzedProjects((prev) => {
@@ -69,7 +78,7 @@ export default function DashboardPage() {
         return [data, ...filtered];
       });
 
-      // Reset inputs
+      // Reset domain/brand inputs
       setTargetDomainInput('');
       setTargetBrandInput('');
     } catch (err: any) {
@@ -155,26 +164,67 @@ export default function DashboardPage() {
           isDark
             ? 'bg-slate-900/80 border-slate-800/80 shadow-2xl shadow-cyan-950/20'
             : 'bg-white border-slate-200/90 shadow-xl shadow-slate-200/60'
-        } backdrop-blur-xl relative overflow-hidden`}>
+        } backdrop-blur-xl relative overflow-hidden space-y-6`}>
           
-          <div className="max-w-3xl">
-            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${
-              isDark
-                ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
-                : 'bg-sky-100 text-sky-800 border-sky-200'
-            } border text-xs font-extrabold mb-3`}>
-              <Cpu className="w-3.5 h-3.5" /> AI Automated AEO/GEO Auditor
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div className="max-w-3xl">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${
+                  isDark
+                    ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
+                    : 'bg-sky-100 text-sky-800 border-sky-200'
+                } border text-xs font-extrabold`}>
+                  <Cpu className="w-3.5 h-3.5" /> AI Automated AEO/GEO Auditor
+                </div>
+
+                {/* Model Disclosure Badge */}
+                <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full ${
+                  isDark ? 'bg-indigo-500/10 text-indigo-300 border-indigo-500/20' : 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                } border text-xs font-bold`}>
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+                  <span>Model: <strong>Gemini 3.5 Flash</strong> (Google DeepMind)</span>
+                </div>
+              </div>
+
+              <h1 className={`text-2xl sm:text-3xl font-black ${isDark ? 'text-white' : 'text-slate-900'} tracking-tight`}>
+                Analyze Any Website's AI Search Visibility
+              </h1>
+              <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1 font-medium`}>
+                Select the number of prompts to run per model. Scans 6 AI engines (ChatGPT 4o, Gemini 1.5, Claude 3.5, DeepSeek V3, Grok-2, Perplexity Sonar).
+              </p>
             </div>
-            <h1 className={`text-2xl sm:text-3xl font-black ${isDark ? 'text-white' : 'text-slate-900'} tracking-tight`}>
-              Analyze Any Website's AI Visibility
-            </h1>
-            <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1 font-medium`}>
-              Enter a website URL below. AI automatically extracts the page HTML, discovers target keywords, identifies top competitors, and scans 6 AI search engines.
-            </p>
+
+            {/* Prompt Count Selector */}
+            <div className={`p-4 rounded-2xl border ${
+              isDark ? 'bg-slate-950/80 border-slate-800' : 'bg-slate-50 border-slate-200'
+            } shrink-0 space-y-2`}>
+              <div className="flex items-center justify-between text-xs font-bold gap-4">
+                <span className={isDark ? 'text-slate-300' : 'text-slate-700'}>Prompts Per Model:</span>
+                <span className="text-cyan-600 font-extrabold">{selectedPromptCount} Prompts</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {[3, 5, 10, 15, 20].map((count) => (
+                  <button
+                    key={count}
+                    type="button"
+                    onClick={() => setSelectedPromptCount(count)}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all ${
+                      selectedPromptCount === count
+                        ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30 scale-105'
+                        : isDark
+                        ? 'bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200'
+                        : 'bg-white border border-slate-300 text-slate-700 hover:text-slate-900'
+                    }`}
+                  >
+                    {count}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Clean Single URL Search Bar Form */}
-          <form onSubmit={handleRunAnalysis} className="mt-6 space-y-4">
+          <form onSubmit={(e) => handleRunAnalysis(e, false)} className="space-y-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
                 <Globe className={`absolute left-4 top-3.5 h-5 w-5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
@@ -207,20 +257,37 @@ export default function DashboardPage() {
                 />
               </div>
 
+              {/* Quick Scan Button */}
+              <button
+                type="button"
+                onClick={(e) => handleRunAnalysis(e, true)}
+                disabled={loading}
+                className={`px-4 py-3 rounded-2xl border ${
+                  isDark
+                    ? 'bg-slate-900 border-slate-700 text-slate-200 hover:bg-slate-800'
+                    : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200'
+                } font-extrabold text-xs transition-all flex items-center justify-center gap-1.5 shrink-0 disabled:opacity-50`}
+                title="Quick Site Audit extracts HTML, JSON-LD Schema, meta tags, and structural website details in under 2 seconds"
+              >
+                <Zap className="w-4 h-4 text-amber-500" />
+                <span>Quick Scan</span>
+              </button>
+
+              {/* Full Multi-Model Audit Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold text-sm shadow-lg shadow-cyan-600/25 transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
+                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-cyan-600/25 transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
               >
                 {loading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>AI Scanning...</span>
+                    <span>Scanning {selectedPromptCount} Prompts...</span>
                   </>
                 ) : (
                   <>
                     <Search className="w-4 h-4" />
-                    <span>Run AEO/GEO Audit</span>
+                    <span>Run Multi-Model Audit ({selectedPromptCount} Prompts)</span>
                   </>
                 )}
               </button>
@@ -339,6 +406,16 @@ export default function DashboardPage() {
                   <Bot className="w-3.5 h-3.5" /> Multi-Model Matrix
                 </button>
                 <button
+                  onClick={() => setActiveTab('keywords')}
+                  className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
+                    activeTab === 'keywords'
+                      ? 'bg-cyan-600 text-white font-extrabold shadow-sm'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Key className="w-3.5 h-3.5" /> Keywords & Research
+                </button>
+                <button
                   onClick={() => setActiveTab('gaps')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
                     activeTab === 'gaps'
@@ -408,7 +485,16 @@ export default function DashboardPage() {
               <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
             )}
 
-            {/* TAB CONTENT 4: GAPS */}
+            {/* TAB CONTENT 4: KEYWORDS & RESEARCH */}
+            {activeTab === 'keywords' && (
+              <KeywordsResearchView
+                domain={activeAuditData.domain}
+                extractedKeywords={activeAuditData.autoDiscoveredKeywords || []}
+                isDark={isDark}
+              />
+            )}
+
+            {/* TAB CONTENT 5: GAPS */}
             {activeTab === 'gaps' && (
               <GapAnalysisTable gaps={activeAuditData.gaps || []} isDark={isDark} />
             )}

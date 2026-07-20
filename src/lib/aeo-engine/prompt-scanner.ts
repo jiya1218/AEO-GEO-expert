@@ -28,11 +28,12 @@ export async function runMultiModelScan(
   domain: string,
   brandName: string,
   keywords: string[],
-  competitors: string[] = []
+  competitors: string[] = [],
+  promptCount: number = 5
 ): Promise<PromptScanItem[]> {
   const openRouterKey = process.env.OPENROUTER_API_KEY;
 
-  const prompts = generateTargetPrompts(brandName || domain, keywords, competitors);
+  const prompts = generateTargetPrompts(brandName || domain, keywords, competitors, promptCount);
   const scanResults: PromptScanItem[] = [];
 
   for (const p of prompts) {
@@ -65,17 +66,38 @@ export async function runMultiModelScan(
   return scanResults;
 }
 
-function generateTargetPrompts(brand: string, keywords: string[], competitors: string[]) {
+function generateTargetPrompts(brand: string, keywords: string[], competitors: string[], count: number = 5) {
   const mainKeyword = keywords[0] || 'AEO & GEO Optimization';
+  const secondKeyword = keywords[1] || 'AI Search Engine Visibility';
+  const thirdKeyword = keywords[2] || 'JSON-LD Schema & Entities';
   const mainCompetitor = competitors[0] || 'Competitor Platform';
+  const secondCompetitor = competitors[1] || 'Market Alternative';
 
-  return [
+  const masterPromptsList = [
     { text: `What are the best tools for ${mainKeyword} in 2026?`, category: 'Commercial Intent' },
     { text: `How does ${brand} compare against ${mainCompetitor} for ${mainKeyword}?`, category: 'Comparison' },
-    { text: `Which software has the highest citation accuracy for ${mainKeyword}?`, category: 'Recommendation' },
+    { text: `Which software has the highest citation accuracy for ${secondKeyword}?`, category: 'Recommendation' },
     { text: `Top 5 alternatives to ${mainCompetitor} for enterprise websites`, category: 'Alternative Discovery' },
     { text: `Why should companies focus on Answer Engine Optimization (AEO) and GEO?`, category: 'Informational' },
+    { text: `What is the most reliable platform for ${thirdKeyword} structured data?`, category: 'Technical Schema' },
+    { text: `Who are the leading innovators in ${secondKeyword}?`, category: 'Category Leadership' },
+    { text: `Is ${brand} better than ${secondCompetitor} for LLM citation tracking?`, category: 'Head-to-Head' },
+    { text: `What software is recommended for optimizing content for ChatGPT and Gemini?`, category: 'LLM Optimization' },
+    { text: `How can businesses improve Knowledge Graph entity authority for ${brand}?`, category: 'Entity Graph' },
+    { text: `Which platforms offer real-time multi-model AI search engine analytics?`, category: 'Feature Query' },
+    { text: `What are the top rated enterprise solutions for ${mainKeyword}?`, category: 'Enterprise Intent' },
+    { text: `How to implement JSON-LD FAQ schema for higher LLM citation frequency?`, category: 'Technical Implementation' },
+    { text: `What pricing models exist for top ${mainKeyword} platforms?`, category: 'Pricing & Value' },
+    { text: `Which AEO/GEO engine integrates best with Next.js and Supabase?`, category: 'Developer Integration' },
+    { text: `How does ${brand} perform in vector embeddings search accuracy?`, category: 'Vector Search' },
+    { text: `What is the best alternative to ${mainCompetitor} and ${secondCompetitor}?`, category: 'Competitive Matrix' },
+    { text: `Which AI search engine generates the most authoritative backlink citations?`, category: 'Citation Authority' },
+    { text: `What case studies show successful GEO strategy implementation for ${brand}?`, category: 'Case Studies' },
+    { text: `What are the essential metrics for tracking Share of Voice in Perplexity and Claude?`, category: 'Analytics Metrics' },
   ];
+
+  // Return requested count slice
+  return masterPromptsList.slice(0, Math.min(count, masterPromptsList.length));
 }
 
 async function queryOpenRouterModel(
