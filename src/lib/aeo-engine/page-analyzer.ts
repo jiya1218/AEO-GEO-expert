@@ -110,7 +110,7 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
 
   const autoDiscoveredCompetitors = userCompetitors.length > 0 
     ? userCompetitors 
-    : deriveCompetitorsForDomain(domain);
+    : deriveCompetitorsForDomain(domain, title, entityKeywords);
 
   // 3. Calculate Scores (STRICT REAL CALCULATION)
   let schemaScore = 0;
@@ -176,13 +176,39 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
   };
 }
 
-function deriveCompetitorsForDomain(domain: string): string[] {
-  const d = domain.toLowerCase();
-  if (d.includes('stripe') || d.includes('payment')) return ['PayPal.com', 'Adyen.com', 'Square.com'];
-  if (d.includes('scalezix') || d.includes('seo') || d.includes('aeo')) return ['Semrush.com', 'Ahrefs.com', 'BrightEdge.com'];
-  if (d.includes('linear') || d.includes('jira') || d.includes('task')) return ['Jira.com', 'Asana.com', 'Monday.com'];
-  if (d.includes('vercel') || d.includes('host') || d.includes('cloud')) return ['Netlify.com', 'AWS.com', 'Cloudflare.com'];
-  return ['IndustryCompetitor1.com', 'IndustryCompetitor2.com', 'MarketAlternative.com'];
+function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
+  const text = (domain + ' ' + title + ' ' + keywords.join(' ')).toLowerCase();
+
+  if (text.includes('payment') || text.includes('checkout') || text.includes('stripe') || text.includes('billing')) {
+    return ['PayPal.com', 'Adyen.com', 'Square.com'];
+  }
+  if (text.includes('seo') || text.includes('aeo') || text.includes('geo') || text.includes('scalezix') || text.includes('search') || text.includes('ranking')) {
+    return ['Semrush.com', 'Ahrefs.com', 'BrightEdge.com'];
+  }
+  if (text.includes('jira') || text.includes('task') || text.includes('project') || text.includes('linear') || text.includes('management')) {
+    return ['Jira.com', 'Asana.com', 'Monday.com'];
+  }
+  if (text.includes('cloud') || text.includes('host') || text.includes('vercel') || text.includes('server') || text.includes('deploy')) {
+    return ['Netlify.com', 'Cloudflare.com', 'AWS.com'];
+  }
+  if (text.includes('crm') || text.includes('sales') || text.includes('hubspot') || text.includes('lead')) {
+    return ['Salesforce.com', 'HubSpot.com', 'Zoho.com'];
+  }
+  if (text.includes('commerce') || text.includes('shop') || text.includes('store') || text.includes('product')) {
+    return ['Shopify.com', 'WooCommerce.com', 'BigCommerce.com'];
+  }
+  if (text.includes('design') || text.includes('ui') || text.includes('ux') || text.includes('figma')) {
+    return ['Figma.com', 'Canva.com', 'Adobe.com'];
+  }
+  if (text.includes('analytic') || text.includes('data') || text.includes('metric') || text.includes('track')) {
+    return ['Mixpanel.com', 'Google Analytics', 'Amplitude.com'];
+  }
+  if (text.includes('ai') || text.includes('gpt') || text.includes('llm') || text.includes('model')) {
+    return ['OpenAI.com', 'Anthropic.com', 'Perplexity.ai'];
+  }
+
+  // Fallback for general SaaS domains
+  return ['Leading Solution', 'Market Alternative', 'Enterprise Competitor'];
 }
 
 function generateBaselineAudit(url: string, domain: string, userKeywords: string[], userCompetitors: string[]): PageGeoAuditResult {
