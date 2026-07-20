@@ -190,7 +190,7 @@ export default function DashboardPage() {
                 Analyze Any Website's AI Search Visibility
               </h1>
               <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1 font-medium`}>
-                Select the number of prompts to run per model. Scans 6 AI engines (ChatGPT 4o, Gemini 1.5, Claude 3.5, DeepSeek V3, Grok-2, Perplexity Sonar).
+                Select the number of prompts to run per model. Scans Top 4 AI engines (ChatGPT 4o, Gemini 1.5 Pro, Claude 3.5 Sonnet, and DeepSeek V3).
               </p>
             </div>
 

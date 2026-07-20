@@ -10,11 +10,9 @@ interface AnalysisAnimationProps {
 
 const AI_MODELS = [
   { name: 'GPT-4o', color: '#10b981', icon: '🧠' },
-  { name: 'Gemini Pro', color: '#8b5cf6', icon: '💎' },
+  { name: 'Gemini 1.5', color: '#3b82f6', icon: '💎' },
   { name: 'Claude 3.5', color: '#f59e0b', icon: '⚡' },
-  { name: 'DeepSeek', color: '#06b6d4', icon: '🔬' },
-  { name: 'Grok-2', color: '#ef4444', icon: '🌀' },
-  { name: 'Perplexity', color: '#3b82f6', icon: '🌐' },
+  { name: 'DeepSeek V3', color: '#06b6d4', icon: '🔬' },
 ];
 
 const SCAN_PHASES = [
@@ -24,9 +22,7 @@ const SCAN_PHASES = [
   { label: 'Querying GPT-4o', icon: Brain, detail: 'Scanning brand visibility across OpenAI search...' },
   { label: 'Querying Gemini Pro 1.5', icon: Sparkles, detail: 'Analyzing presence in Google AI Overviews...' },
   { label: 'Querying Claude 3.5 Sonnet', icon: Zap, detail: 'Checking Anthropic model citation patterns...' },
-  { label: 'Querying DeepSeek Chat', icon: Cpu, detail: 'Testing Chinese AI model visibility...' },
-  { label: 'Querying Grok-2', icon: Radio, detail: 'Scanning xAI search engine presence...' },
-  { label: 'Querying Perplexity Sonar', icon: Layers, detail: 'Evaluating real-time AI search citations...' },
+  { label: 'Querying DeepSeek V3', icon: Cpu, detail: 'Testing DeepSeek AI search visibility & entity citations...' },
   { label: 'Computing AEO/GEO Scores', icon: Shield, detail: 'Aggregating multi-model results into final scores...' },
 ];
 
@@ -326,7 +322,7 @@ export function AnalysisAnimation({ domain, isDark }: AnalysisAnimationProps) {
         </div>
 
         {/* === AI MODEL STATUS GRID === */}
-        <div className="w-full max-w-md grid grid-cols-3 gap-2">
+        <div className="w-full max-w-md grid grid-cols-2 sm:grid-cols-4 gap-2">
           {AI_MODELS.map((model, idx) => {
             const isActive = currentPhase >= 3 + idx && currentPhase <= 3 + idx;
             const isComplete = currentPhase > 3 + idx;

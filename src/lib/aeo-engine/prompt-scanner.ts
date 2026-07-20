@@ -20,8 +20,6 @@ export const TARGET_AI_MODELS = [
   { name: 'gemini', label: 'Google Gemini 1.5', color: 'blue' },
   { name: 'claude', label: 'Claude 3.5 Sonnet', color: 'amber' },
   { name: 'deepseek', label: 'DeepSeek V3', color: 'sky' },
-  { name: 'grok', label: 'xAI Grok 2', color: 'slate' },
-  { name: 'perplexity', label: 'Perplexity AI', color: 'orange' },
 ];
 
 export async function runMultiModelScan(
