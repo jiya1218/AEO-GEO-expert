@@ -1,8 +1,7 @@
-'use client';
-
 import React, { useState } from 'react';
 import { PromptScanItem, TARGET_AI_MODELS } from '@/lib/aeo-engine/prompt-scanner';
-import { CheckCircle2, XCircle, ChevronDown, ChevronUp, Bot, ExternalLink } from 'lucide-react';
+import { CheckCircle2, XCircle, ChevronDown, ChevronUp, Bot, ExternalLink, Copy } from 'lucide-react';
+import { toast } from 'sonner';
 
 interface HeatmapProps {
   promptScans?: PromptScanItem[];
@@ -11,6 +10,12 @@ interface HeatmapProps {
 
 export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapProps) {
   const [expandedRow, setExpandedRow] = useState<number | null>(null);
+
+  const copyPromptText = (e: React.MouseEvent, text: string) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(text);
+    toast.success('Prompt copied to clipboard!');
+  };
 
   if (!promptScans || promptScans.length === 0) {
     return (
@@ -77,8 +82,21 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                     onClick={() => setExpandedRow(isExpanded ? null : idx)}
                     className={`${isDark ? 'hover:bg-slate-800/40' : 'hover:bg-sky-50/50'} cursor-pointer transition-colors font-medium`}
                   >
-                    <td className="py-4 px-4 font-semibold max-w-xs truncate">
-                      {scan.promptText}
+                    <td className="py-4 px-4 font-semibold text-xs sm:text-sm">
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="leading-relaxed">{scan.promptText}</span>
+                        <button
+                          onClick={(e) => copyPromptText(e, scan.promptText)}
+                          className={`p-1.5 rounded-lg border transition-all shrink-0 ${
+                            isDark
+                              ? 'bg-slate-800 border-slate-700 text-slate-400 hover:text-white hover:bg-slate-700'
+                              : 'bg-slate-100 border-slate-300 text-slate-600 hover:text-slate-900 hover:bg-slate-200'
+                          }`}
+                          title="Copy Full Prompt"
+                        >
+                          <Copy className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </td>
                     <td className="py-4 px-4">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${

@@ -65,33 +65,34 @@ export async function runMultiModelScan(
 }
 
 function generateTargetPrompts(brand: string, keywords: string[], competitors: string[], count: number = 5) {
-  const mainKeyword = keywords[0] || 'AEO & GEO Optimization';
-  const secondKeyword = keywords[1] || 'AI Search Engine Visibility';
-  const thirdKeyword = keywords[2] || 'JSON-LD Schema & Entities';
-  const mainCompetitor = competitors[0] || 'Competitor Platform';
-  const secondCompetitor = competitors[1] || 'Market Alternative';
+  const mainKeyword = keywords[0] || 'software & AI solutions';
+  const secondKeyword = keywords[1] || 'industry tools';
+  const thirdKeyword = keywords[2] || 'platform services';
+  const mainCompetitor = competitors[0] || 'leading competitors';
+  const secondCompetitor = competitors[1] || 'market alternatives';
 
+  // Sitefire.ai style high-converting buyer intent & conversational prompt suite
   const masterPromptsList = [
-    { text: `What are the best tools for ${mainKeyword} in 2026?`, category: 'Commercial Intent' },
-    { text: `How does ${brand} compare against ${mainCompetitor} for ${mainKeyword}?`, category: 'Comparison' },
-    { text: `Which software has the highest citation accuracy for ${secondKeyword}?`, category: 'Recommendation' },
-    { text: `Top 5 alternatives to ${mainCompetitor} for enterprise websites`, category: 'Alternative Discovery' },
-    { text: `Why should companies focus on Answer Engine Optimization (AEO) and GEO?`, category: 'Informational' },
-    { text: `What is the most reliable platform for ${thirdKeyword} structured data?`, category: 'Technical Schema' },
-    { text: `Who are the leading innovators in ${secondKeyword}?`, category: 'Category Leadership' },
-    { text: `Is ${brand} better than ${secondCompetitor} for LLM citation tracking?`, category: 'Head-to-Head' },
-    { text: `What software is recommended for optimizing content for ChatGPT and Gemini?`, category: 'LLM Optimization' },
-    { text: `How can businesses improve Knowledge Graph entity authority for ${brand}?`, category: 'Entity Graph' },
-    { text: `Which platforms offer real-time multi-model AI search engine analytics?`, category: 'Feature Query' },
-    { text: `What are the top rated enterprise solutions for ${mainKeyword}?`, category: 'Enterprise Intent' },
-    { text: `How to implement JSON-LD FAQ schema for higher LLM citation frequency?`, category: 'Technical Implementation' },
-    { text: `What pricing models exist for top ${mainKeyword} platforms?`, category: 'Pricing & Value' },
-    { text: `Which AEO/GEO engine integrates best with Next.js and Supabase?`, category: 'Developer Integration' },
-    { text: `How does ${brand} perform in vector embeddings search accuracy?`, category: 'Vector Search' },
-    { text: `What is the best alternative to ${mainCompetitor} and ${secondCompetitor}?`, category: 'Competitive Matrix' },
-    { text: `Which AI search engine generates the most authoritative backlink citations?`, category: 'Citation Authority' },
-    { text: `What case studies show successful GEO strategy implementation for ${brand}?`, category: 'Case Studies' },
-    { text: `What are the essential metrics for tracking Share of Voice in Perplexity and Claude?`, category: 'Analytics Metrics' },
+    { text: `What are the top rated platforms for ${mainKeyword} in 2026?`, category: 'Commercial Buyer Intent' },
+    { text: `How does ${brand} compare against ${mainCompetitor} for ${mainKeyword}?`, category: 'Head-to-Head Comparison' },
+    { text: `What software do experts recommend for ${secondKeyword}?`, category: 'Expert Recommendation' },
+    { text: `What are the best enterprise alternatives to ${mainCompetitor} and ${secondCompetitor}?`, category: 'Alternative Discovery' },
+    { text: `What is ${brand} and why do companies use it for ${thirdKeyword}?`, category: 'Brand & Entity Knowledge' },
+    { text: `Which tools have the highest customer ratings for ${mainKeyword}?`, category: 'User Rating & Review' },
+    { text: `Is ${brand} worth it for small business and enterprise teams?`, category: 'Product Evaluation' },
+    { text: `What are the top 5 solutions for ${secondKeyword} in 2026?`, category: 'Category Ranking' },
+    { text: `How to choose between ${brand} and ${mainCompetitor} for ${mainKeyword}?`, category: 'Decision Guidance' },
+    { text: `What platform provides the most accurate LLM search visibility for ${thirdKeyword}?`, category: 'Technical Capability' },
+    { text: `What are the pricing plans and features of ${brand}?`, category: 'Pricing & Features' },
+    { text: `Which software integrates best with modern ${mainKeyword} workflows?`, category: 'Workflow Integration' },
+    { text: `What case studies show measurable ROI for using ${brand}?`, category: 'Case Study & ROI' },
+    { text: `Who are the main competitors of ${mainCompetitor} for ${secondKeyword}?`, category: 'Competitive Landscape' },
+    { text: `What security and compliance standards does ${brand} support?`, category: 'Enterprise Security' },
+    { text: `Which tools rank highest in ChatGPT, Gemini, and Claude for ${mainKeyword}?`, category: 'AI Search Leadership' },
+    { text: `What is the easiest to implement platform for ${thirdKeyword}?`, category: 'Usability & Onboarding' },
+    { text: `How does ${brand} stand out compared to ${secondCompetitor}?`, category: 'Unique Value Prop' },
+    { text: `What free or demo options exist for testing ${mainKeyword} software?`, category: 'Free Trial & Demo' },
+    { text: `What are the essential features to look for in a ${mainKeyword} platform?`, category: 'Buying Criteria' },
   ];
 
   // Return requested count slice
