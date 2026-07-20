@@ -6,7 +6,7 @@ import { Brain, Sparkles, ArrowRight, Bot, Zap, Layers, Sun, Moon, Search, Globe
 import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [searchUrl, setSearchUrl] = useState('');
   const router = useRouter();
 
@@ -18,9 +18,10 @@ export default function HomePage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} flex flex-col font-sans relative overflow-hidden transition-colors duration-300`}>
-      {/* Background Glow Effects */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-cyan-600/15 rounded-full blur-[140px] pointer-events-none" />
+    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans relative overflow-hidden transition-colors duration-300`}>
+      {/* Background Animated Glows & Mesh */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-gradient-to-tr from-cyan-500/20 via-sky-400/15 to-indigo-500/10 rounded-full blur-[140px] pointer-events-none animate-blob" />
+      <div className="absolute bottom-10 right-10 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none animate-blob animation-delay-2000" />
 
       {/* Navigation Header */}
       <nav className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/60' : 'border-slate-200/80 bg-white/80'} backdrop-blur-xl sticky top-0 z-40`}>

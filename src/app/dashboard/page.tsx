@@ -20,7 +20,7 @@ import { toast } from 'sonner';
 type ActiveTab = 'overview' | 'crawler' | 'heatmap' | 'keywords' | 'citations' | 'gaps';
 
 export default function DashboardPage() {
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
@@ -407,7 +407,7 @@ export default function DashboardPage() {
                       : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
-                  <Bot className="w-3.5 h-3.5" /> Multi-Model Matrix
+                  <Bot className="w-3.5 h-3.5 text-amber-500" /> 🔥 AI Heatmap & Matrix
                 </button>
                 <button
                   onClick={() => setActiveTab('keywords')}
@@ -446,12 +446,12 @@ export default function DashboardPage() {
             {activeTab === 'overview' && (
               <div className="space-y-8">
                 <AeoScoreCard
-                  overallGeoScore={activeAuditData.metrics?.overallGeoScore || 78}
-                  schemaScore={activeAuditData.metrics?.schemaScore || 70}
-                  citationScore={activeAuditData.metrics?.citationScore || 82}
-                  entityScore={activeAuditData.metrics?.entityScore || 75}
-                  readabilityScore={activeAuditData.metrics?.readabilityScore || 85}
-                  shareOfVoice={activeAuditData.metrics?.shareOfVoice || 64}
+                  overallGeoScore={activeAuditData.metrics?.overallGeoScore ?? 0}
+                  schemaScore={activeAuditData.metrics?.schemaScore ?? 0}
+                  citationScore={activeAuditData.metrics?.citationScore ?? 0}
+                  entityScore={activeAuditData.metrics?.entityScore ?? 0}
+                  readabilityScore={activeAuditData.metrics?.readabilityScore ?? 0}
+                  shareOfVoice={activeAuditData.metrics?.shareOfVoice ?? 0}
                   isDark={isDark}
                 />
 
