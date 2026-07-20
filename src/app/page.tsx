@@ -63,71 +63,96 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center flex flex-col items-center justify-center relative z-10">
-        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${isDark ? 'bg-slate-900/90 border-slate-800 text-cyan-400' : 'bg-white border-slate-200 text-cyan-600'} border backdrop-blur-md mb-6 text-xs font-semibold shadow-md`}>
-          <Sparkles className="w-4 h-4 animate-pulse" />
+        
+        {/* Animated Pill Badge */}
+        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${
+          isDark ? 'bg-slate-900/90 border-slate-700 text-cyan-400 shadow-cyan-500/10' : 'bg-white border-slate-200 text-cyan-700 shadow-xl shadow-cyan-500/5'
+        } border backdrop-blur-md mb-8 text-xs font-bold shadow-lg animate-float`}>
+          <Sparkles className="w-4 h-4 text-cyan-500 animate-spin-slow" />
           <span>Generative Engine Optimization (GEO) & AEO Platform</span>
         </div>
 
-        <h1 className={`text-4xl sm:text-6xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'} leading-tight`}>
-          Dominate <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent">AI Search Citations</span> Across All LLM Engines
+        {/* Hero Title with Shimmer Gradient */}
+        <h1 className={`text-4xl sm:text-6xl font-black tracking-tight ${isDark ? 'text-white' : 'text-slate-900'} leading-tight max-w-4xl`}>
+          Dominate <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-indigo-500 bg-clip-text text-transparent animate-pulse-glow inline-block">AI Search Citations</span> Across All LLM Engines
         </h1>
 
-        <p className={`mt-6 ${isDark ? 'text-slate-400' : 'text-slate-600'} text-base sm:text-lg max-w-2xl leading-relaxed`}>
-          Monitor your brand recommendations, analyze JSON-LD schema readiness, and capture missing content citations across ChatGPT, Google Gemini, Claude, DeepSeek, Grok, and Perplexity.
+        <p className={`mt-6 ${isDark ? 'text-slate-300' : 'text-slate-600'} text-base sm:text-lg max-w-2xl leading-relaxed font-medium`}>
+          Monitor your brand recommendations, analyze JSON-LD schema readiness, and capture missing content citations across ChatGPT, Google Gemini, Claude, and DeepSeek.
         </p>
 
-        {/* Hero Instant URL Search */}
-        <form onSubmit={handleHeroSearch} className="mt-8 w-full max-w-xl flex flex-col sm:flex-row gap-3">
-          <div className="relative flex-1">
-            <Globe className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
-            <input
-              type="text"
-              value={searchUrl}
-              onChange={(e) => setSearchUrl(e.target.value)}
-              placeholder="Enter website domain (e.g. yoursite.com)"
-              className={`w-full ${isDark ? 'bg-slate-900 border-slate-800 text-white placeholder-slate-500' : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-cyan-500 shadow-lg`}
-            />
+        {/* Hero Search Bar with Animated Gradient Border */}
+        <form onSubmit={handleHeroSearch} className="mt-10 w-full max-w-xl relative group">
+          <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 rounded-3xl blur-md opacity-75 group-hover:opacity-100 transition duration-500 group-hover:duration-200 animate-pulse-glow" />
+          <div className={`relative flex flex-col sm:flex-row gap-2 p-2 rounded-2xl ${
+            isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+          } border shadow-2xl`}>
+            <div className="relative flex-1 flex items-center">
+              <Globe className="absolute left-4 h-5 w-5 text-cyan-500 animate-pulse" />
+              <input
+                type="text"
+                value={searchUrl}
+                onChange={(e) => setSearchUrl(e.target.value)}
+                placeholder="Enter website domain (e.g. yoursite.com)"
+                className={`w-full ${
+                  isDark ? 'bg-slate-900 text-white placeholder-slate-500' : 'bg-white text-slate-900 placeholder-slate-400'
+                } rounded-xl pl-12 pr-4 py-3 text-sm focus:outline-none font-medium`}
+              />
+            </div>
+            <button
+              type="submit"
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold text-sm shadow-lg shadow-cyan-500/25 transition-all flex items-center justify-center gap-2 shrink-0 group-hover:scale-[1.02]"
+            >
+              <Search className="w-4 h-4" />
+              <span>Analyze Website</span>
+            </button>
           </div>
-          <button
-            type="submit"
-            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/25 transition-all flex items-center justify-center gap-2 shrink-0"
-          >
-            <Search className="w-4 h-4" />
-            <span>Analyze Website</span>
-          </button>
         </form>
 
-        <div className="mt-8 flex items-center gap-4">
+        <div className="mt-6 flex items-center gap-4">
           <Link
             href="/dashboard"
-            className="inline-flex items-center gap-2 text-xs font-semibold text-cyan-500 hover:underline"
+            className="inline-flex items-center gap-2 text-xs font-bold text-cyan-500 hover:text-cyan-400 transition-colors group"
           >
-            <span>Go directly to Dashboard →</span>
+            <span>Go directly to Dashboard</span>
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Feature Grid */}
+        {/* Feature Grid with Hover Levitation */}
         <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6 text-left w-full">
-          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-md'}`}>
-            <Bot className="w-8 h-8 text-cyan-500 mb-4" />
-            <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-900'} mb-2`}>Multi-Model AI Scan</h3>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed`}>
-              Simulate prompt queries across 6 major LLM engines simultaneously to measure your Share of Voice (SoV).
+          <div className={`p-8 rounded-3xl border ${
+            isDark ? 'bg-slate-900/80 border-slate-800 hover:border-cyan-500/40' : 'bg-white border-slate-200 hover:border-cyan-400 shadow-xl shadow-slate-200/50'
+          } transition-all duration-300 hover:-translate-y-2 hover:shadow-cyan-500/10 group`}>
+            <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Bot className="w-6 h-6 text-cyan-500" />
+            </div>
+            <h3 className={`text-lg font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} mb-2`}>Multi-Model AI Scan</h3>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed font-medium`}>
+              Simulate prompt queries across 4 major LLM engines simultaneously to measure your Share of Voice (SoV).
             </p>
           </div>
 
-          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-md'}`}>
-            <Layers className="w-8 h-8 text-purple-500 mb-4" />
-            <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-900'} mb-2`}>JSON-LD Schema Audit</h3>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed`}>
+          <div className={`p-8 rounded-3xl border ${
+            isDark ? 'bg-slate-900/80 border-slate-800 hover:border-purple-500/40' : 'bg-white border-slate-200 hover:border-purple-400 shadow-xl shadow-slate-200/50'
+          } transition-all duration-300 hover:-translate-y-2 hover:shadow-purple-500/10 group`}>
+            <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Layers className="w-6 h-6 text-purple-500" />
+            </div>
+            <h3 className={`text-lg font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} mb-2`}>JSON-LD Schema Audit</h3>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed font-medium`}>
               Parse and evaluate FAQPage, Organization, and Product schemas tailored for direct answer extraction.
             </p>
           </div>
 
-          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-md'}`}>
-            <Zap className="w-8 h-8 text-amber-500 mb-4" />
-            <h3 className={`text-base font-bold ${isDark ? 'text-white' : 'text-slate-900'} mb-2`}>Gap & Content Brief Generator</h3>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed`}>
+          <div className={`p-8 rounded-3xl border ${
+            isDark ? 'bg-slate-900/80 border-slate-800 hover:border-amber-500/40' : 'bg-white border-slate-200 hover:border-amber-400 shadow-xl shadow-slate-200/50'
+          } transition-all duration-300 hover:-translate-y-2 hover:shadow-amber-500/10 group`}>
+            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <Zap className="w-6 h-6 text-amber-500" />
+            </div>
+            <h3 className={`text-lg font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} mb-2`}>Gap & Content Brief Generator</h3>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed font-medium`}>
               Identify queries where competitors win citations and generate instant GEO content briefs to outrank them.
             </p>
           </div>
