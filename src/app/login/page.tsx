@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { Sparkles, ArrowRight, CheckCircle2, Lock, Mail, Brain, Sun, Moon } from 'lucide-react';
 import { toast } from 'sonner';
-import { AnimatedBackground } from '@/components/ui/animated-background';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -88,8 +87,9 @@ export default function LoginPage() {
         </button>
       </div>
 
-      {/* Animated Background */}
-      <AnimatedBackground isDark={isDark} />
+      {/* Dynamic Background Glows */}
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-cyan-600/20 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main Container */}
       <div className="w-full max-w-md relative z-10">
