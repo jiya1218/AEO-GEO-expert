@@ -34,7 +34,6 @@ export default function DashboardPage() {
   const supabase = createClient();
 
   useEffect(() => {
-    // Check auth session
     supabase.auth.getUser().then(({ data }) => {
       if (data.user) {
         setUserEmail(data.user.email || 'User');
@@ -95,45 +94,53 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} flex flex-col font-sans transition-colors duration-300`}>
+    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-gradient-to-br from-slate-50 via-sky-50/40 to-blue-50/30 text-slate-900'} flex flex-col font-sans transition-colors duration-300 relative`}>
       {/* Top Navbar */}
-      <header className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/60' : 'border-slate-200/80 bg-white/80'} backdrop-blur-xl sticky top-0 z-40`}>
+      <header className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/70' : 'border-slate-200/90 bg-white/90 shadow-sm'} backdrop-blur-xl sticky top-0 z-40`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-sky-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/25">
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
               <span className={`font-extrabold text-base ${isDark ? 'bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
                 AEO / GEO Expert Platform
               </span>
-              <span className="block text-[10px] text-slate-400 font-semibold uppercase tracking-wider">
+              <span className={`block text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'} font-semibold uppercase tracking-wider`}>
                 Multi-Model AI Visibility Analytics
               </span>
             </div>
           </div>
 
           {/* Right Header Action Items */}
-          <div className="flex items-center gap-4">
-            {/* Theme Toggle */}
+          <div className="flex items-center gap-3">
+            {/* Theme Toggle Button */}
             <button
               onClick={() => setIsDark(!isDark)}
-              className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800 text-amber-400 hover:bg-slate-800' : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'} transition-all text-xs font-semibold flex items-center gap-1.5`}
+              className={`px-3 py-2 rounded-xl border ${
+                isDark
+                  ? 'bg-slate-900 border-slate-700/80 text-amber-400 hover:bg-slate-800'
+                  : 'bg-white border-slate-300 text-slate-800 hover:bg-slate-100 shadow-sm'
+              } transition-all text-xs font-bold flex items-center gap-2`}
               title="Toggle Light / Dark Mode"
             >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-              <span className="hidden sm:inline">{isDark ? 'Light' : 'Dark'}</span>
+              {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+              <span>{isDark ? 'Light' : 'Dark'}</span>
             </button>
 
             {userEmail && (
-              <span className="hidden md:inline-block text-xs font-medium text-slate-400 border-l border-slate-800 pl-3">
+              <span className={`hidden md:inline-block text-xs font-semibold ${isDark ? 'text-slate-400 border-slate-800' : 'text-slate-600 border-slate-300'} border-l pl-3`}>
                 {userEmail}
               </span>
             )}
 
             <button
               onClick={handleLogout}
-              className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white' : 'bg-slate-100 border-slate-300 text-slate-600 hover:text-slate-900'} transition-colors`}
+              className={`p-2 rounded-xl border ${
+                isDark
+                  ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-white'
+                  : 'bg-white border-slate-300 text-slate-700 hover:text-slate-900 shadow-sm'
+              } transition-colors`}
               title="Sign Out"
             >
               <LogOut className="w-4 h-4" />
@@ -146,32 +153,44 @@ export default function DashboardPage() {
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
         {/* Website Search & Analysis Hero Section */}
-        <div className={`p-6 sm:p-8 rounded-3xl border ${isDark ? 'bg-slate-900/80 border-slate-800/80 shadow-2xl shadow-cyan-950/20' : 'bg-white border-slate-200 shadow-xl'} backdrop-blur-xl relative overflow-hidden`}>
-          <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className={`p-6 sm:p-8 rounded-3xl border ${
+          isDark
+            ? 'bg-slate-900/80 border-slate-800/80 shadow-2xl shadow-cyan-950/20'
+            : 'bg-white border-sky-100 shadow-2xl shadow-sky-900/10'
+        } backdrop-blur-xl relative overflow-hidden`}>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-cyan-400/10 to-blue-500/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 text-cyan-500 border border-cyan-500/20 text-xs font-bold mb-3">
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${
+              isDark
+                ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'
+                : 'bg-cyan-50 text-cyan-700 border-cyan-200'
+            } border text-xs font-bold mb-3 shadow-sm`}>
               <Sparkles className="w-3.5 h-3.5" /> Unlimited Website AEO/GEO Analyzer
             </div>
-            <h1 className={`text-2xl sm:text-3xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} tracking-tight`}>
+            <h1 className={`text-2xl sm:text-3xl font-black ${isDark ? 'text-white' : 'text-slate-900'} tracking-tight`}>
               Analyze Any Website's AI Search Engine Visibility
             </h1>
-            <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1.5`}>
+            <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1.5 font-medium`}>
               Enter any domain URL to run live multi-model scans across ChatGPT, Gemini, Claude, DeepSeek, Grok, and Perplexity.
             </p>
           </div>
 
           {/* Search Bar Form */}
-          <form onSubmit={handleRunAnalysis} className="mt-6 space-y-3">
+          <form onSubmit={handleRunAnalysis} className="mt-6 space-y-4">
             <div className="flex flex-col sm:flex-row gap-3">
               <div className="relative flex-1">
-                <Globe className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
+                <Globe className={`absolute left-4 top-3.5 h-5 w-5 ${isDark ? 'text-slate-500' : 'text-slate-400'}`} />
                 <input
                   type="text"
                   value={targetDomainInput}
                   onChange={(e) => setTargetDomainInput(e.target.value)}
                   placeholder="Enter website domain (e.g. stripe.com, scalezix.com, linear.app)"
-                  className={`w-full ${isDark ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none focus:border-cyan-500 transition-all font-medium`}
+                  className={`w-full ${
+                    isDark
+                      ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-cyan-500'
+                      : 'bg-slate-50/90 border-slate-300 text-slate-900 font-semibold placeholder-slate-400 focus:border-cyan-600 focus:bg-white focus:ring-4 focus:ring-cyan-500/10'
+                  } border rounded-2xl pl-12 pr-4 py-3 text-sm focus:outline-none transition-all shadow-sm`}
                   required
                 />
               </div>
@@ -179,7 +198,7 @@ export default function DashboardPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-lg shadow-cyan-500/25 transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
+                className="px-6 py-3 rounded-2xl bg-gradient-to-r from-cyan-600 via-sky-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-extrabold text-sm shadow-xl shadow-cyan-600/25 transition-all flex items-center justify-center gap-2 shrink-0 disabled:opacity-50"
               >
                 {loading ? (
                   <>
@@ -195,28 +214,40 @@ export default function DashboardPage() {
               </button>
             </div>
 
-            {/* Optional Advanced Inputs */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            {/* Advanced Inputs */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <input
                 type="text"
                 value={targetBrandInput}
                 onChange={(e) => setTargetBrandInput(e.target.value)}
                 placeholder="Brand Name (Optional)"
-                className={`w-full ${isDark ? 'bg-slate-950/60 border-slate-800/80 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-cyan-500`}
+                className={`w-full ${
+                  isDark
+                    ? 'bg-slate-950/60 border-slate-800 text-white placeholder-slate-500'
+                    : 'bg-slate-50 border-slate-300 text-slate-900 font-medium placeholder-slate-500 focus:bg-white'
+                } border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-cyan-500 shadow-sm`}
               />
               <input
                 type="text"
                 value={targetKeywordsInput}
                 onChange={(e) => setTargetKeywordsInput(e.target.value)}
                 placeholder="Target Keywords (comma-separated)"
-                className={`w-full ${isDark ? 'bg-slate-950/60 border-slate-800/80 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-cyan-500`}
+                className={`w-full ${
+                  isDark
+                    ? 'bg-slate-950/60 border-slate-800 text-white placeholder-slate-500'
+                    : 'bg-slate-50 border-slate-300 text-slate-900 font-medium placeholder-slate-500 focus:bg-white'
+                } border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-cyan-500 shadow-sm`}
               />
               <input
                 type="text"
                 value={targetCompetitorsInput}
                 onChange={(e) => setTargetCompetitorsInput(e.target.value)}
                 placeholder="Competitors (comma-separated)"
-                className={`w-full ${isDark ? 'bg-slate-950/60 border-slate-800/80 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-cyan-500`}
+                className={`w-full ${
+                  isDark
+                    ? 'bg-slate-950/60 border-slate-800 text-white placeholder-slate-500'
+                    : 'bg-slate-50 border-slate-300 text-slate-900 font-medium placeholder-slate-500 focus:bg-white'
+                } border rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-cyan-500 shadow-sm`}
               />
             </div>
           </form>
@@ -225,7 +256,7 @@ export default function DashboardPage() {
         {/* Analyzed Websites Switcher Tabs */}
         {analyzedProjects.length > 0 && (
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
-            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider shrink-0 mr-2">
+            <span className={`text-xs font-bold ${isDark ? 'text-slate-400' : 'text-slate-600'} uppercase tracking-wider shrink-0 mr-2`}>
               Analyzed Sites:
             </span>
             {analyzedProjects.map((proj) => {
@@ -236,10 +267,12 @@ export default function DashboardPage() {
                   onClick={() => setActiveAuditData(proj)}
                   className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 transition-all shrink-0 border ${
                     isSelected
-                      ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40 shadow-sm'
+                      ? isDark
+                        ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40 shadow-sm'
+                        : 'bg-cyan-600 text-white border-cyan-600 shadow-md'
                       : isDark
                       ? 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
-                      : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900'
+                      : 'bg-white border-slate-300 text-slate-700 hover:text-slate-900 shadow-sm'
                   }`}
                 >
                   <Globe className="w-3.5 h-3.5" />
@@ -252,14 +285,20 @@ export default function DashboardPage() {
 
         {/* Audit Results View or Initial Empty State */}
         {!activeAuditData ? (
-          <div className={`p-12 text-center rounded-3xl border ${isDark ? 'bg-slate-900/40 border-slate-800/60' : 'bg-white border-slate-200 shadow-md'} space-y-4 max-w-xl mx-auto`}>
-            <div className="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mx-auto">
+          <div className={`p-12 text-center rounded-3xl border ${
+            isDark
+              ? 'bg-slate-900/40 border-slate-800/60'
+              : 'bg-white border-slate-200/90 shadow-xl shadow-slate-900/5'
+          } space-y-4 max-w-xl mx-auto`}>
+            <div className={`w-16 h-16 rounded-2xl ${
+              isDark ? 'bg-cyan-500/10 border-cyan-500/20 text-cyan-400' : 'bg-cyan-50 border-cyan-200 text-cyan-700'
+            } border flex items-center justify-center mx-auto shadow-sm`}>
               <Search className="w-8 h-8" />
             </div>
-            <h3 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+            <h3 className={`text-xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>
               No Website Analyzed Yet
             </h3>
-            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed`}>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed font-medium`}>
               Enter any target domain in the search bar above to start live Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) multi-model auditing.
             </p>
           </div>
@@ -268,7 +307,9 @@ export default function DashboardPage() {
             {/* Header Domain Banner & Module Nav Tabs */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800/60 pb-4">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 text-xs font-semibold mb-2">
+                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${
+                  isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' : 'bg-cyan-50 text-cyan-700 border-cyan-200'
+                } border text-xs font-bold mb-2`}>
                   <Sparkles className="w-3.5 h-3.5" /> Audit Completed: {activeAuditData.domain}
                 </div>
                 <h2 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>
@@ -277,11 +318,15 @@ export default function DashboardPage() {
               </div>
 
               {/* Navigation Tabs */}
-              <div className="flex items-center gap-1.5 overflow-x-auto p-1.5 rounded-2xl bg-slate-900/80 border border-slate-800 text-xs font-semibold">
+              <div className={`flex items-center gap-1.5 overflow-x-auto p-1.5 rounded-2xl border ${
+                isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-300 shadow-sm'
+              } text-xs font-semibold`}>
                 <button
                   onClick={() => setActiveTab('overview')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                    activeTab === 'overview' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    activeTab === 'overview'
+                      ? 'bg-cyan-600 text-white font-bold shadow-md'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <TrendingUp className="w-3.5 h-3.5" /> Overview
@@ -289,7 +334,9 @@ export default function DashboardPage() {
                 <button
                   onClick={() => setActiveTab('crawler')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                    activeTab === 'crawler' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    activeTab === 'crawler'
+                      ? 'bg-cyan-600 text-white font-bold shadow-md'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <Layers className="w-3.5 h-3.5" /> Site Crawler & Schema
@@ -297,7 +344,9 @@ export default function DashboardPage() {
                 <button
                   onClick={() => setActiveTab('heatmap')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                    activeTab === 'heatmap' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    activeTab === 'heatmap'
+                      ? 'bg-cyan-600 text-white font-bold shadow-md'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <Bot className="w-3.5 h-3.5" /> Multi-Model Matrix
@@ -305,7 +354,9 @@ export default function DashboardPage() {
                 <button
                   onClick={() => setActiveTab('gaps')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                    activeTab === 'gaps' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    activeTab === 'gaps'
+                      ? 'bg-cyan-600 text-white font-bold shadow-md'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <Target className="w-3.5 h-3.5" /> Gaps & GEO Briefs
@@ -313,7 +364,9 @@ export default function DashboardPage() {
                 <button
                   onClick={() => setActiveTab('citations')}
                   className={`px-3.5 py-2 rounded-xl transition-all flex items-center gap-1.5 ${
-                    activeTab === 'citations' ? 'bg-cyan-500 text-slate-950 font-bold' : 'text-slate-400 hover:text-white'
+                    activeTab === 'citations'
+                      ? 'bg-cyan-600 text-white font-bold shadow-md'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   <Link2 className="w-3.5 h-3.5" /> Citations Map
@@ -331,17 +384,22 @@ export default function DashboardPage() {
                   entityScore={activeAuditData.metrics?.entityScore || 75}
                   readabilityScore={activeAuditData.metrics?.readabilityScore || 85}
                   shareOfVoice={activeAuditData.metrics?.shareOfVoice || 64}
+                  isDark={isDark}
                 />
 
                 {activeAuditData.pageAudit?.recommendations?.length > 0 && (
-                  <div className={`p-6 rounded-2xl border ${isDark ? 'bg-slate-900/80 border-cyan-500/30' : 'bg-white border-cyan-200 shadow-sm'}`}>
-                    <h3 className="text-sm font-bold text-cyan-500 uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4" /> Top Actionable GEO Fixes for {activeAuditData.domain}
+                  <div className={`p-6 rounded-2xl border ${
+                    isDark ? 'bg-slate-900/80 border-cyan-500/30' : 'bg-white border-cyan-200 shadow-xl shadow-cyan-900/5'
+                  }`}>
+                    <h3 className="text-sm font-bold text-cyan-600 uppercase tracking-wider mb-3 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-cyan-600" /> Top Actionable GEO Fixes for {activeAuditData.domain}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
                       {activeAuditData.pageAudit.recommendations.map((rec: string, rIdx: number) => (
-                        <div key={rIdx} className={`p-3 rounded-xl border ${isDark ? 'bg-slate-950/60 border-slate-800 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-800'} flex items-start gap-2`}>
-                          <CheckCircle2 className="w-4 h-4 text-cyan-500 shrink-0 mt-0.5" />
+                        <div key={rIdx} className={`p-3 rounded-xl border ${
+                          isDark ? 'bg-slate-950/60 border-slate-800 text-slate-200' : 'bg-cyan-50/40 border-cyan-200/70 text-slate-800 font-medium'
+                        } flex items-start gap-2`}>
+                          <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
                           <span>{rec}</span>
                         </div>
                       ))}
@@ -349,7 +407,7 @@ export default function DashboardPage() {
                   </div>
                 )}
 
-                <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} />
+                <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
               </div>
             )}
 
@@ -360,17 +418,17 @@ export default function DashboardPage() {
 
             {/* TAB CONTENT 3: HEATMAP */}
             {activeTab === 'heatmap' && (
-              <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} />
+              <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
             )}
 
             {/* TAB CONTENT 4: GAPS */}
             {activeTab === 'gaps' && (
-              <GapAnalysisTable gaps={activeAuditData.gaps || []} />
+              <GapAnalysisTable gaps={activeAuditData.gaps || []} isDark={isDark} />
             )}
 
             {/* TAB CONTENT 5: CITATIONS */}
             {activeTab === 'citations' && (
-              <CitationList domain={activeAuditData.domain} />
+              <CitationList domain={activeAuditData.domain} isDark={isDark} />
             )}
           </div>
         )}
