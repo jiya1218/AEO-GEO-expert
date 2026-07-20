@@ -7,6 +7,7 @@ import { MultiModelHeatmap } from '@/components/dashboard/multi-model-heatmap';
 import { CitationList } from '@/components/dashboard/citation-list';
 import { GapAnalysisTable } from '@/components/dashboard/gap-analysis-table';
 import { SiteCrawlerView } from '@/components/dashboard/site-crawler-view';
+import { AnalysisAnimation } from '@/components/dashboard/analysis-animation';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
   Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot,
@@ -86,6 +87,12 @@ export default function DashboardPage() {
 
   return (
     <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans transition-colors duration-200 relative`}>
+
+      {/* Full-Screen Analysis Animation Overlay */}
+      {loading && (
+        <AnalysisAnimation domain={targetDomainInput || 'website'} isDark={isDark} />
+      )}
+
       {/* Top Header Navbar */}
       <header className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/80' : 'border-slate-200/90 bg-white/90 shadow-xs'} backdrop-blur-xl sticky top-0 z-40`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
