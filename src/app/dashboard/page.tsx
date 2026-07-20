@@ -96,14 +96,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans transition-colors duration-500 relative overflow-hidden`}>
-
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className={`absolute top-[-10%] left-[-5%] w-[600px] h-[600px] rounded-full blur-[160px] animate-blob ${isDark ? 'bg-cyan-600/10' : 'bg-cyan-400/15'}`} />
-        <div className={`absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] rounded-full blur-[140px] animate-blob animation-delay-2000 ${isDark ? 'bg-indigo-600/8' : 'bg-indigo-400/12'}`} />
-        <div className={`absolute top-[50%] left-[40%] w-[400px] h-[400px] rounded-full blur-[130px] animate-blob animation-delay-4000 ${isDark ? 'bg-purple-600/6' : 'bg-purple-400/8'}`} />
-      </div>
+    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans transition-colors duration-200 relative`}>
 
       {/* Full-Screen Analysis Animation Overlay */}
       {loading && (
@@ -114,7 +107,7 @@ export default function DashboardPage() {
       <header className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/80' : 'border-slate-200/90 bg-white/90 shadow-xs'} backdrop-blur-xl sticky top-0 z-40`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-sky-600 to-indigo-600 flex items-center justify-center shadow-md shadow-cyan-600/20 animate-glow-pulse">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 via-sky-600 to-indigo-600 flex items-center justify-center shadow-md shadow-cyan-600/20">
               <Brain className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -165,13 +158,13 @@ export default function DashboardPage() {
       </header>
 
       {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
         
         {/* Prominent Website Search & Audit Bar */}
-        <div className={`p-6 sm:p-8 rounded-3xl border animate-fade-in-up ${
+        <div className={`p-6 sm:p-8 rounded-3xl border ${
           isDark
             ? 'bg-slate-900/80 border-slate-800/80 shadow-2xl shadow-cyan-950/20'
-            : 'bg-white/90 border-slate-200/90 shadow-xl shadow-slate-200/60'
+            : 'bg-white border-slate-200/90 shadow-xl shadow-slate-200/60'
         } backdrop-blur-xl relative overflow-hidden space-y-6`}>
           
           <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
@@ -353,7 +346,7 @@ export default function DashboardPage() {
             </p>
           </div>
         ) : (
-          <div className="space-y-8 animate-scale-in">
+          <div className="space-y-8">
             {/* Header Domain Banner & Module Nav Tabs */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
               <div>
