@@ -26,10 +26,17 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
     } backdrop-blur-md`}>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h3 className={`text-lg font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} flex items-center gap-2`}>
-            <Bot className="w-5 h-5 text-cyan-600" /> Multi-Model AI Search Engine Matrix
-          </h3>
-          <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1 font-medium`}>
+          <div className="flex flex-wrap items-center gap-2 mb-1.5">
+            <h3 className={`text-lg font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} flex items-center gap-2`}>
+              <Bot className="w-5 h-5 text-cyan-600" /> Multi-Model AI Search Engine Matrix
+            </h3>
+            <span className={`px-2.5 py-0.5 rounded-md text-[11px] font-extrabold border ${
+              isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' : 'bg-sky-100 text-sky-800 border-sky-200'
+            }`}>
+              {promptScans.length} Prompts × {TARGET_AI_MODELS.length} AI Models = {promptScans.length * TARGET_AI_MODELS.length} Engine Evaluations
+            </span>
+          </div>
+          <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} font-medium`}>
             Real-time brand citations across major Large Language Models (LLMs)
           </p>
         </div>
@@ -41,7 +48,7 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
             <span className="w-3 h-3 rounded-full bg-amber-500/20 border border-amber-500 inline-block" /> Cited (#2+ Rank)
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="w-3 h-3 rounded-full bg-slate-200 border border-slate-400 inline-block" /> Unranked
+            <span className="w-3 h-3 rounded-full bg-slate-200 border border-slate-400 inline-block" /> Not Mentioned
           </span>
         </div>
       </div>

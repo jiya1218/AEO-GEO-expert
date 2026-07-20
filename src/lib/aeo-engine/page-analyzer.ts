@@ -112,26 +112,33 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
     ? userCompetitors 
     : deriveCompetitorsForDomain(domain);
 
-  // 3. Calculate Scores
-  let schemaScore = 30;
-  if (detectedSchemas.length > 0) schemaScore += 30;
-  if (hasFaqSchema) schemaScore += 20;
-  if (hasOrganizationSchema) schemaScore += 20;
+  // 3. Calculate Scores (STRICT REAL CALCULATION)
+  let schemaScore = 0;
+  if (detectedSchemas.length > 0) {
+    schemaScore += 30;
+    if (hasFaqSchema) schemaScore += 30;
+    if (hasOrganizationSchema) schemaScore += 20;
+    if (hasProductSchema) schemaScore += 20;
+  }
   schemaScore = Math.min(100, schemaScore);
 
-  let readabilityScore = 60;
-  if (h1Tags.length === 1) readabilityScore += 15;
-  if (h2Tags.length >= 3) readabilityScore += 15;
-  if (description.length > 50) readabilityScore += 10;
+  let readabilityScore = 20;
+  if (title && title !== domain) readabilityScore += 20;
+  if (description.length > 30) readabilityScore += 20;
+  if (h1Tags.length === 1) readabilityScore += 20;
+  if (h2Tags.length >= 2) readabilityScore += 20;
   readabilityScore = Math.min(100, readabilityScore);
 
-  let citationScore = Math.min(100, 45 + (detectedSchemas.length * 15) + (h2Tags.length * 4));
-  let entityScore = Math.min(100, 50 + (entityKeywords.length * 6));
+  let citationScore = Math.min(100, (detectedSchemas.length * 20) + (h2Tags.length * 10));
+  let entityScore = Math.min(100, (entityKeywords.length * 10));
 
   const overallGeoScore = Math.round((schemaScore * 0.35) + (citationScore * 0.25) + (entityScore * 0.2) + (readabilityScore * 0.2));
 
   // 4. Generate Recommendations
   const recommendations: string[] = [];
+  if (detectedSchemas.length === 0) {
+    recommendations.push('CRITICAL: No JSON-LD Schema markup detected. Add Organization and WebSite schema immediately.');
+  }
   if (!hasFaqSchema) {
     recommendations.push('Add FAQPage JSON-LD schema markup to directly capture AI snippet answer boxes in ChatGPT & Gemini.');
   }
@@ -175,36 +182,35 @@ function deriveCompetitorsForDomain(domain: string): string[] {
   if (d.includes('scalezix') || d.includes('seo') || d.includes('aeo')) return ['Semrush.com', 'Ahrefs.com', 'BrightEdge.com'];
   if (d.includes('linear') || d.includes('jira') || d.includes('task')) return ['Jira.com', 'Asana.com', 'Monday.com'];
   if (d.includes('vercel') || d.includes('host') || d.includes('cloud')) return ['Netlify.com', 'AWS.com', 'Cloudflare.com'];
-  return ['IndustryLeader.com', 'MarketAlternative.com', 'GlobalCompetitor.com'];
+  return ['IndustryCompetitor1.com', 'IndustryCompetitor2.com', 'MarketAlternative.com'];
 }
 
 function generateBaselineAudit(url: string, domain: string, userKeywords: string[], userCompetitors: string[]): PageGeoAuditResult {
-  const autoKeywords = userKeywords.length > 0 ? userKeywords : ['AEO Engine', 'GEO Optimization', 'AI Search Visibility', 'JSON-LD Schema'];
+  const autoKeywords = userKeywords.length > 0 ? userKeywords : [domain, 'Software', 'Services', 'Platform'];
   const autoCompetitors = userCompetitors.length > 0 ? userCompetitors : deriveCompetitorsForDomain(domain);
 
   return {
     url,
     domain,
-    title: `${domain} - Official Platform`,
-    description: `AEO and GEO Visibility baseline audit for ${domain}`,
-    overallGeoScore: 76,
-    schemaScore: 70,
-    citationScore: 80,
-    entityScore: 74,
-    readabilityScore: 82,
-    detectedSchemas: ['Organization', 'WebSite', 'BreadcrumbList'],
+    title: `${domain}`,
+    description: `Unable to extract HTML or site blocked bot access for ${domain}`,
+    overallGeoScore: 0,
+    schemaScore: 0,
+    citationScore: 0,
+    entityScore: 0,
+    readabilityScore: 0,
+    detectedSchemas: [],
     hasFaqSchema: false,
-    hasOrganizationSchema: true,
+    hasOrganizationSchema: false,
     hasProductSchema: false,
-    h1Tags: [`Welcome to ${domain}`],
-    h2Tags: ['Key Solutions', 'Platform Features', 'Pricing & Integration', 'Frequently Asked Questions'],
-    entityKeywords: ['Platform', 'Optimization', 'Analytics', 'Engine', 'Visibility', 'Automation'],
+    h1Tags: [],
+    h2Tags: [],
+    entityKeywords: [],
     autoDiscoveredKeywords: autoKeywords,
     autoDiscoveredCompetitors: autoCompetitors,
     recommendations: [
-      'Add FAQPage JSON-LD schema markup to directly capture AI search snippet answers.',
-      'Enhance brand entity definition across Wikidata and press references for LLM training sets.',
-      'Publish high-density direct answer summaries at the top of key resource pages.',
+      'Site inaccessible or blocking crawler. Enable public HTTP access for bot user-agents.',
+      'Add JSON-LD Schema markup to enable LLM search engine indexing.',
     ],
   };
 }

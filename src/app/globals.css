@@ -12,3 +12,22 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+  .no-print, header, footer, form, .no-print-zone {
+    display: none !important;
+  }
+  .print-only {
+    display: block !important;
+  }
+  .shadow-xl, .shadow-2xl, .shadow-md {
+    box-shadow: none !important;
+  }
+  .border {
+    border-color: #cbd5e1 !important;
+  }
+}

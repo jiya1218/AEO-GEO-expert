@@ -9,6 +9,7 @@ import { GapAnalysisTable } from '@/components/dashboard/gap-analysis-table';
 import { SiteCrawlerView } from '@/components/dashboard/site-crawler-view';
 import { KeywordsResearchView } from '@/components/dashboard/keywords-research-view';
 import { AnalysisAnimation } from '@/components/dashboard/analysis-animation';
+import { ReportDownloadButton } from '@/components/dashboard/report-download-button';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
   Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot,
@@ -349,10 +350,13 @@ export default function DashboardPage() {
             {/* Header Domain Banner & Module Nav Tabs */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/80 pb-4">
               <div>
-                <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${
-                  isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' : 'bg-sky-100 text-sky-800 border-sky-200'
-                } border text-xs font-bold mb-2`}>
-                  <Sparkles className="w-3.5 h-3.5 text-cyan-600" /> Audit Completed: {activeAuditData.domain}
+                <div className="flex items-center gap-3 mb-2">
+                  <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${
+                    isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20' : 'bg-sky-100 text-sky-800 border-sky-200'
+                  } border text-xs font-bold`}>
+                    <Sparkles className="w-3.5 h-3.5 text-cyan-600" /> Audit Completed: {activeAuditData.domain}
+                  </div>
+                  <ReportDownloadButton auditData={activeAuditData} isDark={isDark} />
                 </div>
                 <h2 className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   {activeAuditData.brandName} AI Visibility Report

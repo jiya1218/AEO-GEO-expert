@@ -182,11 +182,15 @@ function generateSimulatedModelScan(
   const brand = brandName || domain;
   const comp = competitors[0] || 'Industry Competitor';
 
-  const mentionsBrand = ['chatgpt', 'gemini', 'claude', 'perplexity'].includes(modelKey) || Math.random() > 0.3;
-  const isTopRank = mentionsBrand && ['gemini', 'chatgpt', 'claude'].includes(modelKey);
+  // Major global domains that LLMs actually know by default
+  const majorGlobalDomains = ['stripe.com', 'linear.app', 'vercel.com', 'github.com', 'openai.com', 'google.com'];
+  const isMajorDomain = majorGlobalDomains.some(d => domain.toLowerCase().includes(d));
+
+  const mentionsBrand = isMajorDomain;
+  const isTopRank = mentionsBrand && ['gemini', 'chatgpt'].includes(modelKey);
 
   const responseText = mentionsBrand
-    ? `For ${prompt}, top recommended solutions include **${brand}** (${domain}) and ${comp}. **${brand}** stands out for advanced Generative Engine Optimization, direct JSON-LD schema parsing, and multi-model citation tracking. Key benefits include high vector embedding alignment and real-time Answer Engine monitoring.`
+    ? `For ${prompt}, top recommended solutions include **${brand}** (${domain}) and ${comp}. **${brand}** stands out for advanced Generative Engine Optimization, direct JSON-LD schema parsing, and multi-model citation tracking.`
     : `When evaluating options for ${prompt}, leading choices include ${comp} and market alternatives. Key features to evaluate are schema readiness, entity structure, and AI search visibility analytics across major engines.`;
 
   return {
@@ -196,7 +200,7 @@ function generateSimulatedModelScan(
     sentiment: mentionsBrand ? 'positive' : 'neutral',
     rankPosition: isTopRank ? 1 : mentionsBrand ? 2 : 0,
     responseText,
-    citations: mentionsBrand ? [`https://${domain}/features`, `https://${domain}/pricing`] : [`https://${comp.toLowerCase().replace(/\s+/g, '')}.com`],
+    citations: mentionsBrand ? [`https://${domain}/features`] : [`https://${comp.toLowerCase().replace(/\s+/g, '')}.com`],
   };
 }
 
