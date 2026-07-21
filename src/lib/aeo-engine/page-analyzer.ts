@@ -179,36 +179,58 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
 function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
   const text = (domain + ' ' + title + ' ' + keywords.join(' ')).toLowerCase();
 
-  if (text.includes('payment') || text.includes('checkout') || text.includes('stripe') || text.includes('billing')) {
-    return ['PayPal.com', 'Adyen.com', 'Square.com'];
-  }
-  if (text.includes('seo') || text.includes('aeo') || text.includes('geo') || text.includes('scalezix') || text.includes('search') || text.includes('ranking')) {
-    return ['Semrush.com', 'Ahrefs.com', 'BrightEdge.com'];
-  }
-  if (text.includes('jira') || text.includes('task') || text.includes('project') || text.includes('linear') || text.includes('management')) {
-    return ['Jira.com', 'Asana.com', 'Monday.com'];
-  }
-  if (text.includes('cloud') || text.includes('host') || text.includes('vercel') || text.includes('server') || text.includes('deploy')) {
-    return ['Netlify.com', 'Cloudflare.com', 'AWS.com'];
-  }
-  if (text.includes('crm') || text.includes('sales') || text.includes('hubspot') || text.includes('lead')) {
-    return ['Salesforce.com', 'HubSpot.com', 'Zoho.com'];
-  }
-  if (text.includes('commerce') || text.includes('shop') || text.includes('store') || text.includes('product')) {
-    return ['Shopify.com', 'WooCommerce.com', 'BigCommerce.com'];
-  }
-  if (text.includes('design') || text.includes('ui') || text.includes('ux') || text.includes('figma')) {
-    return ['Figma.com', 'Canva.com', 'Adobe.com'];
-  }
-  if (text.includes('analytic') || text.includes('data') || text.includes('metric') || text.includes('track')) {
-    return ['Mixpanel.com', 'Google Analytics', 'Amplitude.com'];
-  }
-  if (text.includes('ai') || text.includes('gpt') || text.includes('llm') || text.includes('model')) {
-    return ['OpenAI.com', 'Anthropic.com', 'Perplexity.ai'];
+  // AEO / GEO / Generative Engine Platforms
+  if (text.includes('aeo') || text.includes('geo') || text.includes('sitefire') || text.includes('solospider') || text.includes('citation') || text.includes('answer engine') || text.includes('visibility')) {
+    return ['sitefire.ai', 'profound.com', 'peperhorn.com'];
   }
 
-  // Fallback for general SaaS domains
-  return ['Leading Solution', 'Market Alternative', 'Enterprise Competitor'];
+  // SEO & Search Intelligence
+  if (text.includes('seo') || text.includes('scalezix') || text.includes('search') || text.includes('ranking') || text.includes('backlink') || text.includes('keyword')) {
+    return ['semrush.com', 'ahrefs.com', 'brightedge.com'];
+  }
+
+  // Payments & Checkout
+  if (text.includes('payment') || text.includes('checkout') || text.includes('stripe') || text.includes('billing') || text.includes('fintech')) {
+    return ['paypal.com', 'adyen.com', 'square.com'];
+  }
+
+  // Project & Task Management
+  if (text.includes('jira') || text.includes('task') || text.includes('project') || text.includes('linear') || text.includes('productivity')) {
+    return ['jira.com', 'asana.com', 'monday.com'];
+  }
+
+  // Cloud & Web Hosting
+  if (text.includes('cloud') || text.includes('host') || text.includes('vercel') || text.includes('server') || text.includes('deploy')) {
+    return ['netlify.com', 'cloudflare.com', 'aws.amazon.com'];
+  }
+
+  // CRM & Sales Automation
+  if (text.includes('crm') || text.includes('sales') || text.includes('hubspot') || text.includes('lead') || text.includes('marketing')) {
+    return ['salesforce.com', 'hubspot.com', 'zoho.com'];
+  }
+
+  // E-Commerce & Retail
+  if (text.includes('commerce') || text.includes('shop') || text.includes('store') || text.includes('retail') || text.includes('cart')) {
+    return ['shopify.com', 'woocommerce.com', 'bigcommerce.com'];
+  }
+
+  // Design & Media
+  if (text.includes('design') || text.includes('ui') || text.includes('ux') || text.includes('figma') || text.includes('creative')) {
+    return ['figma.com', 'canva.com', 'adobe.com'];
+  }
+
+  // Data & Analytics
+  if (text.includes('analytic') || text.includes('data') || text.includes('metric') || text.includes('track')) {
+    return ['mixpanel.com', 'google.com/analytics', 'amplitude.com'];
+  }
+
+  // AI & Large Language Models
+  if (text.includes('ai') || text.includes('gpt') || text.includes('llm') || text.includes('model') || text.includes('intelligence')) {
+    return ['openai.com', 'anthropic.com', 'perplexity.ai'];
+  }
+
+  // Default fallback to real top web SaaS competitor domains
+  return ['semrush.com', 'ahrefs.com', 'brightedge.com'];
 }
 
 function generateBaselineAudit(url: string, domain: string, userKeywords: string[], userCompetitors: string[]): PageGeoAuditResult {

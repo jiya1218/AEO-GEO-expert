@@ -45,10 +45,10 @@ export function AeoScoreCard({
       color: 'cyan',
       description: 'Composite AI search readiness score evaluating direct answer optimization across LLM engines.',
       breakdown: [
-        { label: 'JSON-LD Schema Weight (35%)', value: `${safeSchema}/100`, status: safeSchema >= 50 ? 'passed' : 'failed' },
-        { label: 'Citation Authority Weight (25%)', value: `${safeCitation}/100`, status: safeCitation >= 50 ? 'passed' : 'failed' },
-        { label: 'Entity Graph Density (20%)', value: `${safeEntity}/100`, status: safeEntity >= 50 ? 'passed' : 'failed' },
-        { label: 'Content Readability & H1/H2 (20%)', value: `${safeReadability}/100`, status: safeReadability >= 50 ? 'passed' : 'failed' },
+        { label: 'AI Share of Voice Weight (40%)', value: `${safeSoV}%`, status: safeSoV > 0 ? 'passed' : 'failed' },
+        { label: 'JSON-LD Schema Coverage Weight (25%)', value: `${safeSchema}/100`, status: safeSchema >= 50 ? 'passed' : 'failed' },
+        { label: 'Entity Knowledge Density Weight (20%)', value: `${safeEntity}/100`, status: safeEntity >= 50 ? 'passed' : 'failed' },
+        { label: 'Content Readability & Headings Weight (15%)', value: `${safeReadability}/100`, status: safeReadability >= 50 ? 'passed' : 'failed' },
       ],
       recommendations: [
         'Implement FAQPage JSON-LD schema markup to directly target AI snippet answer boxes.',

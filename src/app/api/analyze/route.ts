@@ -59,6 +59,11 @@ export async function POST(req: Request) {
     const mentionedPrompts = promptScans.filter(s => s.shareOfVoice > 0).length;
     const overallShareOfVoice = totalPrompts > 0 ? Math.round((mentionedPrompts / totalPrompts) * 100) : 0;
 
+    // Composite Overall GEO Score formula (AI SoV 40% + Schema 25% + Entity 20% + Readability 15%)
+    const compositeGeoScore = totalPrompts > 0
+      ? Math.round((overallShareOfVoice * 0.40) + (pageAudit.schemaScore * 0.25) + (pageAudit.entityScore * 0.20) + (pageAudit.readabilityScore * 0.15))
+      : pageAudit.overallGeoScore;
+
     const auditData = {
       domain: cleanDomain,
       brandName: targetBrand,
@@ -69,7 +74,7 @@ export async function POST(req: Request) {
       autoDiscoveredKeywords: activeKeywords,
       autoDiscoveredCompetitors: activeCompetitors,
       metrics: {
-        overallGeoScore: pageAudit.overallGeoScore,
+        overallGeoScore: compositeGeoScore,
         schemaScore: pageAudit.schemaScore,
         citationScore: pageAudit.citationScore,
         entityScore: pageAudit.entityScore,
