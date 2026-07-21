@@ -49,31 +49,31 @@ export default function LoginPage() {
       setLoading(true);
 
       if (isSignUp) {
-        // Sign up user
-        const { data, error } = await supabase.auth.signUp({
+        // Sign up new user
+        const redirectUrl = process.env.NEXT_PUBLIC_APP_URL
+          ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+          : 'https://aeo-geo-expert.vercel.app/auth/callback';
+
+        const { error } = await supabase.auth.signUp({
           email,
           password,
+          options: {
+            emailRedirectTo: redirectUrl,
+          },
         });
-
-        // Instant direct login without waiting for email verification link
-        const { error: signInError } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
-
-        if (!signInError || data?.user) {
-          toast.success('Account created & logged in instantly!');
-          window.location.href = '/dashboard';
-          return;
-        }
 
         if (error && !error.message?.toLowerCase().includes('rate limit')) {
           throw error;
         }
 
-        // Fallback instant redirect
-        toast.success('Account created! Entering dashboard...');
-        window.location.href = '/dashboard';
+        // Show clear user notification window
+        toast.success(
+          '🎉 Account created successfully! Please check your inbox to confirm your email ID, or directly Sign In below.',
+          { duration: 6000 }
+        );
+
+        // Redirect to Sign In view so user can directly log in with credentials
+        setIsSignUp(false);
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email,

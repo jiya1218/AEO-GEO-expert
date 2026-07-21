@@ -108,65 +108,65 @@ async function queryOpenRouterModel(
   modelLabel: string,
   apiKey: string
 ): Promise<ModelScanResult> {
-  const modelMap: Record<string, string> = {
-    chatgpt: 'openai/gpt-4o',
-    gemini: 'google/gemini-pro-1.5',
-    claude: 'anthropic/claude-3.5-sonnet',
-    deepseek: 'deepseek/deepseek-chat',
-    grok: 'x-ai/grok-2',
-    perplexity: 'perplexity/sonar-reasoning',
+  const modelSlugsMap: Record<string, string[]> = {
+    chatgpt: ['openai/gpt-4o', 'openai/gpt-4o-mini'],
+    gemini: ['google/gemini-2.0-flash-001', 'google/gemini-flash-1.5', 'google/gemini-pro-1.5'],
+    claude: ['anthropic/claude-3.5-sonnet', 'anthropic/claude-3-5-sonnet-20241022', 'anthropic/claude-3-haiku'],
+    deepseek: ['deepseek/deepseek-chat', 'deepseek/deepseek-r1'],
   };
 
-  const modelId = modelMap[modelKey] || 'openai/gpt-4o';
+  const targetSlugs = modelSlugsMap[modelKey] || ['openai/gpt-4o'];
 
-  try {
-    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-        'HTTP-Referer': 'https://aeogeo.expert',
-        'X-Title': 'AEO/GEO Expert Engine',
-      },
-      body: JSON.stringify({
-        model: modelId,
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.3,
-        max_tokens: 400,
-      }),
-    });
+  for (const modelId of targetSlugs) {
+    try {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://aeogeo.expert',
+          'X-Title': 'AEO/GEO Expert Engine',
+        },
+        body: JSON.stringify({
+          model: modelId,
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.3,
+          max_tokens: 400,
+        }),
+      });
 
-    if (res.ok) {
-      const data = await res.json();
-      const content = data.choices?.[0]?.message?.content || '';
-      
-      const brandLower = (brandName || domain).toLowerCase();
-      const domainLower = domain.toLowerCase();
-      const isMentioned = content.toLowerCase().includes(brandLower) || content.toLowerCase().includes(domainLower);
+      if (res.ok) {
+        const data = await res.json();
+        const content = data.choices?.[0]?.message?.content || '';
+        
+        const brandLower = (brandName || domain).toLowerCase();
+        const domainLower = domain.toLowerCase();
+        const isMentioned = content.toLowerCase().includes(brandLower) || content.toLowerCase().includes(domainLower);
 
-      let sentiment: 'positive' | 'neutral' | 'negative' = 'neutral';
-      if (isMentioned) {
-        if (/best|top|excellent|leading|highly|recommended|superior|robust/i.test(content)) {
-          sentiment = 'positive';
-        } else if (/lacks|expensive|complex|difficult|behind/i.test(content)) {
-          sentiment = 'negative';
+        let sentiment: 'positive' | 'neutral' | 'negative' = 'neutral';
+        if (isMentioned) {
+          if (/best|top|excellent|leading|highly|recommended|superior|robust/i.test(content)) {
+            sentiment = 'positive';
+          } else if (/lacks|expensive|complex|difficult|behind/i.test(content)) {
+            sentiment = 'negative';
+          }
         }
+
+        const citations = extractUrlsFromText(content);
+
+        return {
+          modelName: modelKey,
+          modelLabel,
+          brandMentioned: isMentioned,
+          sentiment,
+          rankPosition: isMentioned ? (content.toLowerCase().indexOf(brandLower) < 200 ? 1 : 2) : 0,
+          responseText: content,
+          citations,
+        };
       }
-
-      const citations = extractUrlsFromText(content);
-
-      return {
-        modelName: modelKey,
-        modelLabel,
-        brandMentioned: isMentioned,
-        sentiment,
-        rankPosition: isMentioned ? (content.toLowerCase().indexOf(brandLower) < 200 ? 1 : 2) : 0,
-        responseText: content,
-        citations,
-      };
+    } catch (err) {
+      console.warn(`OpenRouter call failed for ${modelId}`, err);
     }
-  } catch (err) {
-    console.warn(`OpenRouter call failed for ${modelKey}`, err);
   }
 
   // Fallback if API fails or rate limited

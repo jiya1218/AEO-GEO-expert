@@ -42,36 +42,42 @@ export default function DashboardPage() {
         setUserEmail(data.user.email || 'User');
       }
     });
+
+    // Auto-start scan if initiated from Homepage
+    if (typeof window !== 'undefined') {
+      const pending = sessionStorage.getItem('pendingScanUrl');
+      if (pending) {
+        sessionStorage.removeItem('pendingScanUrl');
+        setTargetDomainInput(pending);
+        handleRunAnalysisForDomain(pending);
+      }
+    }
   }, []);
 
-  const handleRunAnalysis = async (e?: React.FormEvent, isQuickScan: boolean = false) => {
-    if (e) e.preventDefault();
-    if (!targetDomainInput) {
-      toast.error('Please enter a website domain (e.g. stripe.com)');
-      return;
-    }
-
+  const handleRunAnalysisForDomain = async (domainToScan: string, brandToScan: string = '', isQuick: boolean = false) => {
     try {
       setLoading(true);
       const res = await fetch('/api/analyze', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          domain: targetDomainInput,
-          brandName: targetBrandInput,
+          domain: domainToScan,
+          brandName: brandToScan,
           promptCount: selectedPromptCount,
-          isQuickScan,
+          isQuickScan: isQuick,
         }),
       });
 
-      if (!res.ok) throw new Error('Failed to run AEO/GEO analysis');
+      if (!res.ok) throw new Error('Analysis failed');
 
       const data = await res.json();
-      if (isQuickScan) {
+      setActiveAuditData(data);
+      setAnalyzedProjects((prev) => [data, ...prev.filter((p) => p.domain !== data.domain)]);
+      
+      if (isQuick) {
         toast.success(`Quick Site Audit completed for ${data.domain}!`);
         setActiveTab('crawler');
       } else {
-        toast.success(`AI Audit completed with ${data.metrics?.totalPromptsScanned || selectedPromptCount} prompts for ${data.domain}!`);
       }
 
       setActiveAuditData(data);
@@ -84,10 +90,19 @@ export default function DashboardPage() {
       setTargetDomainInput('');
       setTargetBrandInput('');
     } catch (err: any) {
-      toast.error(err.message || 'Failed to complete analysis');
+      toast.error(err.message || 'Analysis failed');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleRunAnalysis = async (e?: React.FormEvent, isQuickScan: boolean = false) => {
+    if (e) e.preventDefault();
+    if (!targetDomainInput) {
+      toast.error('Please enter a website domain (e.g. stripe.com)');
+      return;
+    }
+    await handleRunAnalysisForDomain(targetDomainInput, targetBrandInput, isQuickScan);
   };
 
   const handleLogout = async () => {

@@ -14,6 +14,10 @@ export default function HomePage() {
   const handleHeroSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchUrl) {
+      const clean = searchUrl.trim().toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '');
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('pendingScanUrl', clean);
+      }
       router.push('/dashboard');
     }
   };
