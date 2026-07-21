@@ -185,39 +185,58 @@ async function discoverCompetitorsWithGemini(
   const apiKey = process.env.OPENROUTER_API_KEY || '';
 
   if (apiKey && !apiKey.includes('placeholder')) {
-    try {
-      const prompt = `Analyze the website domain "${domain}", page title "${title}", and description "${description}". Identify 3 real, direct, top-tier industry competitor website domains for this target business. Return ONLY a valid JSON array of 3 clean website domains (e.g. ["competitor1.com", "competitor2.com", "competitor3.com"]). Do NOT include code block markdown, explanations, or any other text.`;
+    const candidateModels = [
+      'google/gemini-2.0-flash-001',
+      'google/gemini-flash-1.5',
+      'openai/gpt-4o-mini',
+    ];
 
-      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-        method: 'POST',
-        signal: AbortSignal.timeout(6000),
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-          'HTTP-Referer': 'https://aeogeo.expert',
-          'X-Title': 'AEO/GEO Expert Engine',
-        },
-        body: JSON.stringify({
-          model: 'google/gemini-2.0-flash-001',
-          messages: [{ role: 'user', content: prompt }],
-          temperature: 0.1,
-          max_tokens: 150,
-        }),
-      });
+    const prompt = `Target Website Domain: "${domain}"
+Page Title: "${title}"
+Page Description: "${description}"
 
-      if (res.ok) {
-        const data = await res.json();
-        const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
-        const jsonMatch = rawContent.match(/\[[\s\S]*\]/);
-        if (jsonMatch) {
-          const competitors: string[] = JSON.parse(jsonMatch[0]);
-          if (Array.isArray(competitors) && competitors.length > 0) {
-            return competitors.map(c => String(c).toLowerCase().trim().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')).slice(0, 3);
+Identify 3 real, direct, top-tier industry competitor website domains for this target business.
+Examples:
+- For swiggy.com -> ["zomato.com", "blinkit.com", "zepto.in"]
+- For stripe.com -> ["paypal.com", "adyen.com", "square.com"]
+- For linear.app -> ["jira.com", "asana.com", "monday.com"]
+
+Return ONLY a valid JSON array of 3 clean competitor website domain strings (e.g. ["competitor1.com", "competitor2.com", "competitor3.com"]). Do NOT include code block markdown, explanations, or any other text.`;
+
+    for (const modelId of candidateModels) {
+      try {
+        const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          signal: AbortSignal.timeout(6000),
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://aeogeo.expert',
+            'X-Title': 'AEO/GEO Expert Engine',
+          },
+          body: JSON.stringify({
+            model: modelId,
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.1,
+            max_tokens: 150,
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
+          const jsonMatch = rawContent.match(/\[[\s\S]*\]/);
+          if (jsonMatch) {
+            const competitors: string[] = JSON.parse(jsonMatch[0]);
+            if (Array.isArray(competitors) && competitors.length > 0) {
+              const cleaned = competitors.map(c => String(c).toLowerCase().trim().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')).filter(Boolean).slice(0, 3);
+              if (cleaned.length > 0) return cleaned;
+            }
           }
         }
+      } catch (err) {
+        console.warn(`Competitor AI discovery fallback for ${modelId}:`, err);
       }
-    } catch (err) {
-      console.warn('Gemini 2.0 Flash competitor discovery fallback:', err);
     }
   }
 
@@ -226,6 +245,26 @@ async function discoverCompetitorsWithGemini(
 
 function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
   const text = (domain + ' ' + title + ' ' + keywords.join(' ')).toLowerCase();
+
+  // Food Delivery, Quick Commerce & Dining
+  if (text.includes('swiggy') || text.includes('zomato') || text.includes('blinkit') || text.includes('zepto') || text.includes('ubereats') || text.includes('doordash') || text.includes('grubhub') || text.includes('food') || text.includes('restaurant') || text.includes('dining') || text.includes('grocery')) {
+    return ['zomato.com', 'blinkit.com', 'zepto.in'];
+  }
+
+  // Ride Hailing & Transportation
+  if (text.includes('uber') || text.includes('lyft') || text.includes('ola') || text.includes('rapido') || text.includes('grab') || text.includes('taxi') || text.includes('ride')) {
+    return ['uber.com', 'lyft.com', 'ola.cabs'];
+  }
+
+  // Travel, Hotels & Flights
+  if (text.includes('booking') || text.includes('airbnb') || text.includes('expedia') || text.includes('makemytrip') || text.includes('agoda') || text.includes('hotel') || text.includes('flight') || text.includes('travel')) {
+    return ['booking.com', 'airbnb.com', 'expedia.com'];
+  }
+
+  // Payments, Checkout & Fintech
+  if (text.includes('payment') || text.includes('checkout') || text.includes('stripe') || text.includes('billing') || text.includes('fintech') || text.includes('revolut') || text.includes('wise') || text.includes('paypal')) {
+    return ['paypal.com', 'adyen.com', 'square.com'];
+  }
 
   // AEO / GEO / Generative Engine Platforms
   if (text.includes('aeo') || text.includes('geo') || text.includes('sitefire') || text.includes('solospider') || text.includes('citation') || text.includes('answer engine') || text.includes('visibility')) {
@@ -237,48 +276,43 @@ function deriveCompetitorsForDomain(domain: string, title: string = '', keywords
     return ['semrush.com', 'ahrefs.com', 'brightedge.com'];
   }
 
-  // Payments & Checkout
-  if (text.includes('payment') || text.includes('checkout') || text.includes('stripe') || text.includes('billing') || text.includes('fintech')) {
-    return ['paypal.com', 'adyen.com', 'square.com'];
-  }
-
   // Project & Task Management
-  if (text.includes('jira') || text.includes('task') || text.includes('project') || text.includes('linear') || text.includes('productivity')) {
+  if (text.includes('jira') || text.includes('task') || text.includes('project') || text.includes('linear') || text.includes('productivity') || text.includes('asana') || text.includes('monday')) {
     return ['jira.com', 'asana.com', 'monday.com'];
   }
 
   // Cloud & Web Hosting
-  if (text.includes('cloud') || text.includes('host') || text.includes('vercel') || text.includes('server') || text.includes('deploy')) {
+  if (text.includes('cloud') || text.includes('host') || text.includes('vercel') || text.includes('server') || text.includes('deploy') || text.includes('netlify')) {
     return ['netlify.com', 'cloudflare.com', 'aws.amazon.com'];
   }
 
   // CRM & Sales Automation
-  if (text.includes('crm') || text.includes('sales') || text.includes('hubspot') || text.includes('lead') || text.includes('marketing')) {
+  if (text.includes('crm') || text.includes('sales') || text.includes('hubspot') || text.includes('lead') || text.includes('marketing') || text.includes('salesforce')) {
     return ['salesforce.com', 'hubspot.com', 'zoho.com'];
   }
 
   // E-Commerce & Retail
-  if (text.includes('commerce') || text.includes('shop') || text.includes('store') || text.includes('retail') || text.includes('cart')) {
+  if (text.includes('commerce') || text.includes('shop') || text.includes('store') || text.includes('retail') || text.includes('cart') || text.includes('shopify')) {
     return ['shopify.com', 'woocommerce.com', 'bigcommerce.com'];
   }
 
   // Design & Media
-  if (text.includes('design') || text.includes('ui') || text.includes('ux') || text.includes('figma') || text.includes('creative')) {
+  if (text.includes('design') || text.includes('ui') || text.includes('ux') || text.includes('figma') || text.includes('creative') || text.includes('canva')) {
     return ['figma.com', 'canva.com', 'adobe.com'];
   }
 
   // Data & Analytics
-  if (text.includes('analytic') || text.includes('data') || text.includes('metric') || text.includes('track')) {
+  if (text.includes('analytic') || text.includes('data') || text.includes('metric') || text.includes('track') || text.includes('mixpanel')) {
     return ['mixpanel.com', 'google.com/analytics', 'amplitude.com'];
   }
 
   // AI & Large Language Models
-  if (text.includes('ai') || text.includes('gpt') || text.includes('llm') || text.includes('model') || text.includes('intelligence')) {
+  if (text.includes('ai') || text.includes('gpt') || text.includes('llm') || text.includes('model') || text.includes('intelligence') || text.includes('openai')) {
     return ['openai.com', 'anthropic.com', 'perplexity.ai'];
   }
 
-  // Default fallback to real top web SaaS competitor domains
-  return ['semrush.com', 'ahrefs.com', 'brightedge.com'];
+  // Default fallback for general web SaaS
+  return ['google.com', 'bing.com', 'duckduckgo.com'];
 }
 
 function generateBaselineAudit(url: string, domain: string, userKeywords: string[], userCompetitors: string[]): PageGeoAuditResult {
