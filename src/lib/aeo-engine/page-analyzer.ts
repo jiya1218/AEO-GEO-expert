@@ -101,7 +101,7 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
     .slice(0, 8)
     .map(([word]) => word.charAt(0).toUpperCase() + word.slice(1));
 
-  // AI Auto-Discovered Keywords & Competitors
+  // AI Auto-Discovered Keywords & Competitors (Powered by Gemini 2.0 Flash)
   const autoDiscoveredKeywords = userKeywords.length > 0 
     ? userKeywords 
     : entityKeywords.length > 0 
@@ -110,7 +110,7 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
 
   const autoDiscoveredCompetitors = userCompetitors.length > 0 
     ? userCompetitors 
-    : deriveCompetitorsForDomain(domain, title, entityKeywords);
+    : await discoverCompetitorsWithGemini(domain, title, description, entityKeywords);
 
   // 3. Calculate Scores (STRICT REAL CALCULATION)
   let schemaScore = 0;
@@ -174,6 +174,54 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
     autoDiscoveredCompetitors,
     recommendations,
   };
+}
+
+async function discoverCompetitorsWithGemini(
+  domain: string,
+  title: string = '',
+  description: string = '',
+  keywords: string[] = []
+): Promise<string[]> {
+  const apiKey = process.env.OPENROUTER_API_KEY || '';
+
+  if (apiKey && !apiKey.includes('placeholder')) {
+    try {
+      const prompt = `Analyze the website domain "${domain}", page title "${title}", and description "${description}". Identify 3 real, direct, top-tier industry competitor website domains for this target business. Return ONLY a valid JSON array of 3 clean website domains (e.g. ["competitor1.com", "competitor2.com", "competitor3.com"]). Do NOT include code block markdown, explanations, or any other text.`;
+
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        signal: AbortSignal.timeout(6000),
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+          'HTTP-Referer': 'https://aeogeo.expert',
+          'X-Title': 'AEO/GEO Expert Engine',
+        },
+        body: JSON.stringify({
+          model: 'google/gemini-2.0-flash-001',
+          messages: [{ role: 'user', content: prompt }],
+          temperature: 0.1,
+          max_tokens: 150,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
+        const jsonMatch = rawContent.match(/\[[\s\S]*\]/);
+        if (jsonMatch) {
+          const competitors: string[] = JSON.parse(jsonMatch[0]);
+          if (Array.isArray(competitors) && competitors.length > 0) {
+            return competitors.map(c => String(c).toLowerCase().trim().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')).slice(0, 3);
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('Gemini 2.0 Flash competitor discovery fallback:', err);
+    }
+  }
+
+  return deriveCompetitorsForDomain(domain, title, keywords);
 }
 
 function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
