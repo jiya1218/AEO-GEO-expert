@@ -31,22 +31,22 @@ export function AnalysisAnimation({ domain, isDark }: AnalysisAnimationProps) {
   const [progress, setProgress] = useState(0);
   const [pulseCount, setPulseCount] = useState(0);
 
-  // Cycle through phases
+  // Smooth linear progression through phases without looping back
   useEffect(() => {
     const phaseInterval = setInterval(() => {
-      setCurrentPhase((prev) => (prev + 1) % SCAN_PHASES.length);
-    }, 3200);
+      setCurrentPhase((prev) => Math.min(prev + 1, SCAN_PHASES.length - 1));
+    }, 1800);
     return () => clearInterval(phaseInterval);
   }, []);
 
-  // Smooth progress bar
+  // Smooth linear progress bar without resetting
   useEffect(() => {
     const progInterval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 95) return 15; // loop back
-        return prev + Math.random() * 3 + 0.5;
+        if (prev >= 98) return 98;
+        return Math.min(98, prev + Math.random() * 2.5 + 0.5);
       });
-    }, 200);
+    }, 150);
     return () => clearInterval(progInterval);
   }, []);
 
@@ -324,8 +324,8 @@ export function AnalysisAnimation({ domain, isDark }: AnalysisAnimationProps) {
         {/* === AI MODEL STATUS GRID === */}
         <div className="w-full max-w-md grid grid-cols-2 sm:grid-cols-4 gap-2">
           {AI_MODELS.map((model, idx) => {
-            const isActive = currentPhase >= 3 + idx && currentPhase <= 3 + idx;
-            const isComplete = currentPhase > 3 + idx;
+            const isActive = currentPhase === 2 + idx;
+            const isComplete = currentPhase > 2 + idx;
             return (
               <div
                 key={model.name}
@@ -349,16 +349,16 @@ export function AnalysisAnimation({ domain, isDark }: AnalysisAnimationProps) {
                     ? isDark ? 'text-cyan-400' : 'text-cyan-700'
                     : isComplete
                     ? isDark ? 'text-emerald-400' : 'text-emerald-700'
-                    : isDark ? 'text-slate-500' : 'text-slate-500'
+                    : isDark ? 'text-slate-400' : 'text-slate-600'
                 }`}>
                   {model.name}
                 </p>
-                <p className={`text-[9px] font-medium ${
+                <p className={`text-[9px] font-bold ${
                   isActive
-                    ? isDark ? 'text-cyan-500' : 'text-cyan-600'
+                    ? isDark ? 'text-cyan-500 animate-pulse' : 'text-cyan-600 animate-pulse'
                     : isComplete
-                    ? isDark ? 'text-emerald-500' : 'text-emerald-600'
-                    : isDark ? 'text-slate-600' : 'text-slate-400'
+                    ? isDark ? 'text-emerald-400 font-extrabold' : 'text-emerald-700 font-extrabold'
+                    : isDark ? 'text-slate-500' : 'text-slate-400'
                 }`}>
                   {isActive ? 'Scanning...' : isComplete ? 'Done ✓' : 'Queued'}
                 </p>
