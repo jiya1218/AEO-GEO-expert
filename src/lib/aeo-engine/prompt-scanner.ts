@@ -25,40 +25,46 @@ export const TARGET_AI_MODELS = [
 export async function runMultiModelScan(
   domain: string,
   brandName: string,
-  keywords: string[],
+  keywords: string[] = [],
   competitors: string[] = [],
   promptCount: number = 5
 ): Promise<PromptScanItem[]> {
-  const openRouterKey = process.env.OPENROUTER_API_KEY;
+  const targetPrompts = generateTargetPrompts(brandName || domain, keywords, competitors, promptCount);
+  const openRouterKey = process.env.OPENROUTER_API_KEY || '';
 
-  const prompts = generateTargetPrompts(brandName || domain, keywords, competitors, promptCount);
   const scanResults: PromptScanItem[] = [];
 
-  for (const p of prompts) {
-    const modelResults: ModelScanResult[] = [];
-    let totalMentions = 0;
+  // Process prompts in parallel chunks of 5 prompts to stay under Vercel serverless execution limits
+  const BATCH_SIZE = 5;
+  for (let i = 0; i < targetPrompts.length; i += BATCH_SIZE) {
+    const chunk = targetPrompts.slice(i, i + BATCH_SIZE);
 
-    for (const model of TARGET_AI_MODELS) {
-      let result: ModelScanResult;
+    const chunkResults = await Promise.all(
+      chunk.map(async (p) => {
+        // Query all 4 AI models in parallel for this prompt
+        const modelResults = await Promise.all(
+          TARGET_AI_MODELS.map(async (model) => {
+            if (openRouterKey && !openRouterKey.includes('placeholder')) {
+              return queryOpenRouterModel(p.text, domain, brandName, model.name, model.label, openRouterKey);
+            } else {
+              return generateSimulatedModelScan(p.text, domain, brandName, model.name, model.label, competitors);
+            }
+          })
+        );
 
-      if (openRouterKey && !openRouterKey.includes('placeholder')) {
-        result = await queryOpenRouterModel(p.text, domain, brandName, model.name, model.label, openRouterKey);
-      } else {
-        result = generateSimulatedModelScan(p.text, domain, brandName, model.name, model.label, competitors);
-      }
+        const mentionedCount = modelResults.filter((m) => m.brandMentioned).length;
+        const shareOfVoice = Math.round((mentionedCount / TARGET_AI_MODELS.length) * 100);
 
-      if (result.brandMentioned) totalMentions++;
-      modelResults.push(result);
-    }
+        return {
+          promptText: p.text,
+          category: p.category,
+          modelResults,
+          shareOfVoice,
+        };
+      })
+    );
 
-    const shareOfVoice = Math.round((totalMentions / TARGET_AI_MODELS.length) * 100);
-
-    scanResults.push({
-      promptText: p.text,
-      category: p.category,
-      modelResults,
-      shareOfVoice,
-    });
+    scanResults.push(...chunkResults);
   }
 
   return scanResults;
@@ -121,6 +127,7 @@ async function queryOpenRouterModel(
     try {
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: 'POST',
+        signal: AbortSignal.timeout(6000),
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
