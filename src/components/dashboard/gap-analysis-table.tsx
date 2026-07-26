@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { GapItem } from '@/lib/aeo-engine/gap-detector';
-import { Target, Sparkles, FileText, CheckCircle2, Copy, X } from 'lucide-react';
+import { Target, Sparkles, FileText, CheckCircle2, Copy, X, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface GapProps {
@@ -46,27 +46,39 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
       </div>
 
       <div className="space-y-4">
-        {gaps.map((gap) => (
-          <div
-            key={gap.id}
-            className={`p-5 rounded-xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
-              isDark ? 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700' : 'bg-amber-50/30 border-amber-200/80 hover:border-amber-300 shadow-2xs'
-            }`}
-          >
-            <div className="space-y-2 flex-1">
-              <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-500/10 text-amber-600 border border-amber-500/20">
-                  Opportunity Score: {gap.opportunityScore}/100
-                </span>
-                <span className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Category: {gap.category}</span>
+        {gaps.map((gap) => {
+          const compUrl = gap.competitorDomain.startsWith('http') ? gap.competitorDomain : `https://${gap.competitorDomain}`;
+          return (
+            <div
+              key={gap.id}
+              className={`p-5 rounded-xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
+                isDark ? 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700' : 'bg-amber-50/30 border-amber-200/80 hover:border-amber-300 shadow-2xs'
+              }`}
+            >
+              <div className="space-y-2 flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-500/10 text-amber-600 border border-amber-500/20">
+                    Opportunity Score: {gap.opportunityScore}/100
+                  </span>
+                  <span className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Category: {gap.category}</span>
+                </div>
+                <h4 className={`text-sm font-bold ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
+                  "{gap.missingPrompt}"
+                </h4>
+                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} flex items-center gap-1.5`}>
+                  <span>Competitor cited:</span>
+                  <a
+                    href={compUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-extrabold text-amber-500 hover:text-amber-400 hover:underline flex items-center gap-1"
+                    title={`Open ${gap.competitorDomain} in new tab`}
+                  >
+                    <span>{gap.competitorDomain}</span>
+                    <ExternalLink className="w-3 h-3 text-amber-500" />
+                  </a>
+                </p>
               </div>
-              <h4 className={`text-sm font-bold ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
-                "{gap.missingPrompt}"
-              </h4>
-              <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Competitor cited: <span className="font-semibold">{gap.competitorDomain}</span>
-              </p>
-            </div>
 
             <button
               onClick={() => setSelectedGap(gap)}
@@ -76,7 +88,8 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
               <span>Generate GEO Brief</span>
             </button>
           </div>
-        ))}
+        );
+        })}
       </div>
 
       {/* Content Brief Modal */}

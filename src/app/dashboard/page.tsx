@@ -14,7 +14,7 @@ import { AiBackground } from '@/components/ui/ai-background';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
   Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot,
-  TrendingUp, Building2, Cpu, Tag, Key, Zap
+  TrendingUp, Building2, Cpu, Tag, Key, Zap, ExternalLink
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -400,13 +400,26 @@ export default function DashboardPage() {
                 Top Market Competitors:
               </span>
               <div className="flex flex-wrap items-center gap-2">
-                {activeAuditData.autoDiscoveredCompetitors?.map((comp: string, cIdx: number) => (
-                  <span key={cIdx} className={`px-3 py-1 rounded-xl font-extrabold text-xs border ${
-                    isDark ? 'bg-slate-950 border-slate-800 text-cyan-400' : 'bg-white border-slate-300 text-slate-900 shadow-2xs'
-                  }`}>
-                    {comp}
-                  </span>
-                ))}
+                {activeAuditData.autoDiscoveredCompetitors?.map((comp: string, cIdx: number) => {
+                  const href = comp.startsWith('http') ? comp : `https://${comp}`;
+                  return (
+                    <a
+                      key={cIdx}
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`px-3 py-1 rounded-xl font-extrabold text-xs border transition-all flex items-center gap-1.5 hover:scale-105 ${
+                        isDark
+                          ? 'bg-slate-950 border-slate-800 text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 shadow-sm'
+                          : 'bg-white border-slate-300 text-cyan-700 hover:text-cyan-900 shadow-2xs hover:border-cyan-400'
+                      }`}
+                      title={`Visit ${comp} (opens in new tab)`}
+                    >
+                      <span>{comp}</span>
+                      <ExternalLink className="w-3 h-3 text-cyan-500 opacity-80" />
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
