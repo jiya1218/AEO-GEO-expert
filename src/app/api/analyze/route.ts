@@ -17,7 +17,7 @@ export async function POST(req: Request) {
 
     const cleanDomain = String(domain).trim().toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '');
     const targetBrand = brandName || cleanDomain.split('.')[0].toUpperCase();
-    const numPrompts = Math.min(20, Math.max(1, Number(promptCount) || 5));
+    const actualPromptsToScan = isQuickScan ? 1 : Math.min(20, Math.max(1, Number(promptCount) || 5));
 
     // 1. Run Page Audit & AI Auto-Discovery of Keywords + Competitors
     const pageAudit = await analyzePageGeo(cleanDomain, keywords, competitors);
@@ -25,33 +25,8 @@ export async function POST(req: Request) {
     const activeKeywords = pageAudit.autoDiscoveredKeywords;
     const activeCompetitors = pageAudit.autoDiscoveredCompetitors;
 
-    // Quick Scan Mode: return instant structural & technical website details
-    if (isQuickScan) {
-      return NextResponse.json({
-        domain: cleanDomain,
-        brandName: targetBrand,
-        timestamp: new Date().toISOString(),
-        isQuickScan: true,
-        pageAudit,
-        promptScans: [],
-        gaps: [],
-        autoDiscoveredKeywords: activeKeywords,
-        autoDiscoveredCompetitors: activeCompetitors,
-        metrics: {
-          overallGeoScore: pageAudit.overallGeoScore,
-          schemaScore: pageAudit.schemaScore,
-          citationScore: pageAudit.citationScore,
-          entityScore: pageAudit.entityScore,
-          readabilityScore: pageAudit.readabilityScore,
-          shareOfVoice: 0,
-          totalPromptsScanned: 0,
-          activeGapsCount: 0,
-        },
-      });
-    }
-
-    // 2. Full Multi-Model Audit Mode with requested promptCount
-    const promptScans = await runMultiModelScan(cleanDomain, targetBrand, activeKeywords, activeCompetitors, numPrompts);
+    // 2. Run Live Multi-Model Audit (1 prompt for Quick Scan, 5+ for Full Audit)
+    const promptScans = await runMultiModelScan(cleanDomain, targetBrand, activeKeywords, activeCompetitors, actualPromptsToScan);
 
     // 3. Run Gap Detection
     const gaps = detectAeoGaps(cleanDomain, targetBrand, activeCompetitors, promptScans);
@@ -70,6 +45,7 @@ export async function POST(req: Request) {
       domain: cleanDomain,
       brandName: targetBrand,
       timestamp: new Date().toISOString(),
+      isQuickScan,
       pageAudit,
       promptScans,
       gaps,

@@ -76,8 +76,10 @@ export default function DashboardPage() {
       
       if (isQuick) {
         toast.success(`Quick Site Audit completed for ${data.domain}!`);
-        setActiveTab('crawler');
+        setActiveTab('overview');
       } else {
+        toast.success(`Full Multi-Model Audit completed for ${data.domain}!`);
+        setActiveTab('overview');
       }
 
       setActiveAuditData(data);
