@@ -197,13 +197,22 @@ function normalizeCompetitorDomain(rawDomain: string): string {
     if (lowerRaw.includes('cloud')) return 'cloud.google.com';
     return 'meet.google.com';
   }
-  if (clean.includes('amazon.com') || lowerRaw.includes('aws.amazon')) {
+  if (clean.includes('amazon.com') || lowerRaw.includes('aws.amazon') || lowerRaw.includes('primevideo')) {
+    if (lowerRaw.includes('prime') || lowerRaw.includes('video')) return 'primevideo.com';
     if (lowerRaw.includes('aws')) return 'aws.amazon.com';
     return 'amazon.com';
   }
   if (clean.includes('zoho.com')) {
     if (lowerRaw.includes('meeting')) return 'meeting.zoho.com';
     return 'zoho.com';
+  }
+
+  // OTT & Movie Streaming Brand Consolidation (Hotstar -> Disney+, HBOMax -> Max)
+  if (clean.includes('hotstar.com') || clean.includes('disneyplus')) {
+    return 'disneyplus.com';
+  }
+  if (clean.includes('hbomax.com') || clean.includes('hbo.com') || clean.includes('max.com')) {
+    return 'max.com';
   }
 
   return clean;
@@ -312,6 +321,11 @@ RULES:
 
 function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
   const text = (domain + ' ' + title + ' ' + keywords.join(' ')).toLowerCase();
+
+  // OTT & Movie Video Streaming (Netflix, Disney+, Prime Video, Hulu, Max)
+  if (text.includes('netflix') || text.includes('hulu') || text.includes('disneyplus') || text.includes('hotstar') || text.includes('streaming') || text.includes('movie') || text.includes('show') || text.includes('hbomax') || text.includes('max.com')) {
+    return ['primevideo.com', 'disneyplus.com', 'hulu.com', 'max.com'];
+  }
 
   // Amazon & E-Commerce Marketplaces (Flipkart, Meesho, Myntra, Walmart, eBay)
   if (text.includes('amazon') || text.includes('flipkart') || text.includes('meesho') || text.includes('ebay') || text.includes('walmart') || text.includes('target') || text.includes('alibaba') || text.includes('marketplace')) {
