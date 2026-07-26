@@ -179,6 +179,36 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
   };
 }
 
+function normalizeCompetitorDomain(rawDomain: string): string {
+  if (!rawDomain) return '';
+  const lowerRaw = rawDomain.toLowerCase().trim();
+  let clean = lowerRaw
+    .replace(/^(https?:\/\/)?(www\.)?/, '')
+    .replace(/\/.*$/, '')
+    .replace(/\/$/, '');
+
+  // Subdomain & Ecosystem Brand Normalization Rules
+  if (clean.includes('microsoft.com') || lowerRaw.includes('teams')) {
+    if (lowerRaw.includes('teams') || lowerRaw.includes('microsoft')) return 'teams.microsoft.com';
+  }
+  if (clean.includes('google.com') || lowerRaw.includes('meet.google')) {
+    if (lowerRaw.includes('meet')) return 'meet.google.com';
+    if (lowerRaw.includes('drive') || lowerRaw.includes('docs')) return 'drive.google.com';
+    if (lowerRaw.includes('cloud')) return 'cloud.google.com';
+    return 'meet.google.com';
+  }
+  if (clean.includes('amazon.com') || lowerRaw.includes('aws.amazon')) {
+    if (lowerRaw.includes('aws')) return 'aws.amazon.com';
+    return 'amazon.com';
+  }
+  if (clean.includes('zoho.com')) {
+    if (lowerRaw.includes('meeting')) return 'meeting.zoho.com';
+    return 'zoho.com';
+  }
+
+  return clean;
+}
+
 async function discoverCompetitorsMultiModelConsensus(
   domain: string,
   title: string = '',
@@ -238,7 +268,7 @@ RULES:
             if (jsonMatch) {
               const competitors: string[] = JSON.parse(jsonMatch[0]);
               if (Array.isArray(competitors)) {
-                return competitors.map(c => String(c).toLowerCase().trim().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')).filter(Boolean);
+                return competitors.map(c => String(c).toLowerCase().trim());
               }
             }
           }
@@ -249,17 +279,20 @@ RULES:
       })
     );
 
+    const targetNormalized = normalizeCompetitorDomain(domain);
     const forbidden = [
       domain,
+      targetNormalized,
       'semrush.com', 'ahrefs.com', 'similarweb.com',
       'shopify.com', 'wordpress.org', 'wix.com', 'squarespace.com',
       'google.com', 'bing.com'
     ];
 
-    // Tally votes across all 4 models
+    // Tally votes across all 4 models after normalizing each candidate domain
     const voteMap: Record<string, number> = {};
-    modelResults.flat().forEach(c => {
-      if (c && c !== domain && !forbidden.includes(c) && c.includes('.')) {
+    modelResults.flat().forEach(rawCandidate => {
+      const c = normalizeCompetitorDomain(rawCandidate);
+      if (c && c !== domain && c !== targetNormalized && !forbidden.includes(c) && c.includes('.')) {
         voteMap[c] = (voteMap[c] || 0) + 1;
       }
     });
