@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Brain, Sparkles, ArrowRight, Bot, Zap, Layers, Sun, Moon, Search, Globe } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { AiBackground } from '@/components/ui/ai-background';
+import { Footer } from '@/components/footer';
 
 export default function HomePage() {
   const [isDark, setIsDark] = useState(false);
@@ -29,16 +30,25 @@ export default function HomePage() {
       {/* Navigation Header */}
       <nav className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-900/60' : 'border-slate-200/80 bg-white/80'} backdrop-blur-xl sticky top-0 z-40`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
               <Brain className="w-5 h-5 text-white" />
             </div>
             <span className={`font-extrabold text-lg ${isDark ? 'bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
               AEO / GEO Expert Platform
             </span>
-          </div>
+          </Link>
 
           <div className="flex items-center gap-4">
+            <div className="hidden sm:flex items-center gap-4 text-xs font-semibold">
+              <Link
+                href="/pricing"
+                className="px-3 py-1.5 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/20 transition-all font-bold"
+              >
+                Pricing
+              </Link>
+            </div>
+
             <button
               onClick={() => setIsDark(!isDark)}
               className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800 text-amber-400' : 'bg-slate-100 border-slate-300 text-slate-700'} transition-all text-xs font-semibold flex items-center gap-1.5`}
@@ -54,7 +64,7 @@ export default function HomePage() {
               Sign In
             </Link>
             <Link
-              href="/login"
+              href="/pricing"
               className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all"
             >
               <span>Get Started</span>
@@ -137,9 +147,7 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className={`border-t ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200 bg-white'} py-6 text-center text-xs text-slate-500`}>
-        © 2026 AEO / GEO Expert System. All rights reserved.
-      </footer>
+      <Footer isDark={isDark} />
     </div>
   );
 }

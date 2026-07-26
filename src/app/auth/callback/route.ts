@@ -31,17 +31,24 @@ export async function GET(request: Request) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
+      const defaultAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aeo-geo-expert.vercel.app';
       const forwardedHost = request.headers.get('x-forwarded-host');
-      const isLocalEnv = process.env.NODE_ENV === 'development';
       
-      const targetBaseUrl = forwardedHost 
-        ? `https://${forwardedHost}` 
-        : (process.env.NEXT_PUBLIC_APP_URL || 'https://aeo-geo-expert.vercel.app');
+      let targetBaseUrl = defaultAppUrl;
+      if (forwardedHost && !forwardedHost.includes('localhost') && !forwardedHost.includes('127.0.0.1')) {
+        targetBaseUrl = `https://${forwardedHost}`;
+      } else if (origin && !origin.includes('localhost') && !origin.includes('127.0.0.1')) {
+        targetBaseUrl = origin;
+      }
 
       return NextResponse.redirect(`${targetBaseUrl}/login?verified=true`);
     }
   }
 
-  // Redirect to dashboard on completion or error fallback
-  return NextResponse.redirect(`${origin}/dashboard`);
+  const defaultAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aeo-geo-expert.vercel.app';
+  const safeBaseUrl = (origin && !origin.includes('localhost') && !origin.includes('127.0.0.1'))
+    ? origin
+    : defaultAppUrl;
+
+  return NextResponse.redirect(`${safeBaseUrl}/dashboard`);
 }

@@ -16,10 +16,11 @@ export default function LoginPage() {
   const supabase = createClient();
 
   const getRedirectUrl = () => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')) {
       return `${window.location.origin}/auth/callback`;
     }
-    return process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback` : 'https://aeo-geo-expert.vercel.app/auth/callback';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aeo-geo-expert.vercel.app';
+    return `${baseUrl.replace(/\/$/, '')}/auth/callback`;
   };
 
   const handleGoogleOAuth = async () => {
@@ -50,9 +51,7 @@ export default function LoginPage() {
 
       if (isSignUp) {
         // Sign up new user
-        const redirectUrl = process.env.NEXT_PUBLIC_APP_URL
-          ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
-          : 'https://aeo-geo-expert.vercel.app/auth/callback';
+        const redirectUrl = getRedirectUrl();
 
         const { error } = await supabase.auth.signUp({
           email,
