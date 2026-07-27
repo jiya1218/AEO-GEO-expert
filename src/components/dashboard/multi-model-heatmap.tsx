@@ -340,8 +340,12 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                                 <span
                                   className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-transform transform hover:scale-105 ${
                                     isRank1
-                                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
-                                      : 'bg-amber-500/20 text-amber-400 border border-amber-500/40 shadow-sm shadow-amber-500/10'
+                                      ? isDark
+                                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
+                                        : 'bg-emerald-100 text-emerald-950 border border-emerald-300 font-extrabold shadow-2xs'
+                                      : isDark
+                                      ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 shadow-sm shadow-amber-500/10'
+                                      : 'bg-amber-100 text-amber-950 border border-amber-300 font-extrabold shadow-2xs'
                                   }`}
                                   title={res?.responseText?.substring(0, 150)}
                                 >
@@ -349,8 +353,10 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                                   <span>{isRank1 ? '#1 Rank' : '#2+ Cited'}</span>
                                 </span>
                               ) : (
-                                <span className={`inline-flex items-center justify-center px-3 py-1.5 rounded-xl text-xs font-medium ${
-                                  isDark ? 'bg-slate-950/60 text-slate-500 border border-slate-800/80' : 'bg-slate-100 text-slate-400 border border-slate-200'
+                                <span className={`inline-flex items-center justify-center px-3 py-1 rounded-xl text-xs font-bold ${
+                                  isDark
+                                    ? 'bg-slate-950/60 text-slate-500 border border-slate-800/80'
+                                    : 'bg-slate-100 text-slate-600 border border-slate-300 font-bold'
                                 }`}>
                                   —
                                 </span>
@@ -364,10 +370,10 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                           <div className="flex items-center justify-end gap-2">
                             <span className={`px-2.5 py-1 rounded-xl text-xs font-black border ${
                               sov >= 75
-                                ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+                                ? isDark ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-emerald-100 text-emerald-950 border-emerald-300 font-black'
                                 : sov >= 25
-                                ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/40'
-                                : 'bg-slate-800 text-slate-500 border-slate-700'
+                                ? isDark ? 'bg-cyan-500/20 text-cyan-400 border-cyan-500/40' : 'bg-sky-100 text-cyan-950 border-sky-300 font-black'
+                                : isDark ? 'bg-slate-800 text-slate-400 border-slate-700' : 'bg-slate-100 text-slate-700 border-slate-300 font-extrabold'
                             }`}>
                               {sov}% SoV
                             </span>
