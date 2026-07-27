@@ -322,9 +322,9 @@ RULES:
 function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
   const text = (domain + ' ' + title + ' ' + keywords.join(' ')).toLowerCase();
 
-  // OTT & Movie Video Streaming (Netflix, Disney+, Prime Video, Hulu, Max)
-  if (text.includes('netflix') || text.includes('hulu') || text.includes('disneyplus') || text.includes('hotstar') || text.includes('streaming') || text.includes('movie') || text.includes('show') || text.includes('hbomax') || text.includes('max.com')) {
-    return ['primevideo.com', 'disneyplus.com', 'hulu.com', 'max.com'];
+  // OTT & Movie Video Streaming (Netflix, Prime Video, Hotstar, JioCinema, Disney+)
+  if (text.includes('netflix') || text.includes('hulu') || text.includes('disneyplus') || text.includes('hotstar') || text.includes('jiocinema') || text.includes('streaming') || text.includes('movie') || text.includes('show') || text.includes('hbomax') || text.includes('max.com')) {
+    return ['primevideo.com', 'hotstar.com', 'jiocinema.com', 'disneyplus.com'];
   }
 
   // Amazon & E-Commerce Marketplaces (Flipkart, Meesho, Myntra, Walmart, eBay)
