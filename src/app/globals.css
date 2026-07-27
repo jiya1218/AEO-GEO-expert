@@ -72,10 +72,23 @@ body {
     break-inside: avoid !important;
   }
 
-  th, td {
-    word-break: break-word !important;
+  th {
+    white-space: nowrap !important;
+    word-break: normal !important;
+    padding: 8px 10px !important;
+    text-align: left !important;
+  }
+
+  td {
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
     white-space: normal !important;
     padding: 8px 10px !important;
+  }
+
+  /* Hide interactive form inputs & select dropdowns in PDF */
+  input, select, textarea {
+    display: none !important;
   }
 
   .break-inside-avoid,

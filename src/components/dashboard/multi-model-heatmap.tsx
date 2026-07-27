@@ -172,8 +172,8 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
             </h3>
           </div>
 
-          {/* Interactive Filters Bar */}
-          <div className="flex flex-wrap items-center gap-2.5">
+          {/* Interactive Filters Bar (Hidden in PDF print) */}
+          <div className="flex flex-wrap items-center gap-2.5 no-print">
             {/* Search Input */}
             <div className="relative shrink-0">
               <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400" />
@@ -259,7 +259,7 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className={`border-b ${isDark ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600'} text-xs font-extrabold uppercase tracking-wider`}>
-                <th className="pb-3.5 px-4">Target Search Query / Prompt</th>
+                <th className="pb-3.5 px-4 min-w-[260px] w-1/3 whitespace-nowrap">Target Search Query / Prompt</th>
                 <th className="pb-3.5 px-4 min-w-[150px]">Category</th>
                 {TARGET_AI_MODELS.map(m => (
                   <th key={m.name} className="pb-3.5 px-3 text-center min-w-[120px]">
