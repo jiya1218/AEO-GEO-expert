@@ -229,27 +229,40 @@ async function discoverCompetitorsMultiModelConsensus(
   const apiKey = process.env.OPENROUTER_API_KEY || '';
 
   if (apiKey && !apiKey.includes('placeholder')) {
-    const contextStr = keywords.concat(title ? [title] : []).slice(0, 4).join(', ') || domain;
-    const prompt = `Target Domain: "${domain}"
-Industry / Product Niche: "${contextStr}"
+    // Build rich context from scraped page data
+    const contextParts = [title, description, ...keywords, ...headings.slice(0, 5)]
+      .filter(Boolean)
+      .join(', ');
+    const contextStr = contextParts || domain;
 
-Task: List the top 5 direct commercial competitor website domains for ${domain} in this industry.
-Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["competitor1.com", "competitor2.com", "competitor3.com", "competitor4.com", "competitor5.com"]). Do NOT include markdown code blocks or extra text.`;
+    const prompt = `Visit and analyze the website "${domain}" (${contextStr}).
 
+Identify the top 5 direct commercial competitor websites that sell the same products/services to the same target market.
+
+RULES:
+- Competitors must be real, active businesses in the EXACT same product/service niche as ${domain}.
+- Do NOT return SEO tools, website builders, search engines, or analytics platforms.
+- Do NOT return generic mega-corporations unless they truly compete in the same niche.
+- Return ONLY a valid JSON array of 5 competitor domain strings.
+Example: ["competitor1.com", "competitor2.com", "competitor3.com", "competitor4.com", "competitor5.com"]
+Do NOT include markdown code blocks, backticks, or extra text. Return ONLY the JSON array.`;
+
+    // Perplexity Sonar models have BUILT-IN web search (like ChatGPT's Bing search)
+    // They automatically search the web, visit websites, and return grounded answers
     const modelsToQuery = [
+      { id: 'perplexity/sonar-pro', name: 'Perplexity Pro' },
+      { id: 'perplexity/sonar', name: 'Perplexity' },
       { id: 'openai/gpt-4o', name: 'ChatGPT' },
       { id: 'google/gemini-2.0-flash-001', name: 'Gemini' },
-      { id: 'anthropic/claude-3.5-sonnet', name: 'Claude' },
-      { id: 'deepseek/deepseek-chat', name: 'DeepSeek' },
     ];
 
-    // Query all 4 AI models simultaneously in parallel
+    // Query all models simultaneously in parallel
     const modelResults = await Promise.all(
       modelsToQuery.map(async (m) => {
         try {
           const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
             method: 'POST',
-            signal: AbortSignal.timeout(15000),
+            signal: AbortSignal.timeout(20000), // 20s timeout for web search models
             headers: {
               'Authorization': `Bearer ${apiKey}`,
               'Content-Type': 'application/json',
@@ -260,18 +273,19 @@ Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["comp
               model: m.id,
               messages: [{ role: 'user', content: prompt }],
               temperature: 0.1,
-              max_tokens: 150,
+              max_tokens: 300,
             }),
           });
 
           if (res.ok) {
             const data = await res.json();
             const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
-            const jsonMatch = rawContent.match(/\[[\s\S]*\]/);
+            console.log(`[Competitor Discovery] ${m.name} raw response:`, rawContent.substring(0, 200));
+            const jsonMatch = rawContent.match(/\[[\s\S]*?\]/);
             if (jsonMatch) {
               const competitors: string[] = JSON.parse(jsonMatch[0]);
               if (Array.isArray(competitors)) {
-                return competitors.map(c => String(c).toLowerCase().trim());
+                return competitors.map(c => String(c).toLowerCase().trim().replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, ''));
               }
             }
           }
@@ -288,10 +302,11 @@ Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["comp
       targetNormalized,
       'semrush.com', 'ahrefs.com', 'similarweb.com',
       'shopify.com', 'wordpress.org', 'wix.com', 'squarespace.com',
-      'google.com', 'bing.com'
+      'google.com', 'bing.com', 'wikipedia.org', 'youtube.com',
+      'linkedin.com', 'facebook.com', 'twitter.com', 'instagram.com',
     ];
 
-    // Tally votes across all 4 models after normalizing each candidate domain
+    // Tally votes across all models after normalizing each candidate domain
     const voteMap: Record<string, number> = {};
     modelResults.flat().forEach(rawCandidate => {
       const c = normalizeCompetitorDomain(rawCandidate);
@@ -300,109 +315,21 @@ Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["comp
       }
     });
 
-    // Select the top 4 most common voted competitor domains
+    // Select the top 4 most voted competitor domains
     const sortedByConsensus = Object.entries(voteMap)
       .sort((a, b) => b[1] - a[1])
       .map(([compDomain]) => compDomain);
+
+    console.log(`[Competitor Discovery] Vote map for ${domain}:`, voteMap);
 
     if (sortedByConsensus.length >= 1) {
       return sortedByConsensus.slice(0, 4);
     }
   }
 
-  return deriveCompetitorsForDomain(domain, title, keywords);
-}
-
-function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
-  const text = (domain + ' ' + title + ' ' + keywords.join(' ')).toLowerCase();
-
-  // Heavy Engineering, Industrial Equipment, Machinery & Fabrication
-  if (text.includes('engineering') || text.includes('industrial') || text.includes('machinery') || text.includes('fabrication') || text.includes('vessel') || text.includes('heat exchanger') || text.includes('piping') || text.includes('equipment') || text.includes('shalimar')) {
-    return ['lnt.com', 'bhel.in', 'thermaxglobal.com', 'triveni-turbines.com'];
-  }
-
-  // Graphic Design & UI/UX Software Tools
-  if (text.includes('graphic design') || text.includes('ui design') || text.includes('ux design') || text.includes('figma') || text.includes('canva') || text.includes('photoshop')) {
-    return ['figma.com', 'canva.com', 'adobe.com'];
-  }
-
-  // OTT & Movie Video Streaming (Netflix, Prime Video, Hotstar, JioCinema, Disney+)
-  if (text.includes('netflix') || text.includes('hulu') || text.includes('disneyplus') || text.includes('hotstar') || text.includes('jiocinema') || text.includes('streaming') || text.includes('movie') || text.includes('show') || text.includes('hbomax') || text.includes('max.com')) {
-    return ['primevideo.com', 'hotstar.com', 'jiocinema.com', 'disneyplus.com'];
-  }
-
-  // Amazon & E-Commerce Marketplaces (Flipkart, Meesho, Myntra, Walmart, eBay)
-  if (text.includes('amazon') || text.includes('flipkart') || text.includes('meesho') || text.includes('ebay') || text.includes('walmart') || text.includes('target') || text.includes('alibaba') || text.includes('marketplace')) {
-    return ['flipkart.com', 'meesho.com', 'myntra.com', 'walmart.com'];
-  }
-
-  // Indian Traditional & Ethnic Clothing / Apparel / Sarees / Lehengas
-  if (text.includes('saree') || text.includes('sari') || text.includes('lehenga') || text.includes('kurta') || text.includes('sherwani') || text.includes('ethnic') || text.includes('traditional') || text.includes('anarkali') || text.includes('dupatta') || text.includes('salwar') || text.includes('bridal') || text.includes('ethnicwear') || text.includes('craftsvilla') || text.includes('manyavar') || text.includes('fabindia') || text.includes('biba') || text.includes('kalki')) {
-    return ['manyavar.com', 'fabindia.com', 'bibaindia.com', 'kalkifashion.com', 'perniaspopupshop.com'];
-  }
-
-  // General Indian Fashion & Apparel E-Commerce
-  if (text.includes('apparel') || text.includes('fashion') || text.includes('clothing') || text.includes('wear') || text.includes('boutique') || text.includes('garment') || text.includes('textile') || text.includes('myntra') || text.includes('ajio') || text.includes('nykaa')) {
-    return ['myntra.com', 'ajio.com', 'nykaafashion.com', 'tata-cliq.com'];
-  }
-
-  // Food Delivery, Quick Commerce & Dining
-  if (text.includes('swiggy') || text.includes('zomato') || text.includes('blinkit') || text.includes('zepto') || text.includes('ubereats') || text.includes('doordash') || text.includes('grubhub') || text.includes('food') || text.includes('restaurant') || text.includes('dining') || text.includes('grocery')) {
-    return ['zomato.com', 'blinkit.com', 'zepto.in'];
-  }
-
-  // Heavy Engineering, Industrial Equipment, Machinery & Fabrication
-  if (text.includes('engineering') || text.includes('industrial') || text.includes('machinery') || text.includes('fabrication') || text.includes('vessel') || text.includes('heat exchanger') || text.includes('piping') || text.includes('equipment') || text.includes('shalimar')) {
-    return ['lnt.com', 'bhel.in', 'thermaxglobal.com', 'triveni-turbines.com'];
-  }
-
-  // Ride Hailing & Transportation
-  if (text.includes('uber') || text.includes('lyft') || text.includes('ola') || text.includes('rapido') || text.includes('grab') || text.includes('taxi') || text.includes('ride')) {
-    return ['uber.com', 'lyft.com', 'ola.cabs'];
-  }
-
-  // Travel, Hotels & Flights
-  if (text.includes('booking') || text.includes('airbnb') || text.includes('expedia') || text.includes('makemytrip') || text.includes('agoda') || text.includes('hotel') || text.includes('flight') || text.includes('travel')) {
-    return ['booking.com', 'airbnb.com', 'expedia.com'];
-  }
-
-  // Payments, Checkout & Fintech
-  if (text.includes('payment') || text.includes('checkout') || text.includes('stripe') || text.includes('billing') || text.includes('fintech') || text.includes('revolut') || text.includes('wise') || text.includes('paypal')) {
-    return ['paypal.com', 'adyen.com', 'square.com'];
-  }
-
-  // AEO / GEO / Generative Engine & SEO Growth Platforms
-  if (text.includes('scalezix') || text.includes('aeo') || text.includes('geo') || text.includes('sitefire') || text.includes('solospider') || text.includes('citation') || text.includes('answer engine') || text.includes('visibility')) {
-    return ['sitefire.ai', 'profound.com', 'peperhorn.com', 'semrush.com'];
-  }
-
-  // SEO & Search Intelligence
-  if (text.includes('seo') || text.includes('backlink') || text.includes('serp')) {
-    return ['semrush.com', 'ahrefs.com', 'brightedge.com'];
-  }
-
-  // Project & Task Management
-  if (text.includes('jira') || text.includes('task') || text.includes('project') || text.includes('linear') || text.includes('productivity') || text.includes('asana') || text.includes('monday')) {
-    return ['jira.com', 'asana.com', 'monday.com'];
-  }
-
-  // Cloud & Web Hosting
-  if (text.includes('cloud') || text.includes('host') || text.includes('vercel') || text.includes('server') || text.includes('deploy') || text.includes('netlify')) {
-    return ['netlify.com', 'cloudflare.com', 'aws.amazon.com'];
-  }
-
-  // CRM & Sales Automation
-  if (text.includes('crm') || text.includes('sales') || text.includes('hubspot') || text.includes('lead') || text.includes('marketing') || text.includes('salesforce')) {
-    return ['salesforce.com', 'hubspot.com', 'zoho.com'];
-  }
-
-  // Design & Media
-  if (text.includes('design') || text.includes('ui') || text.includes('ux') || text.includes('figma') || text.includes('creative') || text.includes('canva')) {
-    return ['figma.com', 'canva.com', 'adobe.com'];
-  }
-
-  // Default fallback for general businesses
-  return ['walmart.com', 'ebay.com', 'target.com'];
+  // Minimal generic fallback — only if ALL API calls fail completely
+  const cleanName = domain.split('.')[0];
+  return [`${cleanName}-competitor1.com`, `${cleanName}-competitor2.com`];
 }
 
 function deriveKeywordsFromPageContext(domain: string, title: string = '', description: string = ''): string[] {
