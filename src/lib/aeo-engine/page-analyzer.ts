@@ -352,13 +352,13 @@ function deriveCompetitorsForDomain(domain: string, title: string = '', keywords
     return ['paypal.com', 'adyen.com', 'square.com'];
   }
 
-  // AEO / GEO / Generative Engine Platforms
-  if (text.includes('aeo') || text.includes('geo') || text.includes('sitefire') || text.includes('solospider') || text.includes('citation') || text.includes('answer engine') || text.includes('visibility')) {
-    return ['sitefire.ai', 'profound.com', 'peperhorn.com'];
+  // AEO / GEO / Generative Engine & SEO Growth Platforms
+  if (text.includes('scalezix') || text.includes('aeo') || text.includes('geo') || text.includes('sitefire') || text.includes('solospider') || text.includes('citation') || text.includes('answer engine') || text.includes('visibility')) {
+    return ['sitefire.ai', 'profound.com', 'peperhorn.com', 'semrush.com'];
   }
 
-  // SEO & Search Intelligence (Only return if website is explicitly SEO related)
-  if (text.includes('seo') || text.includes('scalezix') || text.includes('backlink') || text.includes('serp')) {
+  // SEO & Search Intelligence
+  if (text.includes('seo') || text.includes('backlink') || text.includes('serp')) {
     return ['semrush.com', 'ahrefs.com', 'brightedge.com'];
   }
 
