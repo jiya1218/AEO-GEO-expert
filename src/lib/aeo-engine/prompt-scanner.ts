@@ -80,29 +80,34 @@ export async function generateTargetPromptsWithAI(
     const keywordContext = keywords.length > 0 ? keywords.join(', ') : 'their core products and services';
     const competitorContext = competitors.length > 0 ? competitors.join(', ') : 'their main competitors';
 
-    const prompt = `You are an expert AEO/GEO prompt researcher. Visit and analyze the website "${domain}".
+    const prompt = `You are an expert AEO/GEO (Answer Engine Optimization / Generative Engine Optimization) prompt researcher.
 
-Known products/services keywords: ${keywordContext}
+Visit and analyze the website "${domain}".
+Known products/services: ${keywordContext}
 Known competitors: ${competitorContext}
-Brand name: ${brand}
+Brand name (for reference only): ${brand}
 
-Generate exactly ${count} realistic search prompts that real potential customers would type into ChatGPT, Gemini, Perplexity, or Claude when researching products/services in this EXACT business niche.
+Generate exactly ${count} realistic search prompts that real potential customers would type into ChatGPT, Gemini, Perplexity, or Claude when looking for the products/services that "${domain}" sells.
 
-PROMPT CATEGORIES TO COVER (distribute prompts across these):
-1. "product_search" — Specific product/service search queries (e.g. "best ball mill for cement industry", "industrial grinding mill manufacturers")
-2. "how_to" — Setup, comparison, and technical queries (e.g. "how to set up sulphur processing plant", "vertical grinding mill vs horizontal")
-3. "supplier_search" — Supplier/vendor research queries (e.g. "top rotary kiln manufacturers in India", "industrial drying equipment suppliers")
-4. "comparison" — Brand comparison queries mentioning ${brand} or competitors (e.g. "${brand} vs ${competitors[0] || 'competitor'} for grinding mills")
-5. "recommendation" — Expert recommendation queries (e.g. "best equipment for mineral processing plant", "most reliable cement machinery manufacturers")
+CRITICAL: THE WHOLE POINT OF AEO AUDITING IS TO TEST WHETHER THE BRAND GETS MENTIONED WHEN USERS SEARCH GENERICALLY.
+- At least 85% of prompts must be GENERIC INDUSTRY QUERIES that do NOT mention "${brand}" anywhere.
+- Only 2-3 prompts (max 15%) should be "comparison" category mentioning "${brand}" by name.
+
+PROMPT CATEGORIES (distribute ${count} prompts across these):
+1. "product_search" (30%) — Short specific product keyword queries, 2-5 words. Examples: "best oud perfume india", "long lasting fragrance for men", "ball mill for cement grinding"
+2. "how_to" (20%) — How-to, guides, and educational queries. Examples: "how to choose signature scent", "perfume layering techniques guide", "how to reduce grinding mill energy consumption"
+3. "discovery" (30%) — Product discovery, recommendation, and buying queries. Examples: "luxury perfume affordable price", "sweet gourmand scent recommendations", "fresh citrus fragrance for summer", "industrial drying systems efficiency"
+4. "comparison" (15%) — ONLY these may mention "${brand}" by name for head-to-head comparisons. Examples: "${brand} vs ${competitors[0] || 'competitor'}"
+5. "niche" (5%) — Very specific niche/attribute queries. Examples: "vanilla woody fragrance combinations", "perfume sillage and projection explained"
 
 CRITICAL RULES:
-- Every prompt MUST be highly specific to the actual products/services of "${domain}"
-- Use REAL industry terminology from the website (not generic words like "Products", "Equipment", "Services")
-- Prompts should sound like what a real buyer or engineer would actually search
-- Mix short keyword queries (2-5 words) and longer natural language questions
-- Do NOT use the year in every prompt
+- DO NOT include "${brand}" or "${domain}" in product_search, how_to, discovery, or niche prompts!
+- Prompts should be what REAL USERS actually search — natural, short, specific
+- Mix SHORT keyword queries (2-4 words like "best oud perfume india") with MEDIUM natural language queries (5-10 words)
+- Use the REAL product terminology from the website
+- Do NOT pad every prompt with "in Indian conditions" or "for Indian climate"
+- Do NOT use the year in prompts
 - Return ONLY a valid JSON array of objects with "text" and "category" keys.
-Example: [{"text": "best ball mill for cement grinding", "category": "product_search"}, {"text": "how to reduce grinding mill energy consumption", "category": "how_to"}]
 Do NOT include markdown code blocks, backticks, or extra text. Return ONLY the JSON array.`;
 
     // Try multiple models — Perplexity Sonar has web search for best results
@@ -145,8 +150,10 @@ Do NOT include markdown code blocks, backticks, or extra text. Return ONLY the J
                 'product_search': 'Product Search',
                 'how_to': 'How-To & Technical',
                 'supplier_search': 'Supplier Research',
+                'discovery': 'Discovery & Recommendation',
                 'comparison': 'Brand Comparison',
                 'recommendation': 'Expert Recommendation',
+                'niche': 'Niche & Attribute',
               };
               return parsed.slice(0, count).map(p => ({
                 text: p.text,
@@ -171,37 +178,32 @@ function generateFallbackPrompts(domain: string, brand: string, keywords: string
 
   const masterPromptsList: Array<{ text: string; category: string }> = [];
 
-  // Product Search prompts
-  masterPromptsList.push({ text: `best ${k[0]} manufacturers`, category: 'Product Search' });
-  if (k[1]) masterPromptsList.push({ text: `top ${k[1]} suppliers`, category: 'Product Search' });
-  if (k[2]) masterPromptsList.push({ text: `${k[2]} cost comparison`, category: 'Product Search' });
-  if (k[3]) masterPromptsList.push({ text: `reliable ${k[3]} providers`, category: 'Product Search' });
+  // Product Search prompts (NO brand name — tests generic visibility)
+  masterPromptsList.push({ text: `best ${k[0]}`, category: 'Product Search' });
+  if (k[1]) masterPromptsList.push({ text: `top ${k[1]} online`, category: 'Product Search' });
+  if (k[2]) masterPromptsList.push({ text: `${k[2]} recommendations`, category: 'Product Search' });
+  if (k[3]) masterPromptsList.push({ text: `affordable ${k[3]}`, category: 'Product Search' });
 
-  // How-To prompts
+  // How-To prompts (NO brand name)
   masterPromptsList.push({ text: `how to choose the right ${k[0]}`, category: 'How-To & Technical' });
-  if (k[1]) masterPromptsList.push({ text: `${k[1]} setup requirements`, category: 'How-To & Technical' });
-  if (k[2]) masterPromptsList.push({ text: `${k[2]} maintenance best practices`, category: 'How-To & Technical' });
-  if (k[3]) masterPromptsList.push({ text: `how to reduce ${k[3]} operating costs`, category: 'How-To & Technical' });
+  if (k[1]) masterPromptsList.push({ text: `${k[1]} buying guide`, category: 'How-To & Technical' });
+  if (k[2]) masterPromptsList.push({ text: `${k[2]} vs alternatives`, category: 'How-To & Technical' });
+  if (k[3]) masterPromptsList.push({ text: `${k[3]} tips for beginners`, category: 'How-To & Technical' });
 
-  // Supplier Research prompts
-  masterPromptsList.push({ text: `${k[0]} manufacturers in India`, category: 'Supplier Research' });
-  if (k[1]) masterPromptsList.push({ text: `${k[1]} equipment suppliers`, category: 'Supplier Research' });
+  // Discovery prompts (NO brand name)
+  masterPromptsList.push({ text: `${k[0]} for daily use`, category: 'Discovery & Recommendation' });
+  if (k[1]) masterPromptsList.push({ text: `best ${k[1]} under budget`, category: 'Discovery & Recommendation' });
+  if (k[2]) masterPromptsList.push({ text: `${k[2]} for gifting`, category: 'Discovery & Recommendation' });
+  masterPromptsList.push({ text: `most popular ${k[0]} brands`, category: 'Discovery & Recommendation' });
 
-  // Brand Comparison prompts
-  masterPromptsList.push({ text: `${targetBrand} vs ${c[0]} for ${k[0]}`, category: 'Brand Comparison' });
-  if (c[1]) masterPromptsList.push({ text: `${targetBrand} compared to ${c[1]}`, category: 'Brand Comparison' });
-  masterPromptsList.push({ text: `is ${targetBrand} good for ${k[0]}`, category: 'Brand Comparison' });
+  // Brand Comparison prompts (ONLY these mention brand — max 2-3)
+  masterPromptsList.push({ text: `${targetBrand} vs ${c[0]}`, category: 'Brand Comparison' });
+  if (c[1]) masterPromptsList.push({ text: `${targetBrand} vs ${c[1]}`, category: 'Brand Comparison' });
 
-  // Expert Recommendation prompts
-  masterPromptsList.push({ text: `most recommended ${k[0]} brands`, category: 'Expert Recommendation' });
-  if (k[1]) masterPromptsList.push({ text: `best ${k[1]} for commercial projects`, category: 'Expert Recommendation' });
-  masterPromptsList.push({ text: `top rated ${k[0]} companies`, category: 'Expert Recommendation' });
-
-  // Buyer Decision prompts
-  masterPromptsList.push({ text: `${k[0]} buyer guide`, category: 'Buyer Decision' });
-  if (k[1]) masterPromptsList.push({ text: `${k[1]} selection criteria`, category: 'Buyer Decision' });
-  masterPromptsList.push({ text: `which ${k[0]} company offers best warranty`, category: 'Buyer Decision' });
-  masterPromptsList.push({ text: `${k[0]} pricing and value comparison`, category: 'Buyer Decision' });
+  // Niche prompts (NO brand name)
+  if (k[1]) masterPromptsList.push({ text: `${k[0]} and ${k[1]} combinations`, category: 'Niche & Attribute' });
+  masterPromptsList.push({ text: `${k[0]} explained for beginners`, category: 'Niche & Attribute' });
+  masterPromptsList.push({ text: `best ${k[0]} for premium quality`, category: 'Niche & Attribute' });
 
   return masterPromptsList.slice(0, Math.min(count, masterPromptsList.length));
 }
