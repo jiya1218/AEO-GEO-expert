@@ -229,18 +229,8 @@ async function discoverCompetitorsMultiModelConsensus(
   const apiKey = process.env.OPENROUTER_API_KEY || '';
 
   if (apiKey && !apiKey.includes('placeholder')) {
-    const prompt = `Target Website Domain: "${domain}"
-Page Title: "${title}"
-Meta Description: "${description}"
-Context Keywords: "${keywords.concat(headings.slice(0, 5)).join(', ')}"
-
-Task: List the top 5 direct, real-world commercial competitor website domains for "${domain}".
-Product category, target audience, and market MUST match "${domain}".
-
-RULES:
-1. Do NOT return website builders, search engines, or SEO analytics tools (NEVER output shopify.com, wordpress.org, wix.com, google.com, semrush.com, ahrefs.com, similarweb.com) unless the target site itself is an SEO tool or website builder.
-2. Competitors MUST be real active commercial rivals.
-3. Return ONLY a valid JSON array of 5 clean competitor website domain strings (e.g. ["competitor1.com", "competitor2.com", "competitor3.com", "competitor4.com", "competitor5.com"]). Do NOT include markdown formatting or extra text.`;
+    const prompt = `List the top 5 direct competitor website domains for ${domain}.
+Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["competitor1.com", "competitor2.com", "competitor3.com", "competitor4.com", "competitor5.com"]). Do NOT include markdown code blocks or extra text.`;
 
     const modelsToQuery = [
       { id: 'openai/gpt-4o', name: 'ChatGPT' },
