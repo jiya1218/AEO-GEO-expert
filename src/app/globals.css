@@ -13,6 +13,24 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Animation delay utilities */
+.animation-delay-1000 { animation-delay: 1s !important; }
+.animation-delay-2000 { animation-delay: 2s !important; }
+.animation-delay-3000 { animation-delay: 3s !important; }
+.animation-delay-4000 { animation-delay: 4s !important; }
+.animation-delay-5000 { animation-delay: 5s !important; }
+
+/* Aurora light wave animation */
+@keyframes aurora {
+  0% { transform: translateX(-50%) translateY(-10%) rotate(-5deg); opacity: 0.3; }
+  50% { transform: translateX(30%) translateY(10%) rotate(5deg); opacity: 0.7; }
+  100% { transform: translateX(-50%) translateY(-10%) rotate(-5deg); opacity: 0.3; }
+}
+
+.animate-aurora {
+  animation: aurora 18s ease-in-out infinite;
+}
+
 @media print {
   @page {
     size: A4 portrait;
@@ -104,64 +122,4 @@ body {
   .screen-only {
     display: none !important;
   }
-}
-
-/* Ambient Animated AI Background Keyframes */
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(50px, -70px) scale(1.18);
-  }
-  66% {
-    transform: translate(-35px, 35px) scale(0.88);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
-}
-
-@keyframes float-particle {
-  0% {
-    transform: translateY(0px) translateX(0px);
-    opacity: 0.2;
-  }
-  50% {
-    transform: translateY(-90px) translateX(30px);
-    opacity: 0.85;
-  }
-  100% {
-    transform: translateY(-180px) translateX(-15px);
-    opacity: 0.15;
-  }
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.8;
-  }
-}
-
-.animate-blob {
-  animation: blob 18s ease-in-out infinite;
-}
-
-.animation-delay-2000 {
-  animation-delay: 3s;
-}
-
-.animation-delay-4000 {
-  animation-delay: 6s;
-}
-
-.animate-float-particle {
-  animation: float-particle linear infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 5s ease-in-out infinite;
 }
