@@ -14,7 +14,7 @@ import { AiBackground } from '@/components/ui/ai-background';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
   Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot,
-  TrendingUp, Building2, Cpu, Tag, Key, Zap, ExternalLink
+  TrendingUp, Building2, Cpu, Tag, Key, Zap, ExternalLink, Flame
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -530,7 +530,47 @@ export default function DashboardPage() {
 
               {/* TAB CONTENT 3: HEATMAP */}
               {activeTab === 'heatmap' && (
-                <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
+                <div className="space-y-6">
+                  <div className={`p-6 rounded-3xl border ${
+                    isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-md shadow-slate-200/50'
+                  } flex flex-col md:flex-row md:items-center justify-between gap-4`}>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border ${
+                          isDark ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-amber-50 text-amber-800 border-amber-200'
+                        }`}>
+                          <Flame className="w-3.5 h-3.5 inline mr-1 text-amber-400 fill-amber-400" /> AI Matrix Studio
+                        </span>
+                        <span className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} font-semibold`}>
+                          {activeAuditData.domain}
+                        </span>
+                      </div>
+                      <h2 className={`text-xl sm:text-2xl font-black ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                        AI Multi-Model Search Engine Heatmap Studio
+                      </h2>
+                      <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} font-medium mt-1`}>
+                        Evaluate brand recommendations across ChatGPT (GPT-4o), Google Gemini 2.5, Claude Sonnet 4, and DeepSeek V3.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-3 shrink-0">
+                      <div className={`px-4 py-2.5 rounded-2xl border text-center ${
+                        isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'
+                      }`}>
+                        <span className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider">Share of Voice</span>
+                        <span className="text-lg font-black text-cyan-400">{activeAuditData.metrics?.shareOfVoice ?? 0}%</span>
+                      </div>
+                      <div className={`px-4 py-2.5 rounded-2xl border text-center ${
+                        isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'
+                      }`}>
+                        <span className="block text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Prompts</span>
+                        <span className={`text-lg font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{activeAuditData.promptScans?.length ?? 0}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
+                </div>
               )}
 
               {/* TAB CONTENT 4: KEYWORDS & RESEARCH */}
