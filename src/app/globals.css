@@ -14,20 +14,84 @@ body {
 }
 
 @media print {
-  body {
+  @page {
+    size: A4 portrait;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+
+  html, body {
     background: #ffffff !important;
     color: #0f172a !important;
+    font-size: 11pt !important;
+    line-height: 1.4 !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
   }
-  .no-print, header, footer, form, .no-print-zone {
+
+  /* Hide interactive/non-report UI elements */
+  .no-print,
+  header,
+  footer,
+  form,
+  nav,
+  button,
+  .no-print-zone,
+  [role="dialog"] {
     display: none !important;
   }
+
+  /* Unclip text & containers */
+  * {
+    background-color: transparent !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  /* Keep borders crisp and subtle */
+  .border, div, tr, th, td {
+    border-color: #cbd5e1 !important;
+  }
+
+  /* Allow normal text wrapping for table cells & headers */
+  table {
+    width: 100% !important;
+    table-layout: auto !important;
+    border-collapse: collapse !important;
+    page-break-inside: auto !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  th, td {
+    word-break: break-word !important;
+    white-space: normal !important;
+    padding: 8px 10px !important;
+  }
+
+  /* Page break rules for report blocks */
+  .break-inside-avoid,
+  .rounded-2xl,
+  .rounded-3xl,
+  .card,
+  .report-section {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Print specific display toggles */
   .print-only {
     display: block !important;
   }
-  .shadow-xl, .shadow-2xl, .shadow-md {
-    box-shadow: none !important;
-  }
-  .border {
-    border-color: #cbd5e1 !important;
+
+  .screen-only {
+    display: none !important;
   }
 }

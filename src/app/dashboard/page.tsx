@@ -179,43 +179,33 @@ export default function DashboardPage() {
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         
-        {/* Sleek Hero & Search Control Card */}
+        {/* Sleek Hero & Search Input Controls Card (Hidden during print) */}
         <div className={`p-6 sm:p-8 rounded-3xl border ${
           isDark
-            ? 'bg-slate-900/90 border-slate-800 shadow-2xl shadow-cyan-950/20'
-            : 'bg-white border-slate-200 shadow-xl shadow-slate-200/50'
-        } backdrop-blur-xl transition-all relative overflow-hidden`}>
-          
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
-            <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
-                  isDark ? 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20' : 'bg-cyan-50 text-cyan-700 border border-cyan-200'
+            ? 'bg-slate-900/80 border-slate-800'
+            : 'bg-white border-slate-200/90 shadow-xl shadow-slate-900/5'
+        } backdrop-blur-xl no-print`}>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200/80 dark:border-slate-800/80">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border ${
+                  isDark ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' : 'bg-cyan-50 text-cyan-800 border-cyan-200'
                 }`}>
-                  <Zap className="w-3.5 h-3.5 fill-cyan-500 text-cyan-500" />
-                  Sitefire-Grade AEO/GEO Platform
+                  <Sparkles className="w-3 h-3 inline mr-1 text-cyan-500" /> Multi-LLM Engine
                 </span>
-                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${
-                  isDark ? 'bg-indigo-500/10 text-indigo-400 border border-indigo-500/20' : 'bg-indigo-50 text-indigo-700 border border-indigo-200'
-                }`}>
-                  <Cpu className="w-3.5 h-3.5" />
-                  4 AI Models Scanned
+                <span className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} font-semibold`}>
+                  Live Search Auditing
                 </span>
               </div>
-              <h1 className={`text-2xl sm:text-3xl font-black tracking-tight ${isDark ? 'text-white' : 'text-slate-950'}`}>
-                Analyze Any Website's AI Search Visibility
-              </h1>
-              <p className={`text-xs sm:text-sm ${isDark ? 'text-slate-400' : 'text-slate-600'} font-medium`}>
-                Simultaneously scan ChatGPT 4o, Gemini 2.0, Claude 3.5, and DeepSeek V3 for live share of voice and competitor rankings.
-              </p>
+              <h2 className={`text-xl sm:text-2xl font-black ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                Audit Any Domain in Real Time
+              </h2>
             </div>
 
-            {/* Prompt Count Pill Selector */}
-            <div className={`p-1.5 rounded-2xl border ${
-              isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-200'
-            } flex items-center gap-2 self-start lg:self-center shrink-0`}>
-              <span className={`text-xs font-bold px-2.5 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Prompts / Model:
+            {/* Prompt Count Selector */}
+            <div className="flex items-center gap-3">
+              <span className={`text-xs font-bold ${isDark ? 'text-slate-400' : 'text-slate-600'} shrink-0`}>
+                Prompts to Scan:
               </span>
               <div className="flex items-center gap-1">
                 {[3, 5, 10, 15, 20].map((count) => (
@@ -315,9 +305,9 @@ export default function DashboardPage() {
           </form>
         </div>
 
-        {/* Analyzed Websites Switcher Tabs */}
+        {/* Analyzed Websites Switcher Tabs (Hidden during print) */}
         {analyzedProjects.length > 0 && (
-          <div className="flex items-center gap-2 overflow-x-auto pb-1">
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 no-print">
             <span className={`text-xs font-bold ${isDark ? 'text-slate-400' : 'text-slate-600'} uppercase tracking-wider shrink-0 mr-1`}>
               Recent Audits:
             </span>
@@ -365,138 +355,238 @@ export default function DashboardPage() {
             </p>
           </div>
         ) : (
-          <div className="space-y-6">
-            {/* LAYER 1: Report Title & Action Buttons */}
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div>
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold ${
-                    isDark ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                  }`}>
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    Audit Complete: {activeAuditData.domain}
-                  </span>
-                  {activeAuditData.isQuickScan && (
-                    <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                      ⚡ Quick Scan
+          <>
+            {/* SCREEN VIEW (Hidden during PDF print) */}
+            <div className="space-y-6 print:hidden">
+              {/* LAYER 1: Report Title & Action Buttons */}
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold ${
+                      isDark ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                    }`}>
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      Audit Complete: {activeAuditData.domain}
                     </span>
-                  )}
+                    {activeAuditData.isQuickScan && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                        ⚡ Quick Scan
+                      </span>
+                    )}
+                  </div>
+                  <h2 className={`text-2xl sm:text-3xl font-black tracking-tight ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                    {activeAuditData.brandName} AI Search Visibility
+                  </h2>
                 </div>
-                <h2 className={`text-2xl sm:text-3xl font-black tracking-tight ${isDark ? 'text-white' : 'text-slate-950'}`}>
-                  {activeAuditData.brandName} AI Search Visibility
+
+                <div className="flex items-center gap-3">
+                  <ReportDownloadButton auditData={activeAuditData} isDark={isDark} />
+                </div>
+              </div>
+
+              {/* LAYER 2: Competitors Banner */}
+              <div className={`p-3.5 rounded-2xl border ${
+                isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-slate-100 border-slate-200'
+              } flex flex-wrap items-center gap-3 text-xs`}>
+                <span className={`font-bold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  Top Market Competitors:
+                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  {activeAuditData.autoDiscoveredCompetitors?.map((comp: string, cIdx: number) => {
+                    const href = comp.startsWith('http') ? comp : `https://${comp}`;
+                    return (
+                      <a
+                        key={cIdx}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`px-3 py-1 rounded-xl font-extrabold text-xs border transition-all flex items-center gap-1.5 hover:scale-105 ${
+                          isDark
+                            ? 'bg-slate-950 border-slate-800 text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 shadow-sm'
+                            : 'bg-white border-slate-300 text-cyan-700 hover:text-cyan-900 shadow-2xs hover:border-cyan-400'
+                        }`}
+                        title={`Visit ${comp} (opens in new tab)`}
+                      >
+                        <span>{comp}</span>
+                        <ExternalLink className="w-3 h-3 text-cyan-500 opacity-80" />
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* LAYER 3: Full-Width Clean Segmented Navigation Tab Bar */}
+              <div className={`p-1.5 rounded-2xl border ${
+                isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-200'
+              } flex items-center gap-1.5 overflow-x-auto text-xs font-bold no-print`}>
+                <button
+                  onClick={() => setActiveTab('overview')}
+                  className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
+                    activeTab === 'overview'
+                      ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
+                      : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                  }`}
+                >
+                  <TrendingUp className="w-4 h-4" /> Overview
+                </button>
+                
+                <button
+                  onClick={() => setActiveTab('crawler')}
+                  className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
+                    activeTab === 'crawler'
+                      ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
+                      : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                  }`}
+                >
+                  <Layers className="w-4 h-4" /> Site Crawler & Schema
+                </button>
+                
+                <button
+                  onClick={() => setActiveTab('heatmap')}
+                  className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
+                    activeTab === 'heatmap'
+                      ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
+                      : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                  }`}
+                >
+                  <Bot className="w-4 h-4 text-amber-400" /> AI Heatmap
+                </button>
+                
+                <button
+                  onClick={() => setActiveTab('keywords')}
+                  className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
+                    activeTab === 'keywords'
+                      ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
+                      : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                  }`}
+                >
+                  <Key className="w-4 h-4" /> Keywords
+                </button>
+                
+                <button
+                  onClick={() => setActiveTab('gaps')}
+                  className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
+                    activeTab === 'gaps'
+                      ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
+                      : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                  }`}
+                >
+                  <Target className="w-4 h-4" /> Gaps & GEO Briefs
+                </button>
+                
+                <button
+                  onClick={() => setActiveTab('citations')}
+                  className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
+                    activeTab === 'citations'
+                      ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
+                      : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                  }`}
+                >
+                  <Link2 className="w-4 h-4" /> Citations Map
+                </button>
+              </div>
+
+              {/* TAB CONTENT 1: OVERVIEW */}
+              {activeTab === 'overview' && (
+                <div className="space-y-8">
+                  <AeoScoreCard
+                    overallGeoScore={activeAuditData.metrics?.overallGeoScore ?? 0}
+                    schemaScore={activeAuditData.metrics?.schemaScore ?? 0}
+                    citationScore={activeAuditData.metrics?.citationScore ?? 0}
+                    entityScore={activeAuditData.metrics?.entityScore ?? 0}
+                    readabilityScore={activeAuditData.metrics?.readabilityScore ?? 0}
+                    shareOfVoice={activeAuditData.metrics?.shareOfVoice ?? 0}
+                    isDark={isDark}
+                  />
+
+                  {activeAuditData.pageAudit?.recommendations?.length > 0 && (
+                    <div className={`p-6 rounded-2xl border ${
+                      isDark ? 'bg-slate-900/80 border-cyan-500/30' : 'bg-white border-slate-200 shadow-md shadow-slate-200/50'
+                    }`}>
+                      <h3 className="text-sm font-extrabold text-cyan-600 uppercase tracking-wider mb-3 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-cyan-600" /> Top Actionable GEO Fixes for {activeAuditData.domain}
+                      </h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                        {activeAuditData.pageAudit.recommendations.map((rec: string, rIdx: number) => (
+                          <div key={rIdx} className={`p-3 rounded-xl border ${
+                            isDark ? 'bg-slate-950/60 border-slate-800 text-slate-200' : 'bg-sky-50/50 border-sky-200 text-slate-900 font-semibold'
+                          } flex items-start gap-2`}>
+                            <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
+                            <span>{rec}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
+                </div>
+              )}
+
+              {/* TAB CONTENT 2: CRAWLER & SCHEMA */}
+              {activeTab === 'crawler' && (
+                <SiteCrawlerView pageAudit={activeAuditData.pageAudit} isDark={isDark} />
+              )}
+
+              {/* TAB CONTENT 3: HEATMAP */}
+              {activeTab === 'heatmap' && (
+                <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
+              )}
+
+              {/* TAB CONTENT 4: KEYWORDS & RESEARCH */}
+              {activeTab === 'keywords' && (
+                <KeywordsResearchView
+                  domain={activeAuditData.domain}
+                  extractedKeywords={activeAuditData.autoDiscoveredKeywords || []}
+                  isDark={isDark}
+                />
+              )}
+
+              {/* TAB CONTENT 5: GAPS */}
+              {activeTab === 'gaps' && (
+                <GapAnalysisTable gaps={activeAuditData.gaps || []} isDark={isDark} />
+              )}
+
+              {/* TAB CONTENT 5: CITATIONS */}
+              {activeTab === 'citations' && (
+                <CitationList domain={activeAuditData.domain} isDark={isDark} />
+              )}
+            </div>
+
+            {/* DEDICATED FULL PRINT REPORT VIEW (Renders only when Export PDF / Print is active) */}
+            <div className="hidden print:block space-y-8">
+              {/* Executive Header */}
+              <div className="border-b border-slate-300 pb-4 mb-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h1 className="text-2xl font-black text-slate-900 uppercase tracking-tight">
+                      AEO / GEO Executive Audit Report
+                    </h1>
+                    <p className="text-sm font-bold text-slate-700 mt-1">
+                      Domain: <span className="text-cyan-700">{activeAuditData.domain}</span> | Brand: <span className="text-slate-900">{activeAuditData.brandName}</span>
+                    </p>
+                  </div>
+                  <div className="text-right text-xs font-semibold text-slate-600">
+                    <p>Generated: {new Date(activeAuditData.timestamp || Date.now()).toLocaleDateString()}</p>
+                    <p className="text-[10px] text-slate-500">AEO/GEO Expert Analytics</p>
+                  </div>
+                </div>
+
+                {activeAuditData.autoDiscoveredCompetitors?.length > 0 && (
+                  <div className="mt-3 text-xs flex items-center gap-2">
+                    <span className="font-bold text-slate-800">Analyzed Market Competitors:</span>
+                    <span className="font-semibold text-slate-700">
+                      {activeAuditData.autoDiscoveredCompetitors.join(', ')}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              {/* Section 1: Executive Scores */}
+              <div className="break-inside-avoid">
+                <h2 className="text-sm font-extrabold text-slate-900 border-b border-slate-300 pb-1 mb-3 uppercase tracking-wider">
+                  1. Executive AI Search Visibility Scores
                 </h2>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <ReportDownloadButton auditData={activeAuditData} isDark={isDark} />
-              </div>
-            </div>
-
-            {/* LAYER 2: Competitors Banner */}
-            <div className={`p-3.5 rounded-2xl border ${
-              isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-slate-100 border-slate-200'
-            } flex flex-wrap items-center gap-3 text-xs`}>
-              <span className={`font-bold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                Top Market Competitors:
-              </span>
-              <div className="flex flex-wrap items-center gap-2">
-                {activeAuditData.autoDiscoveredCompetitors?.map((comp: string, cIdx: number) => {
-                  const href = comp.startsWith('http') ? comp : `https://${comp}`;
-                  return (
-                    <a
-                      key={cIdx}
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`px-3 py-1 rounded-xl font-extrabold text-xs border transition-all flex items-center gap-1.5 hover:scale-105 ${
-                        isDark
-                          ? 'bg-slate-950 border-slate-800 text-cyan-400 hover:text-cyan-300 hover:border-cyan-500/50 shadow-sm'
-                          : 'bg-white border-slate-300 text-cyan-700 hover:text-cyan-900 shadow-2xs hover:border-cyan-400'
-                      }`}
-                      title={`Visit ${comp} (opens in new tab)`}
-                    >
-                      <span>{comp}</span>
-                      <ExternalLink className="w-3 h-3 text-cyan-500 opacity-80" />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* LAYER 3: Full-Width Clean Segmented Navigation Tab Bar */}
-            <div className={`p-1.5 rounded-2xl border ${
-              isDark ? 'bg-slate-900 border-slate-800' : 'bg-slate-100 border-slate-200'
-            } flex items-center gap-1.5 overflow-x-auto text-xs font-bold`}>
-              <button
-                onClick={() => setActiveTab('overview')}
-                className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'overview'
-                    ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                    : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                }`}
-              >
-                <TrendingUp className="w-4 h-4" /> Overview
-              </button>
-              
-              <button
-                onClick={() => setActiveTab('crawler')}
-                className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'crawler'
-                    ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                    : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                }`}
-              >
-                <Layers className="w-4 h-4" /> Site Crawler & Schema
-              </button>
-              
-              <button
-                onClick={() => setActiveTab('heatmap')}
-                className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'heatmap'
-                    ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                    : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                }`}
-              >
-                <Bot className="w-4 h-4 text-amber-400" /> AI Heatmap
-              </button>
-              
-              <button
-                onClick={() => setActiveTab('keywords')}
-                className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'keywords'
-                    ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                    : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                }`}
-              >
-                <Key className="w-4 h-4" /> Keywords
-              </button>
-              
-              <button
-                onClick={() => setActiveTab('gaps')}
-                className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'gaps'
-                    ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                    : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                }`}
-              >
-                <Target className="w-4 h-4" /> Gaps & GEO Briefs
-              </button>
-              
-              <button
-                onClick={() => setActiveTab('citations')}
-                className={`px-4 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                  activeTab === 'citations'
-                    ? 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                    : isDark ? 'text-slate-400 hover:text-white hover:bg-slate-950/50' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                }`}
-              >
-                <Link2 className="w-4 h-4" /> Citations Map
-              </button>
-            </div>
-
-            {/* TAB CONTENT 1: OVERVIEW */}
-            {activeTab === 'overview' && (
-              <div className="space-y-8">
                 <AeoScoreCard
                   overallGeoScore={activeAuditData.metrics?.overallGeoScore ?? 0}
                   schemaScore={activeAuditData.metrics?.schemaScore ?? 0}
@@ -504,62 +594,70 @@ export default function DashboardPage() {
                   entityScore={activeAuditData.metrics?.entityScore ?? 0}
                   readabilityScore={activeAuditData.metrics?.readabilityScore ?? 0}
                   shareOfVoice={activeAuditData.metrics?.shareOfVoice ?? 0}
-                  isDark={isDark}
+                  isDark={false}
                 />
-
-                {activeAuditData.pageAudit?.recommendations?.length > 0 && (
-                  <div className={`p-6 rounded-2xl border ${
-                    isDark ? 'bg-slate-900/80 border-cyan-500/30' : 'bg-white border-slate-200 shadow-md shadow-slate-200/50'
-                  }`}>
-                    <h3 className="text-sm font-extrabold text-cyan-600 uppercase tracking-wider mb-3 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-cyan-600" /> Top Actionable GEO Fixes for {activeAuditData.domain}
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                      {activeAuditData.pageAudit.recommendations.map((rec: string, rIdx: number) => (
-                        <div key={rIdx} className={`p-3 rounded-xl border ${
-                          isDark ? 'bg-slate-950/60 border-slate-800 text-slate-200' : 'bg-sky-50/50 border-sky-200 text-slate-900 font-semibold'
-                        } flex items-start gap-2`}>
-                          <CheckCircle2 className="w-4 h-4 text-cyan-600 shrink-0 mt-0.5" />
-                          <span>{rec}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
               </div>
-            )}
 
-            {/* TAB CONTENT 2: CRAWLER & SCHEMA */}
-            {activeTab === 'crawler' && (
-              <SiteCrawlerView pageAudit={activeAuditData.pageAudit} isDark={isDark} />
-            )}
+              {/* Section 2: Top Actionable GEO Fixes */}
+              {activeAuditData.pageAudit?.recommendations?.length > 0 && (
+                <div className="break-inside-avoid">
+                  <h2 className="text-sm font-extrabold text-slate-900 border-b border-slate-300 pb-1 mb-3 uppercase tracking-wider">
+                    2. Top Actionable GEO Optimization Fixes
+                  </h2>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    {activeAuditData.pageAudit.recommendations.map((rec: string, rIdx: number) => (
+                      <div key={rIdx} className="p-3 rounded-xl border border-slate-300 bg-slate-50 text-slate-900 font-semibold flex items-start gap-2">
+                        <span className="text-cyan-700 font-bold">•</span>
+                        <span>{rec}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-            {/* TAB CONTENT 3: HEATMAP */}
-            {activeTab === 'heatmap' && (
-              <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={isDark} />
-            )}
+              {/* Section 3: Full AI Search Visibility Matrix */}
+              <div className="break-inside-avoid">
+                <h2 className="text-sm font-extrabold text-slate-900 border-b border-slate-300 pb-1 mb-3 uppercase tracking-wider">
+                  3. Multi-Model AI Search Engine Evaluation Matrix
+                </h2>
+                <MultiModelHeatmap promptScans={activeAuditData.promptScans || []} isDark={false} />
+              </div>
 
-            {/* TAB CONTENT 4: KEYWORDS & RESEARCH */}
-            {activeTab === 'keywords' && (
-              <KeywordsResearchView
-                domain={activeAuditData.domain}
-                extractedKeywords={activeAuditData.autoDiscoveredKeywords || []}
-                isDark={isDark}
-              />
-            )}
+              {/* Section 4: Technical Site Crawler & Schema Markup */}
+              {activeAuditData.pageAudit && (
+                <div className="break-inside-avoid">
+                  <h2 className="text-sm font-extrabold text-slate-900 border-b border-slate-300 pb-1 mb-3 uppercase tracking-wider">
+                    4. Technical Site Crawler & Structured Schema Markup Analysis
+                  </h2>
+                  <SiteCrawlerView pageAudit={activeAuditData.pageAudit} isDark={false} />
+                </div>
+              )}
 
-            {/* TAB CONTENT 5: GAPS */}
-            {activeTab === 'gaps' && (
-              <GapAnalysisTable gaps={activeAuditData.gaps || []} isDark={isDark} />
-            )}
+              {/* Section 5: Target Search Keywords */}
+              {activeAuditData.autoDiscoveredKeywords?.length > 0 && (
+                <div className="break-inside-avoid">
+                  <h2 className="text-sm font-extrabold text-slate-900 border-b border-slate-300 pb-1 mb-3 uppercase tracking-wider">
+                    5. High-Intent Target Search Keywords
+                  </h2>
+                  <KeywordsResearchView
+                    domain={activeAuditData.domain}
+                    extractedKeywords={activeAuditData.autoDiscoveredKeywords || []}
+                    isDark={false}
+                  />
+                </div>
+              )}
 
-            {/* TAB CONTENT 5: CITATIONS */}
-            {activeTab === 'citations' && (
-              <CitationList domain={activeAuditData.domain} isDark={isDark} />
-            )}
-          </div>
+              {/* Section 6: High-Priority GEO Visibility Gaps */}
+              {activeAuditData.gaps?.length > 0 && (
+                <div className="break-inside-avoid">
+                  <h2 className="text-sm font-extrabold text-slate-900 border-b border-slate-300 pb-1 mb-3 uppercase tracking-wider">
+                    6. High-Priority GEO Visibility Opportunities & Gaps
+                  </h2>
+                  <GapAnalysisTable gaps={activeAuditData.gaps || []} isDark={false} />
+                </div>
+              )}
+            </div>
+          </>
         )}
       </main>
 
