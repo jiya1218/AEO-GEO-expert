@@ -229,7 +229,11 @@ async function discoverCompetitorsMultiModelConsensus(
   const apiKey = process.env.OPENROUTER_API_KEY || '';
 
   if (apiKey && !apiKey.includes('placeholder')) {
-    const prompt = `List the top 5 direct competitor website domains for ${domain}.
+    const contextStr = keywords.concat(title ? [title] : []).slice(0, 4).join(', ') || domain;
+    const prompt = `Target Domain: "${domain}"
+Industry / Product Niche: "${contextStr}"
+
+Task: List the top 5 direct commercial competitor website domains for ${domain} in this industry.
 Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["competitor1.com", "competitor2.com", "competitor3.com", "competitor4.com", "competitor5.com"]). Do NOT include markdown code blocks or extra text.`;
 
     const modelsToQuery = [
@@ -301,7 +305,7 @@ Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["comp
       .sort((a, b) => b[1] - a[1])
       .map(([compDomain]) => compDomain);
 
-    if (sortedByConsensus.length >= 2) {
+    if (sortedByConsensus.length >= 1) {
       return sortedByConsensus.slice(0, 4);
     }
   }
@@ -311,6 +315,16 @@ Return ONLY a valid JSON array of 5 clean competitor domain strings (e.g. ["comp
 
 function deriveCompetitorsForDomain(domain: string, title: string = '', keywords: string[] = []): string[] {
   const text = (domain + ' ' + title + ' ' + keywords.join(' ')).toLowerCase();
+
+  // Heavy Engineering, Industrial Equipment, Machinery & Fabrication
+  if (text.includes('engineering') || text.includes('industrial') || text.includes('machinery') || text.includes('fabrication') || text.includes('vessel') || text.includes('heat exchanger') || text.includes('piping') || text.includes('equipment') || text.includes('shalimar')) {
+    return ['lnt.com', 'bhel.in', 'thermaxglobal.com', 'triveni-turbines.com'];
+  }
+
+  // Graphic Design & UI/UX Software Tools
+  if (text.includes('graphic design') || text.includes('ui design') || text.includes('ux design') || text.includes('figma') || text.includes('canva') || text.includes('photoshop')) {
+    return ['figma.com', 'canva.com', 'adobe.com'];
+  }
 
   // OTT & Movie Video Streaming (Netflix, Prime Video, Hotstar, JioCinema, Disney+)
   if (text.includes('netflix') || text.includes('hulu') || text.includes('disneyplus') || text.includes('hotstar') || text.includes('jiocinema') || text.includes('streaming') || text.includes('movie') || text.includes('show') || text.includes('hbomax') || text.includes('max.com')) {
@@ -335,6 +349,11 @@ function deriveCompetitorsForDomain(domain: string, title: string = '', keywords
   // Food Delivery, Quick Commerce & Dining
   if (text.includes('swiggy') || text.includes('zomato') || text.includes('blinkit') || text.includes('zepto') || text.includes('ubereats') || text.includes('doordash') || text.includes('grubhub') || text.includes('food') || text.includes('restaurant') || text.includes('dining') || text.includes('grocery')) {
     return ['zomato.com', 'blinkit.com', 'zepto.in'];
+  }
+
+  // Heavy Engineering, Industrial Equipment, Machinery & Fabrication
+  if (text.includes('engineering') || text.includes('industrial') || text.includes('machinery') || text.includes('fabrication') || text.includes('vessel') || text.includes('heat exchanger') || text.includes('piping') || text.includes('equipment') || text.includes('shalimar')) {
+    return ['lnt.com', 'bhel.in', 'thermaxglobal.com', 'triveni-turbines.com'];
   }
 
   // Ride Hailing & Transportation
@@ -389,6 +408,9 @@ function deriveCompetitorsForDomain(domain: string, title: string = '', keywords
 function deriveKeywordsFromPageContext(domain: string, title: string = '', description: string = ''): string[] {
   const text = (domain + ' ' + title + ' ' + description).toLowerCase();
 
+  if (text.includes('engineering') || text.includes('industrial') || text.includes('machinery') || text.includes('fabrication') || text.includes('vessel') || text.includes('heat exchanger') || text.includes('piping') || text.includes('equipment') || text.includes('shalimar')) {
+    return ['Industrial Process Equipment', 'Heat Exchangers & Pressure Vessels', 'Heavy Engineering Fabrication', 'Industrial Piping Systems'];
+  }
   if (text.includes('scalezix') || text.includes('aeo') || text.includes('geo') || text.includes('seo') || text.includes('sitefire') || text.includes('marketing') || text.includes('growth') || text.includes('automation') || text.includes('visibility') || text.includes('agency')) {
     return ['AI Search Visibility', 'AEO & GEO Optimization', 'Growth Automation', 'Digital Performance'];
   }

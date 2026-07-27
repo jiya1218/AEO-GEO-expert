@@ -115,7 +115,7 @@ RULES:
           model: 'google/gemini-2.0-flash-001',
           messages: [{ role: 'user', content: prompt }],
           temperature: 0.2,
-          max_tokens: 600,
+          max_tokens: 3000,
         }),
       });
 
@@ -139,17 +139,40 @@ RULES:
 }
 
 function generateFallbackPrompts(domain: string, brand: string, keywords: string[], competitors: string[], count: number = 5) {
-  const mainKeyword = keywords[0] || 'products & services';
-  const secondKeyword = keywords[1] || 'leading choices';
-  const mainCompetitor = competitors[0] || 'top industry competitors';
+  const k1 = keywords[0] || 'products & services';
+  const k2 = keywords[1] || 'engineering solutions';
+  const k3 = keywords[2] || 'industrial equipment';
+  const k4 = keywords[3] || 'commercial systems';
+
+  const c1 = competitors[0] || 'top industry competitors';
+  const c2 = competitors[1] || 'leading manufacturers';
+  const c3 = competitors[2] || 'alternative providers';
   const targetBrand = brand || domain.split('.')[0].toUpperCase();
 
   const masterPromptsList = [
-    { text: `What are the top rated ${mainKeyword} brands in 2026?`, category: 'Category Leadership' },
-    { text: `How does ${targetBrand} compare to ${mainCompetitor} for ${mainKeyword}?`, category: 'Head-to-Head Comparison' },
-    { text: `What are the best alternatives to ${mainCompetitor} for ${mainKeyword}?`, category: 'Alternative Discovery' },
-    { text: `What are the most recommended ${secondKeyword} for quality and customer satisfaction?`, category: 'Expert Recommendation' },
-    { text: `Which ${mainKeyword} providers offer the highest value and best ratings?`, category: 'Buyer Decision Intent' },
+    { text: `What are the top rated ${k1} brands in 2026?`, category: 'Category Leadership' },
+    { text: `How does ${targetBrand} compare to ${c1} for ${k1}?`, category: 'Head-to-Head Comparison' },
+    { text: `What are the best alternatives to ${c1} for ${k1}?`, category: 'Alternative Discovery' },
+    { text: `What are the most recommended ${k2} options for quality and durability?`, category: 'Expert Recommendation' },
+    { text: `Which ${k1} manufacturers offer the highest value and best compliance?`, category: 'Buyer Decision Intent' },
+
+    { text: `Who are the leading suppliers for ${k2} in 2026?`, category: 'Category Leadership' },
+    { text: `How does ${targetBrand} compare to ${c2} in terms of pricing and performance?`, category: 'Head-to-Head Comparison' },
+    { text: `What are top-tier alternatives to ${c2} for ${k2}?`, category: 'Alternative Discovery' },
+    { text: `Which companies are top rated for ${k3} and custom solutions?`, category: 'Expert Recommendation' },
+    { text: `What is the most cost-effective provider for ${k3}?`, category: 'Buyer Decision Intent' },
+
+    { text: `What are the top choices for ${k3} for commercial projects?`, category: 'Category Leadership' },
+    { text: `Is ${targetBrand} better than ${c3} for ${k3}?`, category: 'Head-to-Head Comparison' },
+    { text: `What are the highest rated alternatives to ${c3} in ${k1}?`, category: 'Alternative Discovery' },
+    { text: `What are industry reviews saying about ${targetBrand} for ${k4}?`, category: 'Expert Recommendation' },
+    { text: `Which ${k4} companies offer the best support and warranty?`, category: 'Buyer Decision Intent' },
+
+    { text: `Who are the top 5 market leaders in ${k4}?`, category: 'Category Leadership' },
+    { text: `How does ${targetBrand} compare to ${c1} and ${c2} for ${k4}?`, category: 'Head-to-Head Comparison' },
+    { text: `What are the best high-performance alternatives to ${c1}?`, category: 'Alternative Discovery' },
+    { text: `Which ${k1} vendors have the highest safety and certification ratings?`, category: 'Expert Recommendation' },
+    { text: `Which ${k2} provider is recommended for fast delivery and scale?`, category: 'Buyer Decision Intent' },
   ];
 
   return masterPromptsList.slice(0, Math.min(count, masterPromptsList.length));
