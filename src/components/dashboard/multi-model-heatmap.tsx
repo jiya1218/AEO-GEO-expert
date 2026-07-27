@@ -64,7 +64,7 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
           <thead>
             <tr className={`border-b ${isDark ? 'border-slate-800 text-slate-400' : 'border-slate-200 text-slate-600'} text-xs font-bold uppercase tracking-wider`}>
               <th className="pb-3 px-4">Target Query / Prompt</th>
-              <th className="pb-3 px-4">Category</th>
+              <th className="pb-3 px-4 min-w-[170px] whitespace-nowrap">Category</th>
               {TARGET_AI_MODELS.map((m) => (
                 <th key={m.name} className="pb-3 px-3 text-center min-w-[100px]">
                   {m.label.split(' ')[0]}
@@ -98,9 +98,9 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                         </button>
                       </div>
                     </td>
-                    <td className="py-4 px-4">
-                      <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${
-                        isDark ? 'bg-slate-800 text-slate-300 border-slate-700' : 'bg-slate-100 text-slate-700 border-slate-300 shadow-2xs'
+                    <td className="py-4 px-4 whitespace-nowrap">
+                      <span className={`px-3 py-1 rounded-full text-xs font-extrabold whitespace-nowrap inline-block ${
+                        isDark ? 'bg-slate-800/90 text-slate-300 border-slate-700' : 'bg-slate-100/90 text-slate-800 border-slate-300 shadow-2xs'
                       } border`}>
                         {scan.category}
                       </span>

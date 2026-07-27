@@ -389,6 +389,9 @@ function deriveCompetitorsForDomain(domain: string, title: string = '', keywords
 function deriveKeywordsFromPageContext(domain: string, title: string = '', description: string = ''): string[] {
   const text = (domain + ' ' + title + ' ' + description).toLowerCase();
 
+  if (text.includes('scalezix') || text.includes('aeo') || text.includes('geo') || text.includes('seo') || text.includes('sitefire') || text.includes('marketing') || text.includes('growth') || text.includes('automation') || text.includes('visibility') || text.includes('agency')) {
+    return ['AI Search Visibility', 'AEO & GEO Optimization', 'Growth Automation', 'Digital Performance'];
+  }
   if (text.includes('amazon') || text.includes('ebay') || text.includes('walmart') || text.includes('marketplace')) {
     return ['Online Marketplace', 'E-Commerce Retail', 'Deals & Discounts', 'Global Shopping'];
   }
@@ -405,14 +408,20 @@ function deriveKeywordsFromPageContext(domain: string, title: string = '', descr
     return ['Payment Gateway', 'Online Checkout', 'Financial Services', 'Billing Platform'];
   }
 
-  const cleanDomain = domain.split('.')[0];
-  const titleWords = title.split(/\s+/).map(w => w.replace(/[^a-zA-Z]/g, '')).filter(w => w.length > 3).slice(0, 3);
+  const cleanDomain = domain.split('.')[0].toUpperCase();
+  const noiseRegex = /^(text|bg|font|px|py|p|m|mx|my|w|h|flex|grid|rounded|border|shadow|hover|dark|relative|absolute|overflow|items|justify|gap|min|max|col|row|leading|tracking|transition|duration|animate)/i;
+  
+  const titleWords = title
+    .split(/\s+/)
+    .map(w => w.replace(/[^a-zA-Z]/g, ''))
+    .filter(w => w.length > 3 && !noiseRegex.test(w))
+    .slice(0, 3);
   
   if (titleWords.length > 0) {
     return titleWords.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
   }
 
-  return [cleanDomain.toUpperCase(), 'Services & Solutions', 'Industry Platform', 'Commercial Products'];
+  return [cleanDomain, 'Services & Solutions', 'Industry Platform', 'Commercial Products'];
 }
 
 async function generateBaselineAudit(url: string, domain: string, userKeywords: string[], userCompetitors: string[]): Promise<PageGeoAuditResult> {
