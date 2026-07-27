@@ -89,31 +89,17 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
   });
 
   const bodyText = $('body').text().replace(/\s+/g, ' ');
-  const words = bodyText.split(' ').filter(w => w.length > 4);
-  const wordFreq: Record<string, number> = {};
-  words.forEach(w => {
-    const clean = w.toLowerCase().replace(/[^a-z0-9]/g, '');
-    if (clean && !['about', 'their', 'there', 'would', 'should', 'which', 'other', 'these', 'where'].includes(clean)) {
-      wordFreq[clean] = (wordFreq[clean] || 0) + 1;
-    }
-  });
 
-  const entityKeywords = Object.entries(wordFreq)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 8)
-    .map(([word]) => word.charAt(0).toUpperCase() + word.slice(1));
-
-  // AI Auto-Discovered Keywords & Competitors (Powered by GPT-4o & Gemini 2.0 Flash)
+  // AI-Powered Keyword Discovery: extracts specific multi-word industry terms
+  // e.g. "ball mill", "grinding equipment", "rotary kiln" instead of generic "Plant", "Equipment"
   const autoDiscoveredKeywords = userKeywords.length > 0 
     ? userKeywords 
-    : entityKeywords.length > 0 
-      ? entityKeywords.slice(0, 4) 
-      : deriveKeywordsFromPageContext(domain, title, description);
+    : await discoverKeywordsWithAI(domain, title, description, bodyText.slice(0, 2000), [...h1Tags, ...h2Tags]);
 
   const allHeadings = [...h1Tags, ...h2Tags];
   const autoDiscoveredCompetitors = userCompetitors.length > 0 
     ? userCompetitors 
-    : await discoverCompetitorsMultiModelConsensus(domain, title, description, entityKeywords, bodyText.slice(0, 1500), allHeadings);
+    : await discoverCompetitorsMultiModelConsensus(domain, title, description, autoDiscoveredKeywords, bodyText.slice(0, 2000), allHeadings);
 
   // 3. Calculate Scores (STRICT REAL CALCULATION)
   let schemaScore = 0;
@@ -133,7 +119,7 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
   readabilityScore = Math.min(100, readabilityScore);
 
   let citationScore = Math.min(100, (detectedSchemas.length * 20) + (h2Tags.length * 10));
-  let entityScore = Math.min(100, (entityKeywords.length * 10));
+  let entityScore = Math.min(100, (autoDiscoveredKeywords.length * 15));
 
   const overallGeoScore = Math.round((schemaScore * 0.35) + (citationScore * 0.25) + (entityScore * 0.2) + (readabilityScore * 0.2));
 
@@ -172,7 +158,7 @@ export async function analyzePageGeo(targetUrl: string, userKeywords: string[] =
     hasProductSchema,
     h1Tags,
     h2Tags,
-    entityKeywords,
+    entityKeywords: autoDiscoveredKeywords,
     autoDiscoveredKeywords,
     autoDiscoveredCompetitors,
     recommendations,
@@ -253,7 +239,7 @@ Do NOT include markdown code blocks, backticks, or extra text. Return ONLY the J
       { id: 'perplexity/sonar-pro', name: 'Perplexity Pro' },
       { id: 'perplexity/sonar', name: 'Perplexity' },
       { id: 'openai/gpt-4o', name: 'ChatGPT' },
-      { id: 'google/gemini-2.0-flash-001', name: 'Gemini' },
+      { id: 'google/gemini-2.5-flash', name: 'Gemini' },
     ];
 
     // Query all models simultaneously in parallel
@@ -333,38 +319,14 @@ Do NOT include markdown code blocks, backticks, or extra text. Return ONLY the J
 }
 
 function deriveKeywordsFromPageContext(domain: string, title: string = '', description: string = ''): string[] {
-  const text = (domain + ' ' + title + ' ' + description).toLowerCase();
-
-  if (text.includes('engineering') || text.includes('industrial') || text.includes('machinery') || text.includes('fabrication') || text.includes('vessel') || text.includes('heat exchanger') || text.includes('piping') || text.includes('equipment') || text.includes('shalimar')) {
-    return ['Industrial Process Equipment', 'Heat Exchangers & Pressure Vessels', 'Heavy Engineering Fabrication', 'Industrial Piping Systems'];
-  }
-  if (text.includes('scalezix') || text.includes('aeo') || text.includes('geo') || text.includes('seo') || text.includes('sitefire') || text.includes('marketing') || text.includes('growth') || text.includes('automation') || text.includes('visibility') || text.includes('agency')) {
-    return ['AI Search Visibility', 'AEO & GEO Optimization', 'Growth Automation', 'Digital Performance'];
-  }
-  if (text.includes('amazon') || text.includes('ebay') || text.includes('walmart') || text.includes('marketplace')) {
-    return ['Online Marketplace', 'E-Commerce Retail', 'Deals & Discounts', 'Global Shopping'];
-  }
-  if (text.includes('saree') || text.includes('sari') || text.includes('lehenga') || text.includes('kurta') || text.includes('ethnic') || text.includes('traditional') || text.includes('apparel') || text.includes('fashion') || text.includes('clothing') || text.includes('wear') || text.includes('garment')) {
-    return ['Indian Ethnic Wear', 'Traditional Clothing & Sarees', 'Apparel & Fashion', 'Designer Collection'];
-  }
-  if (text.includes('food') || text.includes('restaurant') || text.includes('dining') || text.includes('delivery') || text.includes('grocery')) {
-    return ['Food Delivery', 'Online Ordering', 'Restaurants & Dining', 'Quick Commerce'];
-  }
-  if (text.includes('travel') || text.includes('hotel') || text.includes('flight') || text.includes('stay') || text.includes('vacation')) {
-    return ['Hotels & Stays', 'Flight Booking', 'Travel Packages', 'Vacation Rentals'];
-  }
-  if (text.includes('payment') || text.includes('fintech') || text.includes('checkout') || text.includes('banking') || text.includes('billing')) {
-    return ['Payment Gateway', 'Online Checkout', 'Financial Services', 'Billing Platform'];
-  }
-
   const cleanDomain = domain.split('.')[0].toUpperCase();
   const noiseRegex = /^(text|bg|font|px|py|p|m|mx|my|w|h|flex|grid|rounded|border|shadow|hover|dark|relative|absolute|overflow|items|justify|gap|min|max|col|row|leading|tracking|transition|duration|animate)/i;
   
-  const titleWords = title
+  const titleWords = (title + ' ' + description)
     .split(/\s+/)
     .map(w => w.replace(/[^a-zA-Z]/g, ''))
     .filter(w => w.length > 3 && !noiseRegex.test(w))
-    .slice(0, 3);
+    .slice(0, 4);
   
   if (titleWords.length > 0) {
     return titleWords.map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase());
@@ -373,8 +335,89 @@ function deriveKeywordsFromPageContext(domain: string, title: string = '', descr
   return [cleanDomain, 'Services & Solutions', 'Industry Platform', 'Commercial Products'];
 }
 
+async function discoverKeywordsWithAI(
+  domain: string,
+  title: string = '',
+  description: string = '',
+  bodySnippet: string = '',
+  headings: string[] = []
+): Promise<string[]> {
+  const apiKey = process.env.OPENROUTER_API_KEY || '';
+
+  if (apiKey && !apiKey.includes('placeholder')) {
+    const pageContext = [title, description, ...headings.slice(0, 8)].filter(Boolean).join('\n');
+    const bodyContext = bodySnippet.slice(0, 1500);
+
+    const prompt = `Analyze the website "${domain}".
+
+Here is the scraped page content:
+Title: "${title}"
+Description: "${description}"
+Headings: ${headings.slice(0, 8).join(', ')}
+Body excerpt: "${bodyContext.slice(0, 800)}"
+
+Based on this content, extract the 6 most specific product/service keywords and industry terms that represent what this business actually sells or does.
+
+RULES:
+- Extract SPECIFIC multi-word industry terms (e.g. "ball mill", "grinding equipment", "rotary kiln", "mineral processing plant")
+- Do NOT return generic single words like "Equipment", "Plant", "Services", "Products"
+- Each keyword should be 2-4 words, highly specific to this business's actual products/services
+- Return ONLY a valid JSON array of 6 keyword strings.
+Example: ["ball mill", "grinding equipment", "rotary kiln", "mineral processing plant", "industrial dryer", "cement machinery"]
+Do NOT include markdown code blocks or extra text. Return ONLY the JSON array.`;
+
+    const modelsToTry = [
+      'perplexity/sonar-pro',
+      'perplexity/sonar',
+      'openai/gpt-4o',
+      'google/gemini-2.5-flash',
+    ];
+
+    for (const modelId of modelsToTry) {
+      try {
+        const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          signal: AbortSignal.timeout(18000),
+          headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://aeogeo.expert',
+            'X-Title': 'AEO/GEO Keyword Discovery Engine',
+          },
+          body: JSON.stringify({
+            model: modelId,
+            messages: [{ role: 'user', content: prompt }],
+            temperature: 0.1,
+            max_tokens: 300,
+          }),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const rawContent = data.choices?.[0]?.message?.content?.trim() || '';
+          console.log(`[Keyword Discovery] ${modelId} response:`, rawContent.substring(0, 200));
+          const jsonMatch = rawContent.match(/\[[\s\S]*?\]/);
+          if (jsonMatch) {
+            const keywords: string[] = JSON.parse(jsonMatch[0]);
+            if (Array.isArray(keywords) && keywords.length >= 3) {
+              return keywords.slice(0, 6).map(k => String(k).trim());
+            }
+          }
+        }
+      } catch (err) {
+        console.warn(`Keyword discovery failed for ${modelId}:`, err);
+      }
+    }
+  }
+
+  // Fallback: extract from page title and description
+  return deriveKeywordsFromPageContext(domain, title, description);
+}
+
 async function generateBaselineAudit(url: string, domain: string, userKeywords: string[], userCompetitors: string[]): Promise<PageGeoAuditResult> {
-  const autoKeywords = userKeywords.length > 0 ? userKeywords : deriveKeywordsFromPageContext(domain);
+  const autoKeywords = userKeywords.length > 0 
+    ? userKeywords 
+    : await discoverKeywordsWithAI(domain, domain, '', '', []);
   const autoCompetitors = userCompetitors.length > 0 
     ? userCompetitors 
     : await discoverCompetitorsMultiModelConsensus(domain, domain, '', autoKeywords);

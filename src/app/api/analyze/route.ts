@@ -4,7 +4,7 @@ import { runMultiModelScan } from '@/lib/aeo-engine/prompt-scanner';
 import { detectAeoGaps } from '@/lib/aeo-engine/gap-detector';
 import { createClient } from '@/lib/supabase/server';
 
-export const maxDuration = 60; // Expand Vercel serverless timeout limit to 60 seconds
+export const maxDuration = 120; // Expand Vercel serverless timeout for AI-powered keyword + competitor + prompt discovery
 
 export async function POST(req: Request) {
   try {
