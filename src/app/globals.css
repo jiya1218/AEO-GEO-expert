@@ -16,20 +16,22 @@ body {
 @media print {
   @page {
     size: A4 portrait;
-    margin: 15mm 15mm 15mm 15mm;
+    margin: 12mm 12mm 12mm 12mm;
   }
 
   html, body {
     background: #ffffff !important;
     color: #0f172a !important;
-    font-size: 11pt !important;
+    font-size: 10.5pt !important;
     line-height: 1.4 !important;
     width: 100% !important;
     height: auto !important;
     overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
-  /* Hide interactive/non-report UI elements */
+  /* Hide interactive UI elements, toasts, notifications, headers & footers */
   .no-print,
   header,
   footer,
@@ -37,31 +39,32 @@ body {
   nav,
   button,
   .no-print-zone,
-  [role="dialog"] {
+  [role="dialog"],
+  [data-sonner-toaster],
+  [data-sonner-toast],
+  [role="status"],
+  [role="alert"] {
     display: none !important;
   }
 
-  /* Unclip text & containers */
-  * {
-    background-color: transparent !important;
-    color: #0f172a !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
+  /* Force container un-clipping while preserving exact text & background colors */
+  div, section, article, table, tr, td, th {
     overflow: visible !important;
     max-height: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
 
-  /* Keep borders crisp and subtle */
-  .border, div, tr, th, td {
-    border-color: #cbd5e1 !important;
+  /* Clean subtle borders */
+  .border {
+    border-color: #e2e8f0 !important;
   }
 
-  /* Allow normal text wrapping for table cells & headers */
+  /* Table layout for PDF */
   table {
     width: 100% !important;
     table-layout: auto !important;
     border-collapse: collapse !important;
-    page-break-inside: auto !important;
   }
 
   tr {
@@ -75,18 +78,12 @@ body {
     padding: 8px 10px !important;
   }
 
-  /* Page break rules for report blocks */
   .break-inside-avoid,
-  .rounded-2xl,
-  .rounded-3xl,
-  .card,
   .report-section {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
-    margin-bottom: 1.5rem !important;
   }
 
-  /* Print specific display toggles */
   .print-only {
     display: block !important;
   }

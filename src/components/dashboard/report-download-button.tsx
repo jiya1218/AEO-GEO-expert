@@ -10,10 +10,7 @@ interface ReportDownloadButtonProps {
 
 export function ReportDownloadButton({ auditData, isDark = true }: ReportDownloadButtonProps) {
   const handlePrintPdf = () => {
-    toast.success('Preparing clean PDF report for print/export...');
-    setTimeout(() => {
-      window.print();
-    }, 300);
+    window.print();
   };
 
   const handleDownloadJson = () => {
