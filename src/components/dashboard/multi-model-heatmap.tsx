@@ -262,16 +262,16 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                 <th className="pb-3.5 px-4 min-w-[260px] w-1/3 whitespace-nowrap">Target Search Query / Prompt</th>
                 <th className="pb-3.5 px-4 min-w-[150px]">Category</th>
                 {TARGET_AI_MODELS.map(m => (
-                  <th key={m.name} className="pb-3.5 px-3 text-center min-w-[120px]">
+                  <th key={m.name} className="pb-3.5 px-3 text-center min-w-[130px] whitespace-nowrap">
                     <div className="flex flex-col items-center gap-0.5">
-                      <span>{m.label.split(' ')[0]}</span>
-                      <span className="text-[10px] text-slate-500 normal-case font-medium">
+                      <span className="whitespace-nowrap">{m.label.split(' ')[0]}</span>
+                      <span className="text-[10px] text-slate-500 normal-case font-medium whitespace-nowrap">
                         {m.label.replace(/^ChatGPT|^Google|^Claude|^DeepSeek/, '').trim()}
                       </span>
                     </div>
                   </th>
                 ))}
-                <th className="pb-3.5 px-4 text-right">Share of Voice</th>
+                <th className="pb-3.5 px-4 text-right min-w-[110px] whitespace-nowrap">Share of Voice</th>
               </tr>
             </thead>
 
@@ -319,7 +319,7 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
 
                         {/* Category Pill */}
                         <td className="py-4 px-4 whitespace-nowrap">
-                          <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold border ${
+                          <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold border whitespace-nowrap ${
                             isDark
                               ? 'bg-slate-950 text-slate-300 border-slate-800'
                               : 'bg-slate-100 text-slate-800 border-slate-300 shadow-2xs'
@@ -335,10 +335,10 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                           const isRank1 = res?.rankPosition === 1;
 
                           return (
-                            <td key={model.name} className="py-4 px-3 text-center">
+                            <td key={model.name} className="py-4 px-3 text-center whitespace-nowrap min-w-[130px]">
                               {isMentioned ? (
                                 <span
-                                  className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black transition-transform transform hover:scale-105 ${
+                                  className={`inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-black whitespace-nowrap transition-transform transform hover:scale-105 ${
                                     isRank1
                                       ? isDark
                                         ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shadow-sm shadow-emerald-500/10'
@@ -350,10 +350,10 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                                   title={res?.responseText?.substring(0, 150)}
                                 >
                                   <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                                  <span>{isRank1 ? '#1 Rank' : '#2+ Cited'}</span>
+                                  <span className="whitespace-nowrap">{isRank1 ? '#1 Rank' : '#2+ Cited'}</span>
                                 </span>
                               ) : (
-                                <span className={`inline-flex items-center justify-center px-3 py-1 rounded-xl text-xs font-bold ${
+                                <span className={`inline-flex items-center justify-center px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap ${
                                   isDark
                                     ? 'bg-slate-950/60 text-slate-500 border border-slate-800/80'
                                     : 'bg-slate-100 text-slate-600 border border-slate-300 font-bold'
@@ -366,9 +366,9 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
                         })}
 
                         {/* Share of Voice Column */}
-                        <td className="py-4 px-4 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <span className={`px-2.5 py-1 rounded-xl text-xs font-black border ${
+                        <td className="py-4 px-4 text-right whitespace-nowrap min-w-[110px]">
+                          <div className="flex items-center justify-end gap-2 whitespace-nowrap">
+                            <span className={`px-2.5 py-1 rounded-xl text-xs font-black border whitespace-nowrap ${
                               sov >= 75
                                 ? isDark ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40' : 'bg-emerald-100 text-emerald-950 border-emerald-300 font-black'
                                 : sov >= 25
