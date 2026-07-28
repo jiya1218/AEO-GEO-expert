@@ -116,28 +116,28 @@ export function AeoScoreCard({
         <div
           onClick={() => setActiveMetricModal('overall')}
           className={`p-6 rounded-3xl border ${
-            isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-lg shadow-slate-200/50 hover:border-cyan-400'
+            isDark ? 'bg-[#1B1C1F] border-white/10 hover-luxury-lift' : 'bg-white border-[#E5E3DF] shadow-lg hover:border-[#B87333]'
           } relative overflow-hidden backdrop-blur-2xl cursor-pointer transition-all duration-300 group`}
         >
           <div className="flex items-center justify-between">
-            <span className={`text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} uppercase tracking-wider`}>Overall GEO Score</span>
-            <Award className={`w-5 h-5 ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} group-hover:scale-110 transition-transform`} />
+            <span className={`text-xs font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} uppercase tracking-wider`}>Overall GEO Score</span>
+            <Award className={`w-5 h-5 ${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} group-hover:scale-110 transition-transform`} />
           </div>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className={`text-4xl font-black ${isDark ? 'gold-gradient-text' : `bg-gradient-to-r ${getScoreColor(safeOverallGeo)} bg-clip-text text-transparent`}`}>
+            <span className={`text-4xl font-black ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
               {safeOverallGeo}
             </span>
-            <span className={`${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'} text-sm font-semibold`}>/ 100</span>
+            <span className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-sm font-semibold`}>/ 100</span>
           </div>
-          <div className={`mt-3 w-full ${isDark ? 'bg-[#202020]' : 'bg-slate-100'} h-2 rounded-full overflow-hidden`}>
+          <div className={`mt-3 w-full ${isDark ? 'bg-[#121315]' : 'bg-[#F6F5F3]'} h-2 rounded-full overflow-hidden`}>
             <div
-              className={`h-full ${isDark ? 'bg-[#D4AF37]' : `bg-gradient-to-r ${getScoreColor(safeOverallGeo)}`} transition-all duration-1000`}
+              className={`h-full ${isDark ? 'bg-gradient-to-r from-[#B87333] to-[#C7A15A]' : 'bg-[#B87333]'} transition-all duration-1000`}
               style={{ width: `${safeOverallGeo}%` }}
             />
           </div>
-          <p className={`${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} text-xs font-medium mt-3 flex items-center justify-between`}>
+          <p className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-xs font-medium mt-3 flex items-center justify-between`}>
             <span>Direct Answer AI Readiness</span>
-            <span className={`${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
+            <span className={`${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
           </p>
         </div>
 
@@ -145,28 +145,28 @@ export function AeoScoreCard({
         <div
           onClick={() => setActiveMetricModal('sov')}
           className={`p-6 rounded-3xl border ${
-            isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-lg shadow-slate-200/50 hover:border-blue-400'
+            isDark ? 'bg-[#1B1C1F] border-white/10 hover-luxury-lift' : 'bg-white border-[#E5E3DF] shadow-lg hover:border-[#B87333]'
           } relative overflow-hidden backdrop-blur-2xl cursor-pointer transition-all duration-300 group`}
         >
           <div className="flex items-center justify-between">
-            <span className={`text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} uppercase tracking-wider`}>AI Share of Voice (SoV)</span>
-            <Zap className={`w-5 h-5 ${isDark ? 'text-[#D4AF37]' : 'text-blue-500'} group-hover:scale-110 transition-transform`} />
+            <span className={`text-xs font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} uppercase tracking-wider`}>AI Share of Voice (SoV)</span>
+            <Zap className={`w-5 h-5 ${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} group-hover:scale-110 transition-transform`} />
           </div>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className={`text-4xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{safeSoV}%</span>
-            <span className={`text-xs font-bold ${safeSoV > 0 ? (isDark ? 'text-[#D4AF37]' : 'text-emerald-600') : 'text-[#9E9E9E]'}`}>
+            <span className={`text-4xl font-black ${isDark ? 'text-white' : 'text-[#181818]'}`}>{safeSoV}%</span>
+            <span className={`text-xs font-bold ${safeSoV > 0 ? (isDark ? 'text-[#C7A15A]' : 'text-[#B87333]') : 'text-[#B7B7B5]'}`}>
               {safeSoV > 0 ? 'Organic Recommendations' : '0% Mentions'}
             </span>
           </div>
-          <div className={`mt-3 w-full ${isDark ? 'bg-[#202020]' : 'bg-slate-100'} h-2 rounded-full overflow-hidden`}>
+          <div className={`mt-3 w-full ${isDark ? 'bg-[#121315]' : 'bg-[#F6F5F3]'} h-2 rounded-full overflow-hidden`}>
             <div
-              className={`h-full ${isDark ? 'bg-[#D4AF37]' : 'bg-blue-500'} transition-all duration-1000`}
+              className={`h-full ${isDark ? 'bg-[#C7A15A]' : 'bg-[#B87333]'} transition-all duration-1000`}
               style={{ width: `${safeSoV}%` }}
             />
           </div>
-          <p className={`${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} text-xs font-medium mt-3 flex items-center justify-between`}>
+          <p className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-xs font-medium mt-3 flex items-center justify-between`}>
             <span>Percentage of LLM prompts citing brand</span>
-            <span className={`${isDark ? 'text-[#D4AF37]' : 'text-blue-500'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
+            <span className={`${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
           </p>
         </div>
 
@@ -174,26 +174,26 @@ export function AeoScoreCard({
         <div
           onClick={() => setActiveMetricModal('schema')}
           className={`p-6 rounded-3xl border ${
-            isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-lg shadow-slate-200/50 hover:border-purple-400'
+            isDark ? 'bg-[#1B1C1F] border-white/10 hover-luxury-lift' : 'bg-white border-[#E5E3DF] shadow-lg hover:border-[#B87333]'
           } relative overflow-hidden backdrop-blur-2xl cursor-pointer transition-all duration-300 group`}
         >
           <div className="flex items-center justify-between">
-            <span className={`text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} uppercase tracking-wider`}>JSON-LD Schema Score</span>
-            <Layers className={`w-5 h-5 ${isDark ? 'text-[#D4AF37]' : 'text-purple-500'} group-hover:scale-110 transition-transform`} />
+            <span className={`text-xs font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} uppercase tracking-wider`}>Schema Markup</span>
+            <Layers className={`w-5 h-5 ${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} group-hover:scale-110 transition-transform`} />
           </div>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className={`text-4xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{safeSchema}</span>
-            <span className={`${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'} text-sm font-semibold`}>/ 100</span>
+            <span className={`text-4xl font-black ${isDark ? 'text-white' : 'text-[#181818]'}`}>{safeSchema}</span>
+            <span className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-sm font-semibold`}>/ 100</span>
           </div>
-          <div className={`mt-3 w-full ${isDark ? 'bg-[#202020]' : 'bg-slate-100'} h-2 rounded-full overflow-hidden`}>
+          <div className={`mt-3 w-full ${isDark ? 'bg-[#121315]' : 'bg-[#F6F5F3]'} h-2 rounded-full overflow-hidden`}>
             <div
-              className={`h-full ${isDark ? 'bg-[#D4AF37]' : 'bg-purple-500'} transition-all duration-1000`}
+              className={`h-full ${isDark ? 'bg-[#B87333]' : 'bg-[#B87333]'} transition-all duration-1000`}
               style={{ width: `${safeSchema}%` }}
             />
           </div>
-          <p className={`${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} text-xs font-medium mt-3 flex items-center justify-between`}>
-            <span>FAQPage & Entity Schema coverage</span>
-            <span className={`${isDark ? 'text-[#D4AF37]' : 'text-purple-500'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
+          <p className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-xs font-medium mt-3 flex items-center justify-between`}>
+            <span>Structured Data Coverage</span>
+            <span className={`${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
           </p>
         </div>
 
@@ -201,26 +201,26 @@ export function AeoScoreCard({
         <div
           onClick={() => setActiveMetricModal('entity')}
           className={`p-6 rounded-3xl border ${
-            isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-lg shadow-slate-200/50 hover:border-emerald-400'
+            isDark ? 'bg-[#1B1C1F] border-white/10 hover-luxury-lift' : 'bg-white border-[#E5E3DF] shadow-lg hover:border-[#B87333]'
           } relative overflow-hidden backdrop-blur-2xl cursor-pointer transition-all duration-300 group`}
         >
           <div className="flex items-center justify-between">
-            <span className={`text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} uppercase tracking-wider`}>Entity & Readability</span>
-            <ShieldCheck className={`w-5 h-5 ${isDark ? 'text-[#D4AF37]' : 'text-emerald-500'} group-hover:scale-110 transition-transform`} />
+            <span className={`text-xs font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} uppercase tracking-wider`}>Entity & Structure</span>
+            <ShieldCheck className={`w-5 h-5 ${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} group-hover:scale-110 transition-transform`} />
           </div>
           <div className="mt-4 flex items-baseline gap-2">
-            <span className={`text-4xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>{safeEntity}</span>
-            <span className={`${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'} text-sm font-semibold`}>/ 100</span>
+            <span className={`text-4xl font-black ${isDark ? 'text-white' : 'text-[#181818]'}`}>{safeEntity}</span>
+            <span className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-sm font-semibold`}>/ 100</span>
           </div>
-          <div className={`mt-3 w-full ${isDark ? 'bg-[#202020]' : 'bg-slate-100'} h-2 rounded-full overflow-hidden`}>
+          <div className={`mt-3 w-full ${isDark ? 'bg-[#121315]' : 'bg-[#F6F5F3]'} h-2 rounded-full overflow-hidden`}>
             <div
-              className={`h-full ${isDark ? 'bg-[#D4AF37]' : 'bg-emerald-500'} transition-all duration-1000`}
+              className={`h-full ${isDark ? 'bg-[#C7A15A]' : 'bg-[#B87333]'} transition-all duration-1000`}
               style={{ width: `${safeEntity}%` }}
             />
           </div>
-          <p className={`${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} text-xs font-medium mt-3 flex items-center justify-between`}>
-            <span>Knowledge Graph vector density</span>
-            <span className={`${isDark ? 'text-[#D4AF37]' : 'text-emerald-500'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
+          <p className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-xs font-medium mt-3 flex items-center justify-between`}>
+            <span>Vector Entity Density</span>
+            <span className={`${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} text-[11px] font-bold group-hover:underline`}>View Breakdown →</span>
           </p>
         </div>
       </ScrollReveal>

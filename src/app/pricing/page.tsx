@@ -120,52 +120,55 @@ export default function PricingPage() {
   }, [selectedFaqCategory]);
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-300 ${isDark ? 'bg-[#0A0A0A] text-white' : 'bg-[#f8fafc] text-slate-900'}`}>
-      {/* Top Fixed Gold Scroll Progress Bar */}
+    <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-500 ${isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'}`}>
+      {/* Top Fixed Champagne Scroll Progress Bar */}
       <ScrollProgress />
 
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <nav className={`border-b ${isDark ? 'border-[#2A2A2A] bg-[#0A0A0A]/85' : 'border-slate-200/80 bg-white/80'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
+      <nav className={`border-b ${isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3.5 group">
-            <div className={`w-11 h-11 rounded-xl ${
-              isDark ? 'bg-gradient-to-tr from-[#C8A951] via-[#D4AF37] to-[#F5D76E] text-[#111111] shadow-lg shadow-[#D4AF37]/20' : 'bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20'
+            <div className={`w-11 h-11 rounded-2xl ${
+              isDark ? 'bg-gradient-to-tr from-[#B87333] to-[#C7A15A] text-[#111111] shadow-lg shadow-[#B87333]/20' : 'bg-[#B87333] text-white shadow-md'
             } flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
-              <Brain className="w-5 h-5" />
+              <Brain className="w-5.5 h-5.5" />
             </div>
-            <span className={`font-extrabold text-lg tracking-tight ${isDark ? 'gold-gradient-text' : 'text-slate-900'}`}>
-              TangentCore
-            </span>
+            <div className="flex flex-col">
+              <span className={`font-extrabold text-xl tracking-tight ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
+                TangentCore
+              </span>
+              <span className={`text-[10px] font-mono tracking-widest uppercase ${isDark ? 'text-[#B7B7B5]/60' : 'text-[#5C5C5C]/60'}`}>
+                Enterprise GEO Suite
+              </span>
+            </div>
           </Link>
 
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-6 text-xs font-semibold">
-              <Link href="/" className={`${isDark ? 'text-[#CFCFCF] hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
+            <div className="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wide">
+              <Link href="/" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
                 Home
               </Link>
-              <Link href="/pricing" className={`${isDark ? 'text-[#D4AF37] font-bold border-b-2 border-[#D4AF37]' : 'text-cyan-500 font-bold border-b-2 border-cyan-500'} py-1`}>
+              <Link href="/pricing" className={`${isDark ? 'text-[#C7A15A] font-extrabold border-b-2 border-[#C7A15A]' : 'text-[#B87333] font-extrabold border-b-2 border-[#B87333]'} py-1`}>
                 Pricing
               </Link>
-              <Link href="/dashboard" className={`${isDark ? 'text-[#CFCFCF] hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
+              <Link href="/dashboard" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
                 Dashboard
               </Link>
             </div>
 
             <button
               onClick={() => setIsDark(!isDark)}
-              className={`p-2.5 rounded-xl border ${isDark ? 'bg-[#181818] border-[#2A2A2A] text-[#D4AF37] hover:border-[#D4AF37]' : 'bg-slate-100 border-slate-300 text-slate-700'} transition-all text-xs font-semibold flex items-center gap-1.5`}
+              className={`p-2.5 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A]' : 'bg-white border-[#E5E3DF] text-[#B87333]'} transition-all text-xs font-bold flex items-center gap-2`}
             >
-              {isDark ? <Sun className="w-4 h-4 text-[#F5D76E]" /> : <Moon className="w-4 h-4" />}
-              <span className="hidden sm:inline">{isDark ? 'Light' : 'Dark'}</span>
+              {isDark ? <Sun className="w-4 h-4 text-[#C7A15A]" /> : <Moon className="w-4 h-4 text-[#B87333]" />}
+              <span className="hidden sm:inline text-[11px] uppercase tracking-wider">{isDark ? 'Light' : 'Dark'}</span>
             </button>
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl ${
-                isDark ? 'luxury-btn-primary' : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
-              } font-bold text-xs shadow-lg transition-all transform hover:-translate-y-0.5`}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-primary font-bold text-xs shadow-lg shadow-[#C7A15A]/20 transition-all"
             >
               <span>Get Started</span>
               <ArrowRight className="w-3.5 h-3.5" />

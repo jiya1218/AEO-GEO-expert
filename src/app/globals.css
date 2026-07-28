@@ -5,76 +5,92 @@
 @tailwind utilities;
 
 :root {
-  --background: #0A0A0A;
-  --foreground: #FFFFFF;
+  --background: #0B0B0C;
+  --foreground: #F6F6F4;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
 }
 
-/* Luxury Black & Gold Design System Utilities */
-.bg-matte-black { background-color: #0A0A0A; }
-.bg-matte-dark { background-color: #121212; }
-.bg-luxury-card { background-color: #181818; }
-.bg-luxury-elevated { background-color: #202020; }
+/* Luxury Bronze & Champagne Design System Utilities */
+.bg-obsidian { background-color: #0B0B0C; }
+.bg-surface-secondary { background-color: #121315; }
+.bg-surface-card { background-color: #1B1C1F; }
+.bg-surface-elevated { background-color: #242529; }
 
-.border-luxury-border { border-color: #2A2A2A; }
-.border-luxury-gold { border-color: #D4AF37; }
+/* Light mode background utilities */
+.bg-light-base { background-color: #FCFCFB; }
+.bg-light-alt { background-color: #F6F5F3; }
+.bg-light-card { background-color: #FFFFFF; }
 
-.text-gold-primary { color: #D4AF37; }
-.text-gold-hover { color: #F5D76E; }
-.text-gold-soft { color: #C8A951; }
-.text-paragraph { color: #CFCFCF; }
-.text-secondary-muted { color: #9E9E9E; }
+/* Color tokens */
+.border-obsidian-border { border-color: rgba(255, 255, 255, 0.08); }
+.border-bronze { border-color: #B87333; }
+.border-champagne { border-color: #C7A15A; }
 
-/* Metallic Gold Text Gradient */
-.gold-gradient-text {
-  background: linear-gradient(135deg, #FFFFFF 0%, #F5D76E 45%, #D4AF37 80%, #AA820A 100%);
+.text-bronze { color: #B87333; }
+.text-champagne { color: #C7A15A; }
+.text-primary-dark { color: #F6F6F4; }
+.text-secondary-dark { color: #B7B7B5; }
+.text-primary-light { color: #181818; }
+.text-secondary-light { color: #5C5C5C; }
+
+/* Refined Metallic Text Gradients */
+.champagne-gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5E8C7 35%, #C7A15A 70%, #9B7832 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-/* Gold CTA Button Styles */
-.luxury-btn-primary {
-  background-color: #D4AF37;
-  color: #111111;
-  font-weight: 600;
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.luxury-btn-primary:hover {
-  background-color: #F5D76E;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -6px rgba(212, 175, 55, 0.35);
+.bronze-gradient-text {
+  background: linear-gradient(135deg, #FFFFFF 0%, #E8C19D 35%, #B87333 70%, #7E4A19 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
+/* Button System */
+/* Primary CTA: Champagne #C7A15A background, #111111 text, rounded-2xl */
+.luxury-btn-primary {
+  background-color: #C7A15A;
+  color: #111111;
+  font-weight: 700;
+  border-radius: 16px;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.luxury-btn-primary:hover {
+  background-color: #D4B26F;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px -6px rgba(199, 161, 90, 0.4);
+}
+
+/* Secondary CTA: Transparent background, Bronze #B87333 border & text, rounded-2xl */
 .luxury-btn-secondary {
   background-color: transparent;
-  border: 1px solid #D4AF37;
-  color: #D4AF37;
-  font-weight: 600;
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  border: 1px solid #B87333;
+  color: #B87333;
+  font-weight: 700;
+  border-radius: 16px;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .luxury-btn-secondary:hover {
-  background-color: #D4AF37;
-  color: #111111;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -6px rgba(212, 175, 55, 0.3);
+  background-color: #B87333;
+  color: #FFFFFF;
+  transform: translateY(-3px);
+  box-shadow: 0 14px 35px -6px rgba(184, 115, 51, 0.35);
 }
 
 /* Luxury Card Hover Micro-Interactions */
 .hover-luxury-lift {
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.45s ease, box-shadow 0.45s ease;
 }
 .hover-luxury-lift:hover {
-  transform: translateY(-6px) scale(1.01);
-  border-color: #D4AF37 !important;
-  box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.16);
+  transform: translateY(-6px);
+  border-color: #B87333 !important;
+  box-shadow: 0 24px 48px -12px rgba(184, 115, 51, 0.18);
 }
 
 /* Animation delay utilities */

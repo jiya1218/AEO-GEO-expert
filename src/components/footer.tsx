@@ -22,41 +22,41 @@ export function Footer({ isDark = true }: FooterProps) {
   };
 
   return (
-    <footer className={`border-t ${isDark ? 'border-[#2A2A2A] bg-[#0A0A0A] text-[#CFCFCF]' : 'border-slate-200 bg-slate-50 text-slate-700'} pt-12 pb-6 transition-colors duration-300 relative z-10`}>
+    <footer className={`border-t ${isDark ? 'border-white/10 bg-[#0B0B0C] text-[#B7B7B5]' : 'border-[#E5E3DF] bg-[#FCFCFB] text-[#5C5C5C]'} pt-16 pb-8 transition-colors duration-500 relative z-10`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Main Footer Links Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 pb-8 border-b border-slate-800/40 dark:border-[#2A2A2A]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 pb-12 border-b border-white/10 dark:border-white/10">
           
           {/* Brand & Overview */}
           <div className="sm:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className={`w-9 h-9 rounded-xl ${
-                isDark ? 'bg-gradient-to-tr from-[#C8A951] via-[#D4AF37] to-[#F5D76E] text-[#111111] shadow-md shadow-[#D4AF37]/20' : 'bg-gradient-to-tr from-cyan-500 to-blue-600 text-white'
+            <div className="flex items-center gap-3.5">
+              <div className={`w-10 h-10 rounded-2xl ${
+                isDark ? 'bg-gradient-to-tr from-[#B87333] to-[#C7A15A] text-[#111111] shadow-lg shadow-[#B87333]/20' : 'bg-[#B87333] text-white shadow-md'
               } flex items-center justify-center`}>
                 <Brain className="w-5 h-5" />
               </div>
-              <span className={`font-extrabold text-lg ${isDark ? 'gold-gradient-text' : 'text-slate-900'}`}>
+              <span className={`font-extrabold text-xl ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
                 TangentCore
               </span>
             </div>
             
-            <p className={`text-xs ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} leading-relaxed max-w-sm`}>
+            <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} leading-relaxed max-w-sm`}>
               The enterprise standard for Generative Engine Optimization (GEO) & Answer Engine Optimization (AEO). Monitor, audit, and command brand citations across ChatGPT, Google Gemini, Claude, Perplexity, DeepSeek, and Grok.
             </p>
 
             {/* Live Operational Status Indicator */}
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-semibold ${isDark ? 'bg-[#181818] border border-[#2A2A2A] text-white' : 'bg-white border border-slate-200 text-slate-700'} shadow-sm`}>
+            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-mono font-bold ${isDark ? 'bg-[#121315] border border-white/10 text-white' : 'bg-[#F6F5F3] border border-[#E5E3DF] text-[#181818]'} shadow-sm`}>
               <span className="relative flex h-2 w-2">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${isDark ? 'bg-[#D4AF37]' : 'bg-emerald-400'} opacity-75`}></span>
-                <span className={`relative inline-flex rounded-full h-2 w-2 ${isDark ? 'bg-[#D4AF37]' : 'bg-emerald-500'}`}></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C7A15A] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C7A15A]"></span>
               </span>
               <span>All 6 LLM Scanners Operational</span>
             </div>
 
             {/* Social Links */}
             <div className="flex items-center gap-2.5 pt-1">
-              <a href="#" className={`p-2 rounded-lg ${isDark ? 'bg-[#181818] hover:bg-[#202020] text-[#9E9E9E] hover:text-white border border-[#2A2A2A]' : 'bg-white hover:bg-slate-200 text-slate-600 hover:text-slate-900'} transition-colors`} aria-label="Twitter">
+              <a href="#" className={`p-2 rounded-xl ${isDark ? 'bg-[#121315] hover:bg-[#242529] text-[#B7B7B5] hover:text-white border border-white/10' : 'bg-[#F6F5F3] hover:bg-[#E5E3DF] text-[#5C5C5C] hover:text-[#181818]'} transition-colors`} aria-label="Twitter">
                 <Twitter className="w-3.5 h-3.5" />
               </a>
               <a href="#" className={`p-2 rounded-lg ${isDark ? 'bg-[#181818] hover:bg-[#202020] text-[#9E9E9E] hover:text-white border border-[#2A2A2A]' : 'bg-white hover:bg-slate-200 text-slate-600 hover:text-slate-900'} transition-colors`} aria-label="GitHub">

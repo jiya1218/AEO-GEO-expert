@@ -95,16 +95,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} flex flex-col justify-center items-center relative overflow-hidden p-4 transition-colors duration-300`}>
+    <div className={`min-h-screen ${isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'} flex flex-col justify-center items-center relative overflow-hidden p-4 transition-colors duration-500`}>
       <AiBackground isDark={isDark} />
       {/* Theme Toggle Top Right */}
       <div className="absolute top-6 right-6 z-20">
         <button
           onClick={() => setIsDark(!isDark)}
-          className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800 text-amber-400' : 'bg-white border-slate-200 text-slate-700'} shadow-md transition-all flex items-center gap-2 text-xs font-semibold`}
+          className={`p-2.5 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A]' : 'bg-white border-[#E5E3DF] text-[#B87333]'} shadow-md transition-all flex items-center gap-2 text-xs font-bold`}
         >
           {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-          <span>{isDark ? 'Light Mode' : 'Dark Mode'}</span>
+          <span>{isDark ? 'Light' : 'Dark'}</span>
         </button>
       </div>
 
@@ -113,30 +113,30 @@ export default function LoginPage() {
         {/* Header Branding */}
         <div className="text-center mb-8">
           <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${
-            isDark ? 'bg-[#181818] border-[#2A2A2A] text-[#D4AF37]' : 'bg-white border-slate-200 text-cyan-600'
-          } border backdrop-blur-md mb-4 text-xs font-bold`}>
-            <Brain className="w-4 h-4 text-[#D4AF37] animate-pulse" />
+            isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#B87333]'
+          } border backdrop-blur-md mb-4 text-xs font-mono font-bold`}>
+            <Brain className="w-4 h-4 text-[#C7A15A] animate-pulse" />
             <span>TangentCore</span>
           </div>
-          <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
-            {isSignUp ? 'Create your Account' : 'Welcome back'}
+          <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'}`}>
+            {isSignUp ? 'Create your Account' : 'Welcome Back'}
           </h1>
-          <p className={`${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} text-sm mt-2 font-normal`}>
+          <p className={`${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} text-sm mt-2 font-normal`}>
             Analyze, monitor, and dominate AI search citations across ChatGPT, Gemini, Claude & Perplexity.
           </p>
         </div>
 
         {/* Card */}
         <div className={`${
-          isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-white border-slate-200/80 shadow-xl'
+          isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-2xl'
         } backdrop-blur-2xl border p-8 rounded-3xl`}>
           {/* Google OAuth Button */}
           <button
             onClick={handleGoogleOAuth}
             disabled={loading}
             className={`w-full flex items-center justify-center gap-3 ${
-              isDark ? 'bg-[#0A0A0A] hover:bg-[#202020] text-white border-[#2A2A2A] hover:border-[#D4AF37]' : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 border-slate-300'
-            } font-semibold py-3 px-4 rounded-2xl border transition-all shadow-sm group`}
+              isDark ? 'bg-[#121315] hover:bg-[#242529] text-white border-white/10 hover:border-[#C7A15A]' : 'bg-[#F6F5F3] hover:bg-[#E5E3DF] text-[#181818] border-[#E5E3DF]'
+            } font-bold py-3 px-4 rounded-2xl border transition-all shadow-sm group`}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -149,9 +149,9 @@ export default function LoginPage() {
 
           <div className="relative my-6 text-center">
             <div className="absolute inset-0 flex items-center">
-              <div className={`w-full border-t ${isDark ? 'border-[#2A2A2A]' : 'border-slate-200'}`} />
+              <div className={`w-full border-t ${isDark ? 'border-white/10' : 'border-[#E5E3DF]'}`} />
             </div>
-            <span className={`relative px-3 ${isDark ? 'bg-[#181818] text-[#9E9E9E]' : 'bg-white text-slate-400'} text-xs uppercase font-semibold`}>
+            <span className={`relative px-3 ${isDark ? 'bg-[#1B1C1F] text-[#B7B7B5]' : 'bg-white text-[#5C5C5C]'} text-xs font-mono uppercase font-bold`}>
               Or continue with email
             </span>
           </div>
@@ -159,34 +159,34 @@ export default function LoginPage() {
           {/* Email / Password Form */}
           <form onSubmit={handleEmailAuth} className="space-y-4">
             <div>
-              <label className={`block text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} mb-1.5 uppercase tracking-wider`}>
+              <label className={`block text-xs font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} mb-1.5 uppercase tracking-wider`}>
                 Email Address
               </label>
               <div className="relative">
-                <Mail className={`absolute left-3.5 top-3.5 h-4 w-4 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'}`} />
+                <Mail className={`absolute left-3.5 top-3.5 h-4 w-4 ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`} />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className={`w-full ${isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none transition-all`}
+                  className={`w-full ${isDark ? 'bg-[#121315] border-white/10 text-white placeholder-[#B7B7B5]/60 focus:border-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#181818] placeholder-[#5C5C5C]/60 focus:border-[#B87333]'} border rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none transition-all`}
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className={`block text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} mb-1.5 uppercase tracking-wider`}>
+              <label className={`block text-xs font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} mb-1.5 uppercase tracking-wider`}>
                 Password
               </label>
               <div className="relative">
-                <Lock className={`absolute left-3.5 top-3.5 h-4 w-4 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'}`} />
+                <Lock className={`absolute left-3.5 top-3.5 h-4 w-4 ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`} />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className={`w-full ${isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none transition-all`}
+                  className={`w-full ${isDark ? 'bg-[#121315] border-white/10 text-white placeholder-[#B7B7B5]/60 focus:border-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#181818] placeholder-[#5C5C5C]/60 focus:border-[#B87333]'} border rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none transition-all`}
                   required
                 />
               </div>
@@ -195,12 +195,10 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full mt-2 ${
-                isDark ? 'luxury-btn-primary' : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
-              } font-bold py-3 px-4 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 group`}
+              className="w-full mt-2 luxury-btn-primary font-bold py-3.5 px-4 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 group text-xs"
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-[#111111] border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
                   <span>{isSignUp ? 'Sign Up' : 'Sign In'}</span>
@@ -214,24 +212,24 @@ export default function LoginPage() {
           <div className="mt-6 text-center space-y-3">
             <button
               onClick={() => setIsSignUp(!isSignUp)}
-              className={`text-xs ${isDark ? 'text-[#CFCFCF] hover:text-[#D4AF37]' : 'text-slate-600 hover:text-cyan-600'} transition-colors font-medium`}
+              className={`text-xs ${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors font-medium`}
             >
               {isSignUp ? (
-                <>Already have an account? <span className={`${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} underline font-bold`}>Sign In</span></>
+                <>Already have an account? <span className={`${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} underline font-bold`}>Sign In</span></>
               ) : (
-                <>Don't have an account? <span className={`${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} underline font-bold`}>Create one</span></>
+                <>Don't have an account? <span className={`${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} underline font-bold`}>Create one</span></>
               )}
             </button>
 
-            <div className={`pt-3 border-t ${isDark ? 'border-[#2A2A2A]' : 'border-slate-200/80'}`}>
+            <div className={`pt-3 border-t ${isDark ? 'border-white/10' : 'border-[#E5E3DF]'}`}>
               <button
                 type="button"
                 onClick={handleGuestDemoAccess}
                 className={`w-full py-2.5 px-4 rounded-2xl border ${
-                  isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white hover:border-[#D4AF37] hover:text-[#D4AF37]' : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
+                  isDark ? 'bg-[#121315] border-white/10 text-white hover:border-[#C7A15A] hover:text-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#181818] hover:bg-[#E5E3DF]'
                 } text-xs font-bold transition-all flex items-center justify-center gap-1.5`}
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <Sparkles className="w-3.5 h-3.5 text-[#C7A15A]" />
                 <span>Instant Demo Access (Skip Login)</span>
               </button>
             </div>

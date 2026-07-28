@@ -163,51 +163,36 @@ export default function DashboardPage() {
                 {userEmail}
               </span>
             )}
-
-            <button
-              onClick={handleLogout}
-              className={`p-2 rounded-xl border ${
-                isDark
-                  ? 'bg-[#181818] border-[#2A2A2A] text-[#9E9E9E] hover:text-white hover:border-[#D4AF37]'
-                  : 'bg-slate-100 border-slate-300 text-slate-700 hover:text-slate-900'
-              } transition-all`}
-              title="Sign Out"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
           </div>
         </div>
       </header>
 
-      {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         
-        {/* Sleek Hero & Search Input Controls Card (Hidden during print) */}
         <ScrollReveal variant="fadeUp" duration={0.5} className={`p-6 sm:p-8 rounded-3xl border ${
           isDark
-            ? 'bg-[#181818] border-[#2A2A2A]'
-            : 'bg-white border-slate-200/90 shadow-xl shadow-slate-900/5'
+            ? 'bg-[#1B1C1F] border-white/10'
+            : 'bg-white border-[#E5E3DF] shadow-xl'
         } backdrop-blur-2xl no-print`}>
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200/80 dark:border-[#2A2A2A]">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/10 dark:border-white/10">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className={`px-3 py-0.5 rounded-full text-[11px] font-extrabold border ${
-                  isDark ? 'bg-[#121212] text-[#D4AF37] border-[#D4AF37]/30' : 'bg-cyan-50 text-cyan-800 border-cyan-200'
+                <span className={`px-3 py-0.5 rounded-full text-[11px] font-mono font-bold border ${
+                  isDark ? 'bg-[#121315] text-[#C7A15A] border-[#C7A15A]/30' : 'bg-[#F6F5F3] text-[#B87333] border-[#B87333]/30'
                 }`}>
-                  <Sparkles className="w-3 h-3 inline mr-1 text-[#D4AF37]" /> Multi-LLM Engine
+                  <Sparkles className="w-3 h-3 inline mr-1 text-[#C7A15A]" /> Multi-LLM Engine
                 </span>
-                <span className={`text-xs ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'} font-semibold`}>
+                <span className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} font-semibold`}>
                   Live Search Auditing
                 </span>
               </div>
-              <h2 className={`text-xl sm:text-2xl font-black ${isDark ? 'text-white' : 'text-slate-950'}`}>
+              <h2 className={`text-xl sm:text-2xl font-black ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'}`}>
                 Audit Any Domain in Real Time
               </h2>
             </div>
 
-            {/* Prompt Count Selector */}
             <div className="flex items-center gap-3">
-              <span className={`text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} shrink-0`}>
+              <span className={`text-xs font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} shrink-0`}>
                 Prompts to Scan:
               </span>
               <div className="flex items-center gap-1.5">
@@ -216,14 +201,14 @@ export default function DashboardPage() {
                     key={count}
                     type="button"
                     onClick={() => setSelectedPromptCount(count)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all ${
+                    className={`px-3 py-1.5 rounded-xl text-xs font-mono font-bold transition-all ${
                       selectedPromptCount === count
                         ? isDark
-                          ? 'bg-[#D4AF37] text-[#111111] font-extrabold shadow-md shadow-[#D4AF37]/20'
-                          : 'bg-cyan-600 text-white shadow-md shadow-cyan-600/30'
+                          ? 'bg-[#C7A15A] text-[#111111] shadow-md'
+                          : 'bg-[#B87333] text-white shadow-md'
                         : isDark
-                        ? 'text-[#9E9E9E] hover:text-white hover:bg-[#202020]'
-                        : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                        ? 'text-[#B7B7B5] hover:text-white hover:bg-[#242529]'
+                        : 'text-[#5C5C5C] hover:text-[#181818] hover:bg-[#F6F5F3]'
                     }`}
                   >
                     {count}
@@ -236,7 +221,7 @@ export default function DashboardPage() {
           <form onSubmit={handleRunAnalysis} className="mt-6">
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
               <div className="relative sm:col-span-6">
-                <Globe className={`absolute left-4 top-3.5 h-4 w-4 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'}`} />
+                <Globe className={`absolute left-4 top-3.5 h-4 w-4 ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`} />
                 <input
                   type="text"
                   value={targetDomainInput}
@@ -245,14 +230,14 @@ export default function DashboardPage() {
                   required
                   className={`w-full ${
                     isDark
-                      ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]'
-                      : 'bg-slate-50 border-slate-200 text-slate-900 font-semibold placeholder-slate-400 focus:border-cyan-600 shadow-xs'
+                      ? 'bg-[#121315] border-white/10 text-[#F6F6F4] placeholder-[#B7B7B5]/60 focus:border-[#C7A15A]'
+                      : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#181818] placeholder-[#5C5C5C]/60 focus:border-[#B87333]'
                   } border rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm focus:outline-none transition-all`}
                 />
               </div>
               
               <div className="relative sm:col-span-3">
-                <Building2 className={`absolute left-4 top-3.5 h-4 w-4 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'}`} />
+                <Building2 className={`absolute left-4 top-3.5 h-4 w-4 ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`} />
                 <input
                   type="text"
                   value={targetBrandInput}
@@ -260,8 +245,8 @@ export default function DashboardPage() {
                   placeholder="Brand Name (Optional)"
                   className={`w-full ${
                     isDark
-                      ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]'
-                      : 'bg-slate-50 border-slate-200 text-slate-900 font-semibold placeholder-slate-400 focus:border-cyan-600 shadow-xs'
+                      ? 'bg-[#121315] border-white/10 text-[#F6F6F4] placeholder-[#B7B7B5]/60 focus:border-[#C7A15A]'
+                      : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#181818] placeholder-[#5C5C5C]/60 focus:border-[#B87333]'
                   } border rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm focus:outline-none transition-all`}
                 />
               </div>
@@ -394,9 +379,9 @@ export default function DashboardPage() {
               </div>
               {/* LAYER 2: Competitors Banner */}
               <div className={`p-4 rounded-2xl border ${
-                isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-slate-100 border-slate-200'
+                isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
               } flex flex-wrap items-center gap-3 text-xs`}>
-                <span className={`font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'}`}>
+                <span className={`font-mono font-bold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
                   Top Market Competitors:
                 </span>
                 <div className="flex flex-wrap items-center gap-2">
@@ -408,15 +393,15 @@ export default function DashboardPage() {
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`px-3.5 py-1.5 rounded-xl font-extrabold text-xs border transition-all flex items-center gap-1.5 ${
+                        className={`px-3.5 py-1.5 rounded-xl font-mono font-bold text-xs border transition-all flex items-center gap-1.5 ${
                           isDark
-                            ? 'bg-[#0A0A0A] border-[#2A2A2A] text-[#D4AF37] hover:border-[#D4AF37] hover:text-[#F5D76E] shadow-sm'
-                            : 'bg-white border-slate-300 text-cyan-700 hover:text-cyan-900 shadow-2xs hover:border-cyan-400'
+                            ? 'bg-[#121315] border-white/10 text-[#C7A15A] hover:border-[#C7A15A] hover:text-[#F6F6F4] shadow-sm'
+                            : 'bg-white border-[#E5E3DF] text-[#B87333] hover:text-[#181818]'
                         }`}
                         title={`Visit ${comp} (opens in new tab)`}
                       >
                         <span>{comp}</span>
-                        <ExternalLink className="w-3 h-3 text-[#D4AF37] opacity-80" />
+                        <ExternalLink className="w-3 h-3 text-[#C7A15A]" />
                       </a>
                     );
                   })}
@@ -425,16 +410,16 @@ export default function DashboardPage() {
 
               {/* LAYER 3: Full-Width Clean Segmented Navigation Tab Bar */}
               <ScrollReveal variant="fadeUp" delay={0.1} duration={0.45} className={`p-1.5 rounded-2xl border ${
-                isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-slate-100 border-slate-200'
+                isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
               } flex items-center gap-1.5 overflow-x-auto text-xs font-bold no-print`}>
                 <button
                   onClick={() => setActiveTab('overview')}
                   className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
                     activeTab === 'overview'
                       ? isDark
-                        ? 'bg-[#D4AF37] text-[#111111] font-black shadow-md shadow-[#D4AF37]/20'
-                        : 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                      : isDark ? 'text-[#9E9E9E] hover:text-white hover:bg-[#202020]' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                        ? 'bg-[#C7A15A] text-[#111111] font-black shadow-md'
+                        : 'bg-[#B87333] text-white font-black shadow-md'
+                      : isDark ? 'text-[#B7B7B5] hover:text-white hover:bg-[#242529]' : 'text-[#5C5C5C] hover:text-[#181818] hover:bg-white'
                   }`}
                 >
                   <TrendingUp className="w-4 h-4" /> Overview
@@ -445,9 +430,9 @@ export default function DashboardPage() {
                   className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
                     activeTab === 'crawler'
                       ? isDark
-                        ? 'bg-[#D4AF37] text-[#111111] font-black shadow-md shadow-[#D4AF37]/20'
-                        : 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                      : isDark ? 'text-[#9E9E9E] hover:text-white hover:bg-[#202020]' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                        ? 'bg-[#C7A15A] text-[#111111] font-black shadow-md'
+                        : 'bg-[#B87333] text-white font-black shadow-md'
+                      : isDark ? 'text-[#B7B7B5] hover:text-white hover:bg-[#242529]' : 'text-[#5C5C5C] hover:text-[#181818] hover:bg-white'
                   }`}
                 >
                   <Layers className="w-4 h-4" /> Site Crawler & Schema
@@ -458,9 +443,9 @@ export default function DashboardPage() {
                   className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
                     activeTab === 'heatmap'
                       ? isDark
-                        ? 'bg-[#D4AF37] text-[#111111] font-black shadow-md shadow-[#D4AF37]/20'
-                        : 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                      : isDark ? 'text-[#9E9E9E] hover:text-white hover:bg-[#202020]' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
+                        ? 'bg-[#C7A15A] text-[#111111] font-black shadow-md'
+                        : 'bg-[#B87333] text-white font-black shadow-md'
+                      : isDark ? 'text-[#B7B7B5] hover:text-white hover:bg-[#242529]' : 'text-[#5C5C5C] hover:text-[#181818] hover:bg-white'
                   }`}
                 >
                   <Bot className="w-4 h-4" /> AI Heatmap

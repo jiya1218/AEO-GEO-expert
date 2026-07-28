@@ -51,54 +51,57 @@ export function AiBackground({ isDark }: AiBackgroundProps) {
       <div
         className={`absolute inset-0 transition-colors duration-700 ${
           isDark
-            ? 'bg-[#0A0A0A]'
-            : 'bg-gradient-to-br from-[#f8fafc] via-[#f0f9ff] to-[#e0f2fe]'
+            ? 'bg-[#0B0B0C]'
+            : 'bg-[#FCFCFB]'
         }`}
       />
 
       {/* 2. Minimal Tech Grid Pattern Overlay */}
       <div
-        className={`absolute inset-0 ${isDark ? 'opacity-[0.025]' : 'opacity-[0.06]'}`}
+        className={`absolute inset-0 ${isDark ? 'opacity-[0.025]' : 'opacity-[0.03]'}`}
         style={{
-          backgroundImage: `radial-gradient(${isDark ? '#D4AF37' : '#0284c7'} 1px, transparent 1px)`,
-          backgroundSize: '36px 36px',
+          backgroundImage: `radial-gradient(${isDark ? '#C7A15A' : '#B87333'} 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
         }}
       />
 
-      {/* 3. Luxury Ambient Gold Radial Orbs (Subtle, Restrained Lighting) */}
+      {/* 3. Luxury Ambient Studio Lighting Orbs (Warm Bronze & Champagne Reflections) */}
       {isDark ? (
         <>
-          {/* Top-Left Soft Gold Glow */}
-          <div className="absolute -top-[15%] -left-[10%] w-[750px] h-[750px] rounded-full blur-[160px] bg-[#D4AF37]/[0.04] pointer-events-none" />
-          {/* Bottom-Right Dark Warm Glow */}
-          <div className="absolute -bottom-[15%] -right-[10%] w-[700px] h-[700px] rounded-full blur-[160px] bg-[#C8A951]/[0.035] pointer-events-none" />
-          {/* Center Subtle Lighting */}
-          <div className="absolute top-[35%] left-[45%] w-[500px] h-[500px] rounded-full blur-[140px] bg-[#F5D76E]/[0.025] pointer-events-none" />
+          {/* Top-Left Soft Bronze Glow */}
+          <div className="absolute -top-[15%] -left-[10%] w-[800px] h-[800px] rounded-full blur-[170px] bg-[#B87333]/[0.04] pointer-events-none" />
+          {/* Bottom-Right Champagne Studio Reflection */}
+          <div className="absolute -bottom-[15%] -right-[10%] w-[750px] h-[750px] rounded-full blur-[170px] bg-[#C7A15A]/[0.045] pointer-events-none" />
+          {/* Center Warm Metallic Glow */}
+          <div className="absolute top-[35%] left-[40%] w-[600px] h-[600px] rounded-full blur-[150px] bg-[#C7A15A]/[0.025] pointer-events-none" />
         </>
       ) : (
         <>
-          <div className="absolute -top-[12%] -left-[8%] w-[700px] h-[700px] rounded-full blur-[140px] bg-cyan-400/30 pointer-events-none" />
-          <div className="absolute -bottom-[12%] -right-[8%] w-[650px] h-[650px] rounded-full blur-[140px] bg-purple-400/25 pointer-events-none" />
+          <div className="absolute -top-[12%] -left-[8%] w-[700px] h-[700px] rounded-full blur-[140px] bg-[#C7A15A]/[0.08] pointer-events-none" />
+          <div className="absolute -bottom-[12%] -right-[8%] w-[650px] h-[650px] rounded-full blur-[140px] bg-[#B87333]/[0.06] pointer-events-none" />
         </>
       )}
 
-      {/* 4. Animated Gold Dust Particles & Subtle Lines (Mounted check) */}
+      {/* 4. Animated Metallic Spec Particles */}
       {mounted && (
         <>
-          {/* Floating Gold Particles Container */}
           <div className="absolute inset-0">
             {particles.map((p) => (
               <div
                 key={p.id}
                 className={`absolute rounded-full animate-float-particle ${
-                  isDark ? 'bg-[#D4AF37]' : 'bg-cyan-600'
+                  isDark
+                    ? p.id % 2 === 0
+                      ? 'bg-[#C7A15A]'
+                      : 'bg-[#B87333]'
+                    : 'bg-[#B87333]'
                 }`}
                 style={{
                   left: `${p.x}%`,
                   top: `${p.y}%`,
                   width: `${p.size}px`,
                   height: `${p.size}px`,
-                  opacity: p.opacity,
+                  opacity: isDark ? p.opacity : p.opacity * 0.7,
                   animationDuration: `${p.duration}s`,
                   animationDelay: `${p.delay}s`,
                 }}

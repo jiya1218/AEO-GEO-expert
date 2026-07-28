@@ -108,40 +108,38 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
           <div
             key={stat.name}
             className={`p-5 rounded-3xl border ${
-              isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-md shadow-slate-200/50'
+              isDark ? 'bg-[#1B1C1F] border-white/10 hover-luxury-lift' : 'bg-white border-[#E5E3DF] shadow-md'
             } backdrop-blur-2xl transition-all`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className={`text-xs font-black ${isDark ? 'text-white' : 'text-slate-900'} flex items-center gap-1.5`}>
-                <Bot className={`w-4 h-4 ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'}`} />
+              <span className={`text-xs font-mono font-bold ${isDark ? 'text-white' : 'text-[#181818]'} flex items-center gap-1.5`}>
+                <Bot className={`w-4 h-4 ${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'}`} />
                 {stat.label}
               </span>
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${
                 stat.visibilityRate >= 50
-                  ? (isDark ? 'bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/30' : 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/30')
+                  ? (isDark ? 'bg-[#C7A15A]/15 text-[#C7A15A] border border-[#C7A15A]/30' : 'bg-[#B87333]/15 text-[#B87333] border border-[#B87333]/30')
                   : stat.visibilityRate > 0
-                  ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
-                  : (isDark ? 'bg-[#202020] text-[#9E9E9E] border border-[#2A2A2A]' : 'bg-slate-100 text-slate-500')
+                  ? 'bg-[#B87333]/10 text-[#B87333] border border-[#B87333]/20'
+                  : (isDark ? 'bg-[#121315] text-[#B7B7B5] border border-white/10' : 'bg-[#F6F5F3] text-[#5C5C5C]')
               }`}>
                 {stat.visibilityRate}% Visibility
               </span>
             </div>
 
-            <div className="mt-3 flex items-baseline justify-between text-xs">
-              <span className={`font-semibold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'}`}>
-                Cited: <strong className={isDark ? 'text-white' : 'text-slate-950'}>{stat.mentions}/{promptScans.length}</strong> Prompts
+            <div className="mt-3 flex items-baseline justify-between text-xs font-mono">
+              <span className={`font-semibold ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+                Cited: <strong className={isDark ? 'text-white' : 'text-[#181818]'}>{stat.mentions}/{promptScans.length}</strong> Prompts
               </span>
-              <span className={`text-[11px] font-bold ${isDark ? 'text-[#D4AF37]' : 'text-emerald-500'}`}>
+              <span className={`text-[11px] font-bold ${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'}`}>
                 #{stat.rank1Count} Top Ranks
               </span>
             </div>
 
             {/* Visual Bar */}
-            <div className={`mt-2 w-full ${isDark ? 'bg-[#202020]' : 'bg-slate-100'} h-1.5 rounded-full overflow-hidden`}>
+            <div className={`mt-2 w-full ${isDark ? 'bg-[#121315]' : 'bg-[#F6F5F3]'} h-1.5 rounded-full overflow-hidden`}>
               <div
-                className={`h-full transition-all duration-700 ${
-                  isDark ? 'bg-[#D4AF37]' : (stat.visibilityRate >= 50 ? 'bg-emerald-500' : stat.visibilityRate > 0 ? 'bg-amber-500' : 'bg-slate-600')
-                }`}
+                className={`h-full ${isDark ? 'bg-[#C7A15A]' : 'bg-[#B87333]'} transition-all duration-700`}
                 style={{ width: `${stat.visibilityRate}%` }}
               />
             </div>
