@@ -209,33 +209,40 @@ export default function HomePage() {
 
 
         {/* SECTION 2: LIVE SCANNED ENGINE STRIP & TICKER */}
-        <section className={`py-12 border-y ${
+        <section className={`py-8 border-y ${
           isDark ? 'bg-[#121315] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
         }`}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-[#C7A15A] animate-ping" />
+            <div className="flex flex-col xl:flex-row items-center justify-between gap-5">
+              
+              {/* Status Indicator Badge */}
+              <div className="flex items-center gap-3 shrink-0">
+                <div className="relative flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C7A15A] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-[#C7A15A]"></span>
+                </div>
                 <span className={`text-xs font-mono font-bold uppercase tracking-widest ${
                   isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
                 }`}>
-                  Live Matrix Scanning Active Across 6 Generative Engines:
+                  Live Matrix Scanning Active Across 6 AI Engines:
                 </span>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3">
+              {/* 6 AI Engine Badges - Perfectly Grid & Flex Aligned */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 w-full xl:w-auto">
                 {['ChatGPT-4o', 'Google Gemini', 'Perplexity Pro', 'Claude 3.5', 'DeepSeek R1', 'xAI Grok 2'].map((engine) => (
                   <div
                     key={engine}
-                    className={`px-3.5 py-1.5 rounded-xl border text-xs font-bold flex items-center gap-2 ${
+                    className={`px-3 py-2 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 whitespace-nowrap ${
                       isDark ? 'bg-[#1B1C1F] border-white/10 text-[#F6F6F4]' : 'bg-white border-[#E5E3DF] text-[#181818]'
-                    } shadow-xs`}
+                    } shadow-xs transition-transform hover:scale-105`}
                   >
-                    <Bot className="w-3.5 h-3.5 text-[#C7A15A]" />
+                    <Bot className="w-3.5 h-3.5 text-[#C7A15A] shrink-0" />
                     <span>{engine}</span>
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
         </section>
