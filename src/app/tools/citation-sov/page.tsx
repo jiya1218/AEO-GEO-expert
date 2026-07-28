@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
-  BarChart3, Loader2, Sparkles, CheckCircle2, AlertCircle, ArrowRight, Bot, Layers 
+  BarChart3, Loader2, Sparkles, CheckCircle2, AlertCircle, ArrowRight, Bot, Cpu 
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTheme } from '@/components/theme-provider';
@@ -52,7 +52,7 @@ export default function CitationSovPage() {
       const json = await res.json();
       if (res.ok && json.data) {
         setResult(json.data);
-        toast.success(`Calculated AI Citation Share of Voice for ${json.data.brand}!`);
+        toast.success(`AI Citation audit completed for ${json.data.brand}!`);
       } else {
         toast.error(json.error || 'Failed to calculate Share of Voice');
       }
@@ -90,7 +90,7 @@ export default function CitationSovPage() {
           </h1>
 
           <p className={`text-base sm:text-lg leading-relaxed ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-            Benchmark your brand's AI search citation share against top market competitors across ChatGPT, Perplexity, Gemini, and Claude.
+            Audit real live AI search citation frequency using active OpenRouter AI models across ChatGPT, Perplexity, Gemini, and Claude.
           </p>
         </div>
 
@@ -187,12 +187,12 @@ export default function CitationSovPage() {
                 {loading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    <span>Analyzing AI Share of Voice...</span>
+                    <span>Querying AI Models Live...</span>
                   </>
                 ) : (
                   <>
                     <Sparkles className="w-4 h-4" />
-                    <span>Calculate Citation Share of Voice</span>
+                    <span>Audit Citation Share of Voice</span>
                   </>
                 )}
               </button>
@@ -239,9 +239,9 @@ export default function CitationSovPage() {
               } p-12 text-center space-y-6 animate-pulse`}>
                 <Loader2 className="w-10 h-10 text-[#C7A15A] animate-spin mx-auto" />
                 <div className="space-y-2">
-                  <h3 className="text-xl font-bold">Scanning Citation Dominance Across LLM Engine Prompts...</h3>
+                  <h3 className="text-xl font-bold">Querying Active AI Models via OpenRouter...</h3>
                   <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-                    Auditing ChatGPT-4o, Perplexity Pro, Google Gemini, and Claude 3.5.
+                    Auditing live search citation indexation across ChatGPT-4o, Perplexity Pro, Google Gemini 2.5, and Claude 3.5.
                   </p>
                 </div>
               </div>
@@ -251,6 +251,14 @@ export default function CitationSovPage() {
             {result && !loading && (
               <div className="space-y-6 animate-in fade-in duration-300">
                 
+                {/* Active AI Model Badge */}
+                <div className={`p-3 px-4 rounded-2xl border flex items-center gap-2.5 text-xs font-mono font-bold ${
+                  isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#B87333]'
+                }`}>
+                  <Cpu className="w-4 h-4 text-[#C7A15A]" />
+                  <span>Model Engine: {result.aiModelUsed}</span>
+                </div>
+
                 {/* Overall Citation Share Radar */}
                 <div className={`rounded-3xl border ${
                   isDark ? 'bg-[#121315] border-white/10' : 'bg-white border-[#E5E3DF]'
@@ -258,10 +266,10 @@ export default function CitationSovPage() {
                   <div className="flex items-center justify-between border-b border-white/10 pb-4">
                     <div className="flex items-center gap-2 text-sm font-mono font-bold uppercase tracking-wider text-[#C7A15A]">
                       <BarChart3 className="w-4 h-4" />
-                      <span>AI Citation Share of Voice Breakdown</span>
+                      <span>Live AI Citation Share Breakdown</span>
                     </div>
                     <span className="px-2.5 py-0.5 rounded-full bg-[#C7A15A]/20 text-[#C7A15A] text-[10px] font-mono font-bold">
-                      Domain-Accurate AI Radar
+                      OpenRouter Live Audit
                     </span>
                   </div>
 
@@ -319,9 +327,9 @@ export default function CitationSovPage() {
                           isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
                         } space-y-2`}>
                           <div className="flex items-center justify-between text-xs font-bold">
-                            <span className="text-white">{det.name}</span>
+                            <span className="text-white">{det.name || det.domain}</span>
                             <span className="font-mono text-[#C7A15A] text-[11px]">
-                              ~{det.citationEstPer1000} Citations / 1,000 Queries
+                              ~{det.citationEstPer1000} Citations / 1,000 AI Queries
                             </span>
                           </div>
                           <div className="space-y-1 text-xs">
@@ -348,7 +356,7 @@ export default function CitationSovPage() {
                 isDark ? 'bg-[#121315] border-white/10' : 'bg-white border-[#E5E3DF]'
               } p-12 text-center space-y-3 text-white/40`}>
                 <BarChart3 className="w-10 h-10 mx-auto stroke-[1.5]" />
-                <p className="text-xs font-mono">Enter your brand & competitors to calculate real AI Citation Share-of-Voice.</p>
+                <p className="text-xs font-mono">Enter your brand & competitors to audit live AI Citation Share-of-Voice.</p>
               </div>
             )}
 
