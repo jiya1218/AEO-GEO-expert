@@ -14,6 +14,8 @@ import { Sculpture3D } from '@/components/ui/sculpture-3d';
 import { Footer } from '@/components/footer';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal';
 
+import { BrandLogo } from '@/components/ui/brand-logo';
+
 export default function HomePage() {
   const [isDark, setIsDark] = useState(true);
   const [searchUrl, setSearchUrl] = useState('');
@@ -97,21 +99,7 @@ export default function HomePage() {
         isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'
       } backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
-            <div className={`w-14 h-14 rounded-2xl ${
-              isDark ? 'bg-[#121315] border border-white/10 shadow-xl shadow-[#B87333]/20' : 'bg-white border border-[#E5E3DF] shadow-md'
-            } flex items-center justify-center transition-transform duration-300 group-hover:scale-105 p-2`}>
-              <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
-            </div>
-            <div className="flex flex-col">
-              <span className={`font-black text-2xl tracking-tight ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
-                TangentCore
-              </span>
-              <span className={`text-[11px] font-mono tracking-widest uppercase font-bold ${isDark ? 'text-[#B7B7B5]/80' : 'text-[#5C5C5C]/80'}`}>
-                Enterprise GEO Suite
-              </span>
-            </div>
-          </Link>
+          <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
 
           <div className="flex items-center gap-6">
             <div className="hidden md:flex items-center gap-8 text-xs font-bold tracking-wide uppercase">

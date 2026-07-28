@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Sparkles, ArrowRight, CheckCircle2, Lock, Mail, Brain, Sun, Moon } from 'lucide-react';
 import { toast } from 'sonner';
 import { AiBackground } from '@/components/ui/ai-background';
+import { BrandLogo } from '@/components/ui/brand-logo';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -111,13 +112,9 @@ export default function LoginPage() {
       {/* Main Container */}
       <div className="w-full max-w-md relative z-10">
         {/* Header Branding */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center mb-4">
-            <div className={`w-20 h-20 rounded-3xl ${
-              isDark ? 'bg-[#121315] border border-white/10 shadow-2xl shadow-[#B87333]/30' : 'bg-white border border-[#E5E3DF] shadow-xl'
-            } flex items-center justify-center p-3.5`}>
-              <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
-            </div>
+        <div className="text-center mb-8 flex flex-col items-center">
+          <div className="mb-4">
+            <BrandLogo isDark={isDark} size="lg" subtitle="INTELLIGENT ROUTING ENGINE" />
           </div>
           <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'}`}>
             {isSignUp ? 'Create your Account' : 'Welcome Back'}

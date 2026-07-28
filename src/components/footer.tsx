@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Brain, ArrowRight, CheckCircle2, ShieldCheck, Zap, Send, Github, Twitter, Linkedin, Sparkles } from 'lucide-react';
 import { toast } from 'sonner';
+import { BrandLogo } from '@/components/ui/brand-logo';
 
 interface FooterProps {
   isDark?: boolean;
@@ -30,15 +31,8 @@ export function Footer({ isDark = true }: FooterProps) {
           
           {/* Brand & Overview */}
           <div className="sm:col-span-2 space-y-4">
-            <div className="flex items-center gap-4">
-              <div className={`w-14 h-14 rounded-2xl ${
-                isDark ? 'bg-[#121315] border border-white/10 shadow-xl shadow-[#B87333]/20' : 'bg-white border border-[#E5E3DF] shadow-md'
-              } flex items-center justify-center p-2`}>
-                <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
-              </div>
-              <span className={`font-black text-2xl ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
-                TangentCore
-              </span>
+            <div>
+              <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
             </div>
             
             <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} leading-relaxed max-w-sm`}>

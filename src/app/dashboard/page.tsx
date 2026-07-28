@@ -13,6 +13,7 @@ import { AnalysisAnimation } from '@/components/dashboard/analysis-animation';
 import { ReportDownloadButton } from '@/components/dashboard/report-download-button';
 import { AiBackground } from '@/components/ui/ai-background';
 import { ScrollReveal } from '@/components/ui/scroll-reveal';
+import { BrandLogo } from '@/components/ui/brand-logo';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
   Search, Loader2, Sun, Moon, Layers, Target, Link2, Bot,
@@ -127,21 +128,7 @@ export default function DashboardPage() {
       {/* Top Header Navbar */}
       <header className={`border-b ${isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
-            <div className={`w-13 h-13 rounded-2xl ${
-              isDark ? 'bg-[#121315] border border-white/10 shadow-xl shadow-[#B87333]/20' : 'bg-white border border-[#E5E3DF] shadow-md'
-            } flex items-center justify-center p-2 transition-transform duration-300 group-hover:scale-105`}>
-              <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
-            </div>
-            <div>
-              <span className={`font-black text-xl tracking-tight ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
-                TangentCore
-              </span>
-              <span className={`block text-[11px] ${isDark ? 'text-[#B7B7B5]/80' : 'text-[#5C5C5C]/80'} font-mono font-bold uppercase tracking-wider`}>
-                Multi-Model AI Visibility Analytics
-              </span>
-            </div>
-          </Link>
+          <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
 
           {/* Header Actions */}
           <div className="flex items-center gap-3">
