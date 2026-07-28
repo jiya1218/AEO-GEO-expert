@@ -158,7 +158,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
       // === PLATFORM NODE BADGES ===
       platforms.forEach((p) => {
         // Outer glow ring
-        const glowR = 22;
+        const glowR = 30;
         const glow = ctx.createRadialGradient(p.x, p.y, glowR * 0.5, p.x, p.y, glowR * 1.5);
         glow.addColorStop(0, rgba(champagne, p.visibility * 0.15));
         glow.addColorStop(1, 'transparent');
@@ -169,30 +169,30 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
         // Node circle background
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 20, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 28, 0, Math.PI * 2);
         ctx.fillStyle = isDark ? 'rgba(18,19,21,0.9)' : 'rgba(255,255,255,0.9)';
         ctx.fill();
         ctx.strokeStyle = rgba(champagne, 0.3 + p.visibility * 0.4);
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 1.8;
         ctx.stroke();
 
         // Platform short name
-        ctx.font = `bold 9px "SF Mono", "Fira Code", monospace`;
+        ctx.font = `bold 13px "SF Mono", "Fira Code", monospace`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = rgba(champagne, 0.7 + p.visibility * 0.3);
         ctx.fillText(p.short, p.x, p.y);
 
         // Full name below node
-        ctx.font = `600 8px -apple-system, system-ui, sans-serif`;
+        ctx.font = `600 10px -apple-system, system-ui, sans-serif`;
         ctx.fillStyle = rgba(dimColor, 0.5 + p.visibility * 0.3);
-        ctx.fillText(p.name, p.x, p.y + 30);
+        ctx.fillText(p.name, p.x, p.y + 38);
 
         // Live signal dot
         const dotPulse = Math.sin(time * 3 + p.angle * 2);
         if (dotPulse > 0.3) {
           ctx.beginPath();
-          ctx.arc(p.x + 14, p.y - 14, 3, 0, Math.PI * 2);
+          ctx.arc(p.x + 20, p.y - 20, 4, 0, Math.PI * 2);
           ctx.fillStyle = rgba([80, 200, 120], 0.6 + dotPulse * 0.3);
           ctx.fill();
         }
@@ -200,39 +200,39 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
       // === CENTER HUB ===
       // Outer glow
-      const hubGlow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 60);
+      const hubGlow = ctx.createRadialGradient(cx, cy, 12, cx, cy, 75);
       hubGlow.addColorStop(0, rgba(champagne, 0.12));
       hubGlow.addColorStop(1, 'transparent');
       ctx.beginPath();
-      ctx.arc(cx, cy, 60, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 75, 0, Math.PI * 2);
       ctx.fillStyle = hubGlow;
       ctx.fill();
 
       // Hub circle
       ctx.beginPath();
-      ctx.arc(cx, cy, 36, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 46, 0, Math.PI * 2);
       ctx.fillStyle = isDark ? 'rgba(18,19,21,0.95)' : 'rgba(255,255,255,0.95)';
       ctx.fill();
 
       // Hub border with gradient
       ctx.beginPath();
-      ctx.arc(cx, cy, 36, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 46, 0, Math.PI * 2);
       ctx.strokeStyle = rgba(champagne, 0.5);
       ctx.lineWidth = 2;
       ctx.stroke();
 
       // Visibility score number (animated)
       const score = Math.round(78 + Math.sin(time * 0.5) * 8);
-      ctx.font = `800 18px -apple-system, system-ui, sans-serif`;
+      ctx.font = `800 26px -apple-system, system-ui, sans-serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.fillStyle = rgba(champagne, 0.95);
-      ctx.fillText(`${score}`, cx, cy - 3);
+      ctx.fillText(`${score}`, cx, cy - 4);
 
       // "AVI" label below score
-      ctx.font = `bold 7px "SF Mono", "Fira Code", monospace`;
+      ctx.font = `bold 9px "SF Mono", "Fira Code", monospace`;
       ctx.fillStyle = rgba(dimColor, 0.6);
-      ctx.fillText('AVI SCORE', cx, cy + 14);
+      ctx.fillText('AVI SCORE', cx, cy + 18);
 
       // === BOTTOM STATUS BAR ===
       const barY = cy + baseRadius * 0.95;
@@ -250,7 +250,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
       ctx.fill();
 
       // Status text
-      ctx.font = `600 9px "SF Mono", "Fira Code", monospace`;
+      ctx.font = `600 10px "SF Mono", "Fira Code", monospace`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
