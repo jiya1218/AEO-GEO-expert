@@ -235,34 +235,34 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
       ctx.fillText('AVI SCORE', cx, cy + 14);
 
       // === BOTTOM STATUS BAR ===
-      const barY = cy + baseRadius * 1.15;
-      const barWidth = baseRadius * 1.3;
+      const barY = cy + baseRadius * 0.95;
+      const barWidth = baseRadius * 1.4;
 
       // Status bar background
       ctx.beginPath();
       const barGrad = ctx.createLinearGradient(cx - barWidth / 2, barY, cx + barWidth / 2, barY);
       barGrad.addColorStop(0, 'transparent');
-      barGrad.addColorStop(0.2, rgba(champagne, isDark ? 0.06 : 0.04));
-      barGrad.addColorStop(0.8, rgba(champagne, isDark ? 0.06 : 0.04));
+      barGrad.addColorStop(0.15, rgba(champagne, isDark ? 0.06 : 0.04));
+      barGrad.addColorStop(0.85, rgba(champagne, isDark ? 0.06 : 0.04));
       barGrad.addColorStop(1, 'transparent');
       ctx.fillStyle = barGrad;
-      ctx.roundRect(cx - barWidth / 2, barY - 12, barWidth, 24, 12);
+      ctx.roundRect(cx - barWidth / 2, barY - 14, barWidth, 28, 14);
       ctx.fill();
 
       // Status text
-      ctx.font = `600 8px "SF Mono", "Fira Code", monospace`;
+      ctx.font = `600 9px "SF Mono", "Fira Code", monospace`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
 
       const activePlatforms = platforms.filter((_, i) => Math.sin(time * 3 + i * 1.5) > 0.3).length;
       ctx.fillStyle = rgba([80, 200, 120], 0.7);
-      ctx.fillText(`● ${activePlatforms}/6 ACTIVE`, cx - barWidth * 0.22, barY);
+      ctx.fillText(`● ${activePlatforms}/6 ACTIVE`, cx - barWidth * 0.25, barY);
 
-      ctx.fillStyle = rgba(dimColor, 0.5);
-      ctx.fillText('|', cx, barY);
+      ctx.fillStyle = rgba(dimColor, 0.3);
+      ctx.fillText('·', cx, barY);
 
       ctx.fillStyle = rgba(champagne, 0.6);
-      ctx.fillText('LIVE MONITORING', cx + barWidth * 0.22, barY);
+      ctx.fillText('LIVE MONITORING', cx + barWidth * 0.25, barY);
 
       animationFrameId = requestAnimationFrame(drawFrame);
     };
