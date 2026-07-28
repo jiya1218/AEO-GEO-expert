@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface Sculpture3DProps {
   isDark?: boolean;
@@ -19,6 +19,14 @@ const AI_PLATFORMS = [
 
 export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [activePlatforms, setActivePlatforms] = useState(4);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Trigger entrance animation after mount
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -46,6 +54,8 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
     window.addEventListener('resize', setSize);
 
     let time = 0;
+    // Entrance animation progress (0 → 1 over ~2.5 seconds)
+    let entranceProgress = 0;
 
     // Colors
     const bronze = isDark ? [184, 115, 51] : [160, 95, 35];
@@ -55,74 +65,93 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
     const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
 
+    // Smooth easing function
+    const easeOutExpo = (t: number) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+    const easeOutBack = (t: number) => {
+      const c1 = 1.70158;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    };
+
     const drawFrame = () => {
       ctx.clearRect(0, 0, width, height);
       time += 0.008;
+      entranceProgress = Math.min(1, entranceProgress + 0.006);
 
       const cx = width / 2;
       const cy = height / 2;
       const baseRadius = Math.min(width, height) * 0.40;
 
+      // === ENTRANCE: Radar rings scale in ===
+      const ringEntrance = easeOutExpo(Math.min(1, entranceProgress * 1.8));
+
       // === OUTER RADAR RINGS ===
       for (let r = 1; r <= 3; r++) {
-        const ringR = baseRadius * (r * 0.33 + 0.15);
+        const ringR = baseRadius * (r * 0.33 + 0.15) * ringEntrance;
         ctx.beginPath();
         ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
-        ctx.strokeStyle = rgba(champagne, isDark ? 0.08 + r * 0.03 : 0.06 + r * 0.03);
+        ctx.strokeStyle = rgba(champagne, (isDark ? 0.08 + r * 0.03 : 0.06 + r * 0.03) * ringEntrance);
         ctx.lineWidth = 1;
         ctx.stroke();
       }
 
-      // === RADAR SWEEP ===
-      const sweepAngle = time * 1.2;
-      const sweepGrad = ctx.createConicGradient(sweepAngle, cx, cy);
-      sweepGrad.addColorStop(0, rgba(champagne, 0.15));
-      sweepGrad.addColorStop(0.08, rgba(champagne, 0.04));
-      sweepGrad.addColorStop(0.12, 'transparent');
-      sweepGrad.addColorStop(1, 'transparent');
+      // === RADAR SWEEP (appears after rings) ===
+      const sweepEntrance = easeOutExpo(Math.max(0, (entranceProgress - 0.15) * 2));
+      if (sweepEntrance > 0) {
+        const sweepAngle = time * 1.2;
+        const sweepGrad = ctx.createConicGradient(sweepAngle, cx, cy);
+        sweepGrad.addColorStop(0, rgba(champagne, 0.15 * sweepEntrance));
+        sweepGrad.addColorStop(0.08, rgba(champagne, 0.04 * sweepEntrance));
+        sweepGrad.addColorStop(0.12, 'transparent');
+        sweepGrad.addColorStop(1, 'transparent');
 
-      ctx.beginPath();
-      ctx.arc(cx, cy, baseRadius * 1.1, 0, Math.PI * 2);
-      ctx.fillStyle = sweepGrad;
-      ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx, cy, baseRadius * 1.1 * ringEntrance, 0, Math.PI * 2);
+        ctx.fillStyle = sweepGrad;
+        ctx.fill();
+      }
 
       // === CROSS-HAIR AXIS LINES ===
+      const axisEntrance = easeOutExpo(Math.max(0, (entranceProgress - 0.1) * 2.5));
       ctx.save();
-      ctx.globalAlpha = isDark ? 0.07 : 0.09;
+      ctx.globalAlpha = (isDark ? 0.07 : 0.09) * axisEntrance;
       ctx.strokeStyle = rgba(textColor, 1);
       ctx.lineWidth = 0.5;
-      // Horizontal
       ctx.beginPath();
-      ctx.moveTo(cx - baseRadius, cy);
-      ctx.lineTo(cx + baseRadius, cy);
+      ctx.moveTo(cx - baseRadius * axisEntrance, cy);
+      ctx.lineTo(cx + baseRadius * axisEntrance, cy);
       ctx.stroke();
-      // Vertical
       ctx.beginPath();
-      ctx.moveTo(cx, cy - baseRadius);
-      ctx.lineTo(cx, cy + baseRadius);
+      ctx.moveTo(cx, cy - baseRadius * axisEntrance);
+      ctx.lineTo(cx, cy + baseRadius * axisEntrance);
       ctx.stroke();
       ctx.restore();
 
-      // === AI PLATFORM NODES (Hexagonal Layout) ===
+      // === AI PLATFORM NODES (staggered entrance) ===
       const nodeRadius = baseRadius * 0.88;
       const platforms = AI_PLATFORMS.map((p, i) => {
         const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
         const floatOffset = Math.sin(time * 1.5 + i * 1.2) * 4;
+        // Each node appears with staggered delay
+        const nodeDelay = 0.25 + i * 0.08;
+        const nodeEntrance = easeOutBack(Math.max(0, Math.min(1, (entranceProgress - nodeDelay) * 3)));
         return {
           ...p,
-          x: cx + Math.cos(angle) * (nodeRadius + floatOffset),
-          y: cy + Math.sin(angle) * (nodeRadius + floatOffset),
+          x: cx + Math.cos(angle) * (nodeRadius + floatOffset) * nodeEntrance,
+          y: cy + Math.sin(angle) * (nodeRadius + floatOffset) * nodeEntrance,
           angle,
           visibility: 0.55 + Math.sin(time * 0.8 + i * 1.1) * 0.35,
+          entrance: nodeEntrance,
         };
       });
 
-      // === CONNECTION LINES (node-to-center pulsing data lines) ===
+      // === CONNECTION LINES (fade in after nodes) ===
+      const lineEntrance = easeOutExpo(Math.max(0, (entranceProgress - 0.4) * 2.5));
       platforms.forEach((p, i) => {
+        if (p.entrance < 0.1) return;
         const pulse = Math.sin(time * 2 + i * 0.9);
-        const opacity = 0.1 + Math.max(0, pulse) * 0.2;
+        const opacity = (0.1 + Math.max(0, pulse) * 0.2) * lineEntrance;
 
-        // Main connection line
         ctx.beginPath();
         ctx.moveTo(cx, cy);
         ctx.lineTo(p.x, p.y);
@@ -130,37 +159,42 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
         ctx.lineWidth = 1.2;
         ctx.stroke();
 
-        // Traveling data pulse dot
-        if (pulse > 0) {
+        if (pulse > 0 && lineEntrance > 0.5) {
           const t = (Math.sin(time * 3 + i * 1.5) + 1) / 2;
           const dotX = cx + (p.x - cx) * t;
           const dotY = cy + (p.y - cy) * t;
           ctx.beginPath();
           ctx.arc(dotX, dotY, 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = rgba(champagne, 0.6 + pulse * 0.3);
+          ctx.fillStyle = rgba(champagne, (0.6 + pulse * 0.3) * lineEntrance);
           ctx.fill();
         }
       });
 
-      // === INTER-NODE CONNECTIONS (neighbor-to-neighbor) ===
-      for (let i = 0; i < platforms.length; i++) {
-        const next = platforms[(i + 1) % platforms.length];
-        const p = platforms[i];
-        const shimmer = Math.sin(time * 1.2 + i * 0.8);
-        ctx.beginPath();
-        ctx.moveTo(p.x, p.y);
-        ctx.lineTo(next.x, next.y);
-        ctx.strokeStyle = rgba(bronze, 0.06 + Math.max(0, shimmer) * 0.1);
-        ctx.lineWidth = 0.8;
-        ctx.stroke();
+      // === INTER-NODE CONNECTIONS ===
+      if (lineEntrance > 0.3) {
+        for (let i = 0; i < platforms.length; i++) {
+          const next = platforms[(i + 1) % platforms.length];
+          const p = platforms[i];
+          if (p.entrance < 0.5 || next.entrance < 0.5) continue;
+          const shimmer = Math.sin(time * 1.2 + i * 0.8);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(next.x, next.y);
+          ctx.strokeStyle = rgba(bronze, (0.06 + Math.max(0, shimmer) * 0.1) * lineEntrance);
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
       }
 
       // === PLATFORM NODE BADGES ===
       platforms.forEach((p) => {
+        if (p.entrance < 0.05) return;
+        const nodeAlpha = p.entrance;
+
         // Outer glow ring
         const glowR = 30;
         const glow = ctx.createRadialGradient(p.x, p.y, glowR * 0.5, p.x, p.y, glowR * 1.5);
-        glow.addColorStop(0, rgba(champagne, p.visibility * 0.15));
+        glow.addColorStop(0, rgba(champagne, p.visibility * 0.15 * nodeAlpha));
         glow.addColorStop(1, 'transparent');
         ctx.beginPath();
         ctx.arc(p.x, p.y, glowR * 1.5, 0, Math.PI * 2);
@@ -169,10 +203,10 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
         // Node circle background
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 28, 0, Math.PI * 2);
-        ctx.fillStyle = isDark ? 'rgba(18,19,21,0.9)' : 'rgba(255,255,255,0.9)';
+        ctx.arc(p.x, p.y, 28 * nodeAlpha, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? `rgba(18,19,21,${0.9 * nodeAlpha})` : `rgba(255,255,255,${0.9 * nodeAlpha})`;
         ctx.fill();
-        ctx.strokeStyle = rgba(champagne, 0.3 + p.visibility * 0.4);
+        ctx.strokeStyle = rgba(champagne, (0.3 + p.visibility * 0.4) * nodeAlpha);
         ctx.lineWidth = 1.8;
         ctx.stroke();
 
@@ -180,17 +214,17 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
         ctx.font = `bold 13px "SF Mono", "Fira Code", monospace`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillStyle = rgba(champagne, 0.7 + p.visibility * 0.3);
+        ctx.fillStyle = rgba(champagne, (0.7 + p.visibility * 0.3) * nodeAlpha);
         ctx.fillText(p.short, p.x, p.y);
 
         // Full name below node
         ctx.font = `600 10px -apple-system, system-ui, sans-serif`;
-        ctx.fillStyle = rgba(dimColor, 0.5 + p.visibility * 0.3);
+        ctx.fillStyle = rgba(dimColor, (0.5 + p.visibility * 0.3) * nodeAlpha);
         ctx.fillText(p.name, p.x, p.y + 38);
 
         // Live signal dot
         const dotPulse = Math.sin(time * 3 + p.angle * 2);
-        if (dotPulse > 0.3) {
+        if (dotPulse > 0.3 && nodeAlpha > 0.8) {
           ctx.beginPath();
           ctx.arc(p.x + 20, p.y - 20, 4, 0, Math.PI * 2);
           ctx.fillStyle = rgba([80, 200, 120], 0.6 + dotPulse * 0.3);
@@ -198,71 +232,51 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
         }
       });
 
-      // === CENTER HUB ===
+      // === CENTER HUB (scales up first) ===
+      const hubEntrance = easeOutBack(Math.min(1, entranceProgress * 2.2));
+
       // Outer glow
-      const hubGlow = ctx.createRadialGradient(cx, cy, 12, cx, cy, 75);
-      hubGlow.addColorStop(0, rgba(champagne, 0.12));
+      const hubGlow = ctx.createRadialGradient(cx, cy, 12, cx, cy, 75 * hubEntrance);
+      hubGlow.addColorStop(0, rgba(champagne, 0.12 * hubEntrance));
       hubGlow.addColorStop(1, 'transparent');
       ctx.beginPath();
-      ctx.arc(cx, cy, 75, 0, Math.PI * 2);
+      ctx.arc(cx, cy, 75 * hubEntrance, 0, Math.PI * 2);
       ctx.fillStyle = hubGlow;
       ctx.fill();
 
       // Hub circle
+      const hubR = 46 * hubEntrance;
       ctx.beginPath();
-      ctx.arc(cx, cy, 46, 0, Math.PI * 2);
+      ctx.arc(cx, cy, hubR, 0, Math.PI * 2);
       ctx.fillStyle = isDark ? 'rgba(18,19,21,0.95)' : 'rgba(255,255,255,0.95)';
       ctx.fill();
 
-      // Hub border with gradient
+      // Hub border
       ctx.beginPath();
-      ctx.arc(cx, cy, 46, 0, Math.PI * 2);
-      ctx.strokeStyle = rgba(champagne, 0.5);
+      ctx.arc(cx, cy, hubR, 0, Math.PI * 2);
+      ctx.strokeStyle = rgba(champagne, 0.5 * hubEntrance);
       ctx.lineWidth = 2;
       ctx.stroke();
 
-      // Visibility score number (animated)
-      const score = Math.round(78 + Math.sin(time * 0.5) * 8);
-      ctx.font = `800 26px -apple-system, system-ui, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = rgba(champagne, 0.95);
-      ctx.fillText(`${score}`, cx, cy - 4);
+      // Visibility score number
+      if (hubEntrance > 0.5) {
+        const scoreAlpha = easeOutExpo((hubEntrance - 0.5) * 2);
+        const score = Math.round(78 + Math.sin(time * 0.5) * 8);
+        ctx.font = `800 26px -apple-system, system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = rgba(champagne, 0.95 * scoreAlpha);
+        ctx.fillText(`${score}`, cx, cy - 4);
 
-      // "AVI" label below score
-      ctx.font = `bold 9px "SF Mono", "Fira Code", monospace`;
-      ctx.fillStyle = rgba(dimColor, 0.6);
-      ctx.fillText('AVI SCORE', cx, cy + 18);
+        // "AVI SCORE" label
+        ctx.font = `bold 9px "SF Mono", "Fira Code", monospace`;
+        ctx.fillStyle = rgba(dimColor, 0.6 * scoreAlpha);
+        ctx.fillText('AVI SCORE', cx, cy + 18);
+      }
 
-      // === BOTTOM STATUS BAR ===
-      const barY = cy + baseRadius * 0.95;
-      const barWidth = baseRadius * 1.4;
-
-      // Status bar background
-      ctx.beginPath();
-      const barGrad = ctx.createLinearGradient(cx - barWidth / 2, barY, cx + barWidth / 2, barY);
-      barGrad.addColorStop(0, 'transparent');
-      barGrad.addColorStop(0.15, rgba(champagne, isDark ? 0.06 : 0.04));
-      barGrad.addColorStop(0.85, rgba(champagne, isDark ? 0.06 : 0.04));
-      barGrad.addColorStop(1, 'transparent');
-      ctx.fillStyle = barGrad;
-      ctx.roundRect(cx - barWidth / 2, barY - 14, barWidth, 28, 14);
-      ctx.fill();
-
-      // Status text
-      ctx.font = `600 10px "SF Mono", "Fira Code", monospace`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-
-      const activePlatforms = platforms.filter((_, i) => Math.sin(time * 3 + i * 1.5) > 0.3).length;
-      ctx.fillStyle = rgba([80, 200, 120], 0.7);
-      ctx.fillText(`● ${activePlatforms}/6 ACTIVE`, cx - barWidth * 0.25, barY);
-
-      ctx.fillStyle = rgba(dimColor, 0.3);
-      ctx.fillText('·', cx, barY);
-
-      ctx.fillStyle = rgba(champagne, 0.6);
-      ctx.fillText('LIVE MONITORING', cx + barWidth * 0.25, barY);
+      // Update active platforms count for DOM status bar
+      const activeCount = platforms.filter((_, i) => Math.sin(time * 3 + i * 1.5) > 0.3).length;
+      setActivePlatforms(activeCount);
 
       animationFrameId = requestAnimationFrame(drawFrame);
     };
@@ -276,27 +290,67 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
   }, [isDark]);
 
   return (
-    <div className={`relative w-full h-[500px] sm:h-[560px] lg:h-[620px] flex items-center justify-center ${className}`}>
-      {/* Background Warm Ambient Glow */}
-      <motion.div
-        animate={{
-          scale: [1, 1.08, 1],
-          opacity: [0.25, 0.4, 0.25],
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: [0.22, 1, 0.36, 1],
-        }}
-        className={`absolute w-96 h-96 rounded-full blur-[120px] pointer-events-none ${
-          isDark
-            ? 'bg-gradient-to-tr from-[#B87333]/15 via-[#C7A15A]/20 to-transparent'
-            : 'bg-gradient-to-tr from-[#B87333]/10 via-[#C7A15A]/15 to-transparent'
-        }`}
-      />
+    <div className={`relative w-full flex flex-col items-center ${className}`}>
+      {/* Canvas Container */}
+      <div className="relative w-full h-[480px] sm:h-[540px] lg:h-[580px] flex items-center justify-center">
+        {/* Background Warm Ambient Glow */}
+        <motion.div
+          initial={{ scale: 0.6, opacity: 0 }}
+          animate={{ scale: [1, 1.08, 1], opacity: [0.25, 0.4, 0.25] }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: [0.22, 1, 0.36, 1],
+            delay: 0.3,
+          }}
+          className={`absolute w-96 h-96 rounded-full blur-[120px] pointer-events-none ${
+            isDark
+              ? 'bg-gradient-to-tr from-[#B87333]/15 via-[#C7A15A]/20 to-transparent'
+              : 'bg-gradient-to-tr from-[#B87333]/10 via-[#C7A15A]/15 to-transparent'
+          }`}
+        />
 
-      {/* AI Visibility Intelligence Radar Canvas */}
-      <canvas ref={canvasRef} className="relative z-10 w-full h-full" />
+        {/* AI Visibility Intelligence Radar Canvas */}
+        <canvas ref={canvasRef} className="relative z-10 w-full h-full" />
+      </div>
+
+      {/* Status Bar — Outside Canvas, Below Figure */}
+      <AnimatePresence>
+        {isLoaded && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.8, ease: [0.22, 1, 0.36, 1] }}
+            className="flex items-center justify-center gap-4 mt-3"
+          >
+            <div className={`flex items-center gap-4 px-6 py-2.5 rounded-full border backdrop-blur-sm ${
+              isDark
+                ? 'bg-[#121315]/80 border-white/10'
+                : 'bg-white/80 border-[#E5E3DF]'
+            }`}>
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                </span>
+                <span className={`text-[11px] font-mono font-bold tracking-wide ${
+                  isDark ? 'text-emerald-400/90' : 'text-emerald-600'
+                }`}>
+                  {activePlatforms}/6 ACTIVE
+                </span>
+              </div>
+
+              <div className={`w-px h-3.5 ${isDark ? 'bg-white/10' : 'bg-[#E5E3DF]'}`} />
+
+              <span className={`text-[11px] font-mono font-bold tracking-wide ${
+                isDark ? 'text-[#C7A15A]/80' : 'text-[#B87333]'
+              }`}>
+                LIVE MONITORING
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
