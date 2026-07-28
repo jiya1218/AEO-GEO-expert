@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   Building2, Globe, Search, Loader2, Sparkles, CheckCircle2, 
-  ShieldCheck, ExternalLink, ArrowRight, Layers, Bot 
+  ExternalLink, ArrowRight, Layers, Bot 
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTheme } from '@/components/theme-provider';
@@ -18,6 +18,7 @@ export default function BrandAuditorToolPage() {
   const [domainInput, setDomainInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [auditResult, setAuditResult] = useState<any | null>(null);
+  const [logoIdx, setLogoIdx] = useState(0);
 
   const sampleDomains = ['swiggy.com', 'amazon.com', 'stripe.com', 'linear.app', 'notion.so'];
 
@@ -30,6 +31,7 @@ export default function BrandAuditorToolPage() {
 
     setLoading(true);
     setAuditResult(null);
+    setLogoIdx(0);
 
     try {
       const res = await fetch('/api/tools/brand-audit', {
@@ -50,6 +52,12 @@ export default function BrandAuditorToolPage() {
       toast.error('Network error during brand audit');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLogoError = () => {
+    if (auditResult?.logoCandidates && logoIdx < auditResult.logoCandidates.length - 1) {
+      setLogoIdx((prev) => prev + 1);
     }
   };
 
@@ -205,7 +213,7 @@ export default function BrandAuditorToolPage() {
                   </a>
                 </div>
 
-                {/* LOGO Box (Only Logo, Heading "LOGO" on top, No size text, No Favicon) */}
+                {/* LOGO Box (Heading "LOGO" on top, Full Brand Logo Image) */}
                 <div className="flex items-center gap-6">
                   <div className={`p-4 rounded-2xl border flex flex-col items-center gap-2 ${
                     isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
@@ -213,12 +221,20 @@ export default function BrandAuditorToolPage() {
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#C7A15A]">
                       LOGO
                     </span>
-                    <img
-                      src={auditResult.logoUrl}
-                      alt={`${auditResult.brandName} Logo`}
-                      className="h-10 max-w-44 object-contain bg-white/10 px-3 py-1 rounded-xl"
-                      onError={(e: any) => { e.target.src = auditResult.faviconUrl; }}
-                    />
+                    
+                    {/* Render candidate logo URL */}
+                    {auditResult.logoCandidates && auditResult.logoCandidates[logoIdx] ? (
+                      <img
+                        src={auditResult.logoCandidates[logoIdx]}
+                        alt={`${auditResult.brandName} Logo`}
+                        className="h-12 max-w-48 object-contain bg-white/10 px-3 py-1 rounded-xl"
+                        onError={handleLogoError}
+                      />
+                    ) : (
+                      <div className="h-12 px-4 rounded-xl bg-gradient-to-r from-[#B87333] to-[#C7A15A] flex items-center justify-center text-white font-extrabold text-lg tracking-wider">
+                        {auditResult.brandName}
+                      </div>
+                    )}
                   </div>
 
                   {/* AEO Score Badge */}

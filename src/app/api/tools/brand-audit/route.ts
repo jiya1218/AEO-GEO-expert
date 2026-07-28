@@ -12,16 +12,19 @@ export async function POST(req: Request) {
     let domain = domainInput.trim().toLowerCase();
     domain = domain.replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
 
-    const logoUrl = `https://logo.clearbit.com/${domain}`;
-    const faviconUrl = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+    const clearbitLogo = `https://logo.clearbit.com/${domain}`;
+    const iconHorseLogo = `https://icon.horse/icon/${domain}`;
+    const googleFavicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
     const targetUrl = `https://${domain}`;
 
     let siteTitle = domain;
     let metaDescription = '';
     let ogImage = '';
+    let appleTouchIcon = '';
+    let scrapedLogo = '';
     let schemasFound: string[] = [];
 
-    // Stage 1: Try HTTP Fetch to parse basic tags
+    // Stage 1: HTTP Fetch & Logo / Meta Parsing
     try {
       const res = await fetch(targetUrl, {
         headers: {
@@ -34,7 +37,6 @@ export async function POST(req: Request) {
       if (res.ok) {
         const html = await res.text();
 
-        // Check if page returned bot protection / JavaScript disabled message
         if (!html.includes('JavaScript is disabled') && !html.includes('robot check')) {
           const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
           if (titleMatch && titleMatch[1]) siteTitle = titleMatch[1].trim();
@@ -43,8 +45,30 @@ export async function POST(req: Request) {
                             html.match(/<meta[^>]*property=["']og:description["'][^>]*content=["']([^"']+)["']/i);
           if (descMatch && descMatch[1]) metaDescription = descMatch[1].trim();
 
+          // Extract OpenGraph image
           const ogMatch = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i);
-          if (ogMatch && ogMatch[1]) ogImage = ogMatch[1].trim();
+          if (ogMatch && ogMatch[1]) {
+            let og = ogMatch[1].trim();
+            if (og.startsWith('/')) og = `https://${domain}${og}`;
+            ogImage = og;
+          }
+
+          // Extract Apple Touch Icon (high-res logo)
+          const appleMatch = html.match(/<link[^>]*rel=["']apple-touch-icon["'][^>]*href=["']([^"']+)["']/i);
+          if (appleMatch && appleMatch[1]) {
+            let ati = appleMatch[1].trim();
+            if (ati.startsWith('/')) ati = `https://${domain}${ati}`;
+            appleTouchIcon = ati;
+          }
+
+          // Extract logo <img> tag
+          const logoImgMatch = html.match(/<img[^>]*class=["'][^"']*logo[^"']*["'][^>]*src=["']([^"']+)["']/i) ||
+                               html.match(/<img[^>]*src=["']([^"']*logo[^"']*)["']/i);
+          if (logoImgMatch && logoImgMatch[1]) {
+            let limg = logoImgMatch[1].trim();
+            if (limg.startsWith('/')) limg = `https://${domain}${limg}`;
+            scrapedLogo = limg;
+          }
 
           if (html.includes('Organization')) schemasFound.push('Organization');
           if (html.includes('Product') || html.includes('SoftwareApplication')) schemasFound.push('Product / SaaS');
@@ -57,13 +81,23 @@ export async function POST(req: Request) {
 
     const cleanBrandName = domain.split('.')[0].toUpperCase();
 
+    // Determine primary logo URL candidates
+    const logoCandidates = [
+      clearbitLogo,
+      scrapedLogo,
+      appleTouchIcon,
+      ogImage,
+      iconHorseLogo,
+      googleFavicon,
+    ].filter(Boolean);
+
     let aiSummary = '';
     let targetAudience = '';
     let keyFeatures: string[] = [];
     let competitors: any[] = [];
     let aeoScore = 88;
 
-    // Stage 2: Deep AI Analysis via OpenRouter (using Gemini or Perplexity Sonar)
+    // Stage 2: Deep AI Analysis via OpenRouter
     if (process.env.OPENROUTER_API_KEY) {
       try {
         const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -118,11 +152,9 @@ Return JSON matching:
           if (parsed.executiveSummary) aiSummary = parsed.executiveSummary;
           if (parsed.targetAudience) targetAudience = parsed.targetAudience;
           if (parsed.keyFeatures && parsed.keyFeatures.length > 0) {
-            // Filter out any "JavaScript is disabled" string
             keyFeatures = parsed.keyFeatures.filter((f: string) => !f.toLowerCase().includes('javascript'));
           }
           if (parsed.competitors && parsed.competitors.length > 0) {
-            // Filter out generic placeholders
             competitors = parsed.competitors.filter((c: any) => !c.name.toLowerCase().includes('competitor'));
           }
           if (parsed.aeoScore) aeoScore = parsed.aeoScore;
@@ -132,7 +164,7 @@ Return JSON matching:
       }
     }
 
-    // Stage 3: Comprehensive Real Brand Intelligence Knowledge Base (Zero Placeholders)
+    // Stage 3: Real Brand Knowledge Base Fallback
     if (!aiSummary || competitors.length === 0) {
       if (domain.includes('amazon')) {
         siteTitle = 'Amazon';
@@ -167,19 +199,7 @@ Return JSON matching:
           { name: 'Checkout.com', domain: 'checkout.com', positioning: 'Enterprise Digital Payment Processing Challenger', threatLevel: 'Medium' },
           { name: 'Square', domain: 'squareup.com', positioning: 'Omnichannel POS & In-Person Merchant Payments', threatLevel: 'Medium' },
         ];
-      } else if (domain.includes('linear')) {
-        siteTitle = 'Linear';
-        aiSummary = `Linear is a high-speed issue tracking and product management tool built for modern software engineering teams. It offers keyboard-driven navigation, automated GitHub/GitLab sync, cycle roadmaps, and offline synchronization for fast development velocity.`;
-        targetAudience = 'Software Engineers, Product Managers, Engineering Leaders, and CTOs.';
-        keyFeatures = ['Keyboard-Driven High-Speed Issue Tracking', 'Automated GitHub & GitLab Code Sync', 'Cycle Roadmaps & Milestone Analytics', 'Real-Time Synchronized Offline Workspace'];
-        competitors = [
-          { name: 'Jira (Atlassian)', domain: 'atlassian.com', positioning: 'Legacy Enterprise Issue Tracking Incumbent', threatLevel: 'High' },
-          { name: 'Asana', domain: 'asana.com', positioning: 'Cross-Functional Project Management Competitor', threatLevel: 'High' },
-          { name: 'Monday.com', domain: 'monday.com', positioning: 'Visual Workflow & Team Project Management Platform', threatLevel: 'Medium' },
-          { name: 'Height', domain: 'height.app', positioning: 'AI-Powered Autonomous Task Tracking Tool', threatLevel: 'Medium' },
-        ];
       } else {
-        // High-Quality Industry Auto-Resolution (Guaranteed No "Competitor 1" string)
         const dLower = domain.toLowerCase();
         siteTitle = cleanBrandName;
         
@@ -219,9 +239,10 @@ Return JSON matching:
         brandName: cleanBrandName,
         siteTitle: siteTitle || `${cleanBrandName} — Official Platform`,
         metaDescription: metaDescription || `Official website and platform overview for ${cleanBrandName}.`,
-        faviconUrl,
-        logoUrl,
-        ogImage: ogImage || logoUrl,
+        logoUrl: logoCandidates[0],
+        logoCandidates,
+        faviconUrl: googleFavicon,
+        ogImage: ogImage || logoCandidates[0],
         executiveSummary: aiSummary,
         targetAudience,
         keyFeatures,
