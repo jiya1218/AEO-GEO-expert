@@ -80,7 +80,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
       const cx = width / 2;
       const cy = height / 2;
-      const baseRadius = Math.min(width, height) * 0.45;
+      const baseRadius = Math.min(width, height) * 0.38;
 
       // === ENTRANCE: Radar rings scale in ===
       const ringEntrance = easeOutExpo(Math.min(1, entranceProgress * 1.8));
@@ -292,7 +292,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
   return (
     <div className={`relative w-full flex flex-col items-center ${className}`}>
       {/* Canvas Container */}
-      <div className="relative w-full h-[580px] sm:h-[640px] lg:h-[720px] flex items-center justify-center">
+      <div className="relative w-full h-[520px] sm:h-[580px] lg:h-[640px] flex items-center justify-center">
         {/* Background Warm Ambient Glow */}
         <motion.div
           initial={{ scale: 0.6, opacity: 0 }}
