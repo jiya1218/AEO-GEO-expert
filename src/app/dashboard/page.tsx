@@ -130,7 +130,24 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
 
-          {/* Header Actions */}
+          {/* Navigation Links */}
+          <div className="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-wide">
+            <Link href="/" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+              Home
+            </Link>
+            <Link href="/pricing" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+              Pricing
+            </Link>
+            <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+              Case Studies
+            </Link>
+            <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+              Blog
+            </Link>
+            <Link href="/dashboard" className={`${isDark ? 'text-[#C7A15A] font-extrabold border-b-2 border-[#C7A15A]' : 'text-[#B87333] font-extrabold border-b-2 border-[#B87333]'} py-1`}>
+              Dashboard
+            </Link>
+          </div>
           <div className="flex items-center gap-3">
             {/* Theme Toggle Button */}
             <button

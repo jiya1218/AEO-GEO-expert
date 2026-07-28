@@ -64,50 +64,63 @@ export function Footer({ isDark = true }: FooterProps) {
 
           {/* Quick Navigation Links */}
           <div className="space-y-3">
-            <h4 className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              Platform
+            <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
+              Platform Navigation
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2 text-xs font-medium">
               <li>
-                <Link href="/" className={`${isDark ? 'text-slate-400 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'} transition-colors block py-0.5`}>
+                <Link href="/" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
                   Home Overview
                 </Link>
               </li>
               <li>
-                <Link href="/pricing" className={`${isDark ? 'text-cyan-400 hover:text-cyan-300' : 'text-cyan-600 hover:text-cyan-700'} font-semibold transition-colors block py-0.5`}>
-                  Pricing
+                <Link href="/pricing" className={`${isDark ? 'text-[#C7A15A] hover:text-[#F5E8C7]' : 'text-[#B87333] hover:text-[#181818]'} font-bold transition-colors block py-0.5`}>
+                  Pricing & Plans ($39-$399)
                 </Link>
               </li>
               <li>
-                <Link href="/dashboard" className={`${isDark ? 'text-slate-400 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'} transition-colors block py-0.5`}>
-                  Live Dashboard
+                <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
+                  Case Studies & Proof
                 </Link>
               </li>
               <li>
-                <a href="#roi" className={`${isDark ? 'text-slate-400 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'} transition-colors block py-0.5`}>
-                  ROI Calculator
-                </a>
+                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
+                  GEO Strategy Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/dashboard" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
+                  Live AI Audit Dashboard
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* GEO Solutions */}
+          {/* GEO Solutions & Resources */}
           <div className="space-y-3">
-            <h4 className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              GEO Solutions
+            <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
+              Resources & Guides
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2 text-xs font-medium">
               <li>
-                <span className={`${isDark ? 'text-slate-400' : 'text-slate-600'} block py-0.5`}>ChatGPT Citation Engine</span>
+                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
+                  JSON-LD Schema Engineering
+                </Link>
               </li>
               <li>
-                <span className={`${isDark ? 'text-slate-400' : 'text-slate-600'} block py-0.5`}>Perplexity Recommendation</span>
+                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
+                  Perplexity Citation Playbook
+                </Link>
               </li>
               <li>
-                <span className={`${isDark ? 'text-slate-400' : 'text-slate-600'} block py-0.5`}>Gemini AI Overview Audit</span>
+                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
+                  2026 6-LLM Benchmark Report
+                </Link>
               </li>
               <li>
-                <span className={`${isDark ? 'text-slate-400' : 'text-slate-600'} block py-0.5`}>JSON-LD Schema Automation</span>
+                <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
+                  Enterprise SaaS Case Studies
+                </Link>
               </li>
             </ul>
           </div>

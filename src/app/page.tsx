@@ -102,18 +102,18 @@ export default function HomePage() {
           <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
 
           <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-8 text-xs font-bold tracking-wide uppercase">
+            <div className="hidden md:flex items-center gap-7 text-xs font-bold tracking-wide uppercase">
               <a href="#capabilities" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
                 Capabilities
               </a>
-              <a href="#solutions" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Solutions
-              </a>
-              <a href="#architecture" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Architecture
-              </a>
               <Link href="/pricing" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
                 Pricing
+              </Link>
+              <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+                Case Studies
+              </Link>
+              <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+                Blog
               </Link>
               <Link href="/dashboard" className={`${isDark ? 'text-[#C7A15A] hover:text-white' : 'text-[#B87333] hover:text-[#181818]'} transition-colors font-extrabold`}>
                 Dashboard

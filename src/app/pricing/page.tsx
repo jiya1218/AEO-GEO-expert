@@ -152,12 +152,18 @@ export default function PricingPage() {
           <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
 
           <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-6 text-xs font-bold uppercase tracking-wide">
+            <div className="hidden md:flex items-center gap-7 text-xs font-bold uppercase tracking-wide">
               <Link href="/" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
                 Home
               </Link>
               <Link href="/pricing" className={`${isDark ? 'text-[#C7A15A] font-extrabold border-b-2 border-[#C7A15A]' : 'text-[#B87333] font-extrabold border-b-2 border-[#B87333]'} py-1`}>
                 Pricing
+              </Link>
+              <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+                Case Studies
+              </Link>
+              <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
+                Blog
               </Link>
               <Link href="/dashboard" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
                 Dashboard
