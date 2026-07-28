@@ -99,9 +99,9 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3.5 group">
             <div className={`w-11 h-11 rounded-2xl ${
-              isDark ? 'bg-gradient-to-tr from-[#B87333] to-[#C7A15A] text-[#111111] shadow-lg shadow-[#B87333]/20' : 'bg-[#B87333] text-white shadow-md'
-            } flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
-              <Brain className="w-5.5 h-5.5" />
+              isDark ? 'bg-[#121315] border border-white/10 shadow-lg shadow-[#B87333]/10' : 'bg-white border border-[#E5E3DF] shadow-xs'
+            } flex items-center justify-center transition-transform duration-300 group-hover:scale-105 p-1.5`}>
+              <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
             </div>
             <div className="flex flex-col">
               <span className={`font-extrabold text-xl tracking-tight ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>

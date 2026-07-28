@@ -5,6 +5,11 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'TangentCore — Multi-Model AI Search Optimization & GEO Platform',
   description: 'Analyze, audit, and optimize website Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) across ChatGPT, Gemini, Claude & Perplexity at tangentcore.in.',
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
 };
 
 export default function RootLayout({

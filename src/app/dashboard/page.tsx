@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import { AeoScoreCard } from '@/components/dashboard/aeo-score-card';
 import { MultiModelHeatmap } from '@/components/dashboard/multi-model-heatmap';
@@ -124,23 +125,23 @@ export default function DashboardPage() {
       )}
 
       {/* Top Header Navbar */}
-      <header className={`border-b ${isDark ? 'border-[#2A2A2A] bg-[#0A0A0A]/85' : 'border-slate-200/90 bg-white/90 shadow-xs'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
+      <header className={`border-b ${isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3.5">
-            <div className={`w-10 h-10 rounded-xl ${
-              isDark ? 'bg-gradient-to-tr from-[#C8A951] via-[#D4AF37] to-[#F5D76E] text-[#111111] shadow-lg shadow-[#D4AF37]/20' : 'bg-gradient-to-tr from-cyan-600 via-sky-600 to-indigo-600 text-white shadow-md shadow-cyan-600/20'
-            } flex items-center justify-center`}>
-              <Brain className="w-5 h-5" />
+          <Link href="/" className="flex items-center gap-3.5 group">
+            <div className={`w-10 h-10 rounded-2xl ${
+              isDark ? 'bg-[#121315] border border-white/10 shadow-lg shadow-[#B87333]/10' : 'bg-white border border-[#E5E3DF] shadow-xs'
+            } flex items-center justify-center p-1.5 transition-transform duration-300 group-hover:scale-105`}>
+              <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <span className={`font-extrabold text-base ${isDark ? 'gold-gradient-text' : 'text-slate-900'}`}>
+              <span className={`font-extrabold text-lg tracking-tight ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
                 TangentCore
               </span>
-              <span className={`block text-[10px] ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'} font-bold uppercase tracking-wider`}>
+              <span className={`block text-[10px] ${isDark ? 'text-[#B7B7B5]/70' : 'text-[#5C5C5C]/70'} font-mono font-bold uppercase tracking-wider`}>
                 Multi-Model AI Visibility Analytics
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* Header Actions */}
           <div className="flex items-center gap-3">

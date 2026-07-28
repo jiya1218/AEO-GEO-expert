@@ -32,9 +32,9 @@ export function Footer({ isDark = true }: FooterProps) {
           <div className="sm:col-span-2 space-y-4">
             <div className="flex items-center gap-3.5">
               <div className={`w-10 h-10 rounded-2xl ${
-                isDark ? 'bg-gradient-to-tr from-[#B87333] to-[#C7A15A] text-[#111111] shadow-lg shadow-[#B87333]/20' : 'bg-[#B87333] text-white shadow-md'
-              } flex items-center justify-center`}>
-                <Brain className="w-5 h-5" />
+                isDark ? 'bg-[#121315] border border-white/10 shadow-lg shadow-[#B87333]/10' : 'bg-white border border-[#E5E3DF] shadow-xs'
+              } flex items-center justify-center p-1.5`}>
+                <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
               </div>
               <span className={`font-extrabold text-xl ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
                 TangentCore

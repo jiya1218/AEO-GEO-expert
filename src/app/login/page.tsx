@@ -112,11 +112,12 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Header Branding */}
         <div className="text-center mb-8">
-          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${
-            isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#B87333]'
-          } border backdrop-blur-md mb-4 text-xs font-mono font-bold`}>
-            <Brain className="w-4 h-4 text-[#C7A15A] animate-pulse" />
-            <span>TangentCore</span>
+          <div className="inline-flex items-center justify-center mb-3">
+            <div className={`w-14 h-14 rounded-2xl ${
+              isDark ? 'bg-[#121315] border border-white/10 shadow-lg shadow-[#B87333]/20' : 'bg-white border border-[#E5E3DF] shadow-md'
+            } flex items-center justify-center p-2`}>
+              <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
+            </div>
           </div>
           <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'}`}>
             {isSignUp ? 'Create your Account' : 'Welcome Back'}
