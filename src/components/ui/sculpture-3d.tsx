@@ -8,6 +8,15 @@ interface Sculpture3DProps {
   className?: string;
 }
 
+const AI_PLATFORMS = [
+  { name: 'ChatGPT', short: 'GPT' },
+  { name: 'Gemini', short: 'GEM' },
+  { name: 'Claude', short: 'CLD' },
+  { name: 'Perplexity', short: 'PPX' },
+  { name: 'Grok', short: 'GRK' },
+  { name: 'DeepSeek', short: 'DSK' },
+];
+
 export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -18,155 +27,261 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
     if (!ctx) return;
 
     let animationFrameId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || 600);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 500);
+    let dpr = window.devicePixelRatio || 1;
+    let width: number;
+    let height: number;
 
-    const handleResize = () => {
+    const setSize = () => {
       if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = canvas.parentElement.clientHeight;
+      const rect = canvas.parentElement.getBoundingClientRect();
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
-    window.addEventListener('resize', handleResize);
+    setSize();
+    window.addEventListener('resize', setSize);
 
-    let angleX = 0;
-    let angleY = 0;
-    let floatTime = 0;
+    let time = 0;
 
-    // Bronze & Champagne color palettes
-    const bronzeColor = isDark ? 'rgba(184, 115, 51, ' : 'rgba(160, 95, 35, ';
-    const champagneColor = isDark ? 'rgba(199, 161, 90, ' : 'rgba(175, 140, 70, ';
-    const metallicGridColor = isDark ? 'rgba(246, 246, 244, ' : 'rgba(24, 24, 24, ';
+    // Colors
+    const bronze = isDark ? [184, 115, 51] : [160, 95, 35];
+    const champagne = isDark ? [199, 161, 90] : [175, 140, 70];
+    const textColor = isDark ? [246, 246, 244] : [24, 24, 24];
+    const dimColor = isDark ? [183, 183, 181] : [92, 92, 92];
 
-    const drawSculpture = () => {
+    const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+
+    const drawFrame = () => {
       ctx.clearRect(0, 0, width, height);
+      time += 0.008;
 
-      // Centered in hero column
-      const centerX = width / 2;
-      const centerY = height / 2 + Math.sin(floatTime) * 10; 
-      floatTime += 0.015;
-      angleX += 0.004;
-      angleY += 0.007;
+      const cx = width / 2;
+      const cy = height / 2;
+      const baseRadius = Math.min(width, height) * 0.35;
 
-      const size = Math.min(width, height) * 0.42;
-
-      // Render concentric precision-machined metallic rings
-      const ringCount = 5;
-      for (let r = 0; r < ringCount; r++) {
-        const radius = size * (0.35 + r * 0.16);
-        const ringAngleX = angleX * (1 + r * 0.15);
-        const ringAngleY = angleY * (1 - r * 0.1);
-        const isChampagne = r % 2 === 1;
-
-        ctx.save();
-        ctx.translate(centerX, centerY);
-
-        // 3D Transform projection simulated with ellipse scaling
-        const scaleX = Math.cos(ringAngleY);
-        const scaleY = Math.sin(ringAngleX);
-        const tilt = Math.sin(ringAngleY * 0.5) * 0.5;
-
-        ctx.rotate(tilt);
-        ctx.scale(1, Math.max(0.2, Math.abs(scaleY * scaleX)));
-
-        // Metallic Ring Stroke
+      // === OUTER RADAR RINGS ===
+      for (let r = 1; r <= 3; r++) {
+        const ringR = baseRadius * (r * 0.33 + 0.15);
         ctx.beginPath();
-        ctx.arc(0, 0, radius, 0, Math.PI * 2);
-        const baseColor = isChampagne ? champagneColor : bronzeColor;
-        const opacity = isDark ? 0.35 + r * 0.1 : 0.45 + r * 0.1;
-        ctx.strokeStyle = `${baseColor}${opacity})`;
-        ctx.lineWidth = 2.5 - r * 0.3;
+        ctx.arc(cx, cy, ringR, 0, Math.PI * 2);
+        ctx.strokeStyle = rgba(champagne, isDark ? 0.08 + r * 0.03 : 0.06 + r * 0.03);
+        ctx.lineWidth = 1;
         ctx.stroke();
-
-        // High-precision machined notch points around ring
-        const notches = 12 + r * 6;
-        for (let n = 0; n < notches; n++) {
-          const nAngle = (n / notches) * Math.PI * 2 + ringAngleX;
-          const nx = Math.cos(nAngle) * radius;
-          const ny = Math.sin(nAngle) * radius;
-
-          ctx.beginPath();
-          ctx.arc(nx, ny, 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = `${isChampagne ? champagneColor : bronzeColor}${opacity + 0.3})`;
-          ctx.fill();
-        }
-
-        ctx.restore();
       }
 
-      // Render Floating Layered Glass Architecture Octagon
-      const vertices: { x: number; y: number; z: number }[] = [];
-      const steps = 8;
-      const octRadius = size * 0.55;
-      for (let i = 0; i < steps; i++) {
-        const a = (i / steps) * Math.PI * 2;
-        vertices.push({
-          x: Math.cos(a) * octRadius,
-          y: Math.sin(a) * octRadius,
-          z: Math.sin(a * 2 + angleX) * 40,
-        });
-      }
-
-      // Draw Glass Facet Edge Lines
-      ctx.save();
-      ctx.translate(centerX, centerY);
+      // === RADAR SWEEP ===
+      const sweepAngle = time * 1.2;
+      const sweepGrad = ctx.createConicGradient(sweepAngle, cx, cy);
+      sweepGrad.addColorStop(0, rgba(champagne, 0.15));
+      sweepGrad.addColorStop(0.08, rgba(champagne, 0.04));
+      sweepGrad.addColorStop(0.12, 'transparent');
+      sweepGrad.addColorStop(1, 'transparent');
 
       ctx.beginPath();
-      for (let i = 0; i < vertices.length; i++) {
-        const v1 = vertices[i];
-        const v2 = vertices[(i + 1) % vertices.length];
-
-        const cosY = Math.cos(angleY * 0.8);
-        const sinY = Math.sin(angleY * 0.8);
-        const x1 = v1.x * cosY - v1.z * sinY;
-        const y1 = v1.y;
-        const x2 = v2.x * cosY - v2.z * sinY;
-        const y2 = v2.y;
-
-        if (i === 0) ctx.moveTo(x1, y1);
-        else ctx.lineTo(x1, y1);
-        ctx.lineTo(x2, y2);
-      }
-      ctx.closePath();
-      ctx.strokeStyle = `${champagneColor}${isDark ? 0.25 : 0.35})`;
-      ctx.lineWidth = 1.2;
-      ctx.stroke();
-
-      // Soft Glass Facet Fill with Warm Metallic Reflection
-      const fillGradient = ctx.createRadialGradient(0, 0, 10, 0, 0, octRadius);
-      fillGradient.addColorStop(0, `${champagneColor}${isDark ? 0.08 : 0.06})`);
-      fillGradient.addColorStop(0.6, `${bronzeColor}${isDark ? 0.04 : 0.03})`);
-      fillGradient.addColorStop(1, 'transparent');
-      ctx.fillStyle = fillGradient;
+      ctx.arc(cx, cy, baseRadius * 1.1, 0, Math.PI * 2);
+      ctx.fillStyle = sweepGrad;
       ctx.fill();
 
-      // Core Machined Axis Line
+      // === CROSS-HAIR AXIS LINES ===
+      ctx.save();
+      ctx.globalAlpha = isDark ? 0.07 : 0.09;
+      ctx.strokeStyle = rgba(textColor, 1);
+      ctx.lineWidth = 0.5;
+      // Horizontal
       ctx.beginPath();
-      ctx.moveTo(-octRadius * 0.8, 0);
-      ctx.lineTo(octRadius * 0.8, 0);
-      ctx.strokeStyle = `${metallicGridColor}${isDark ? 0.12 : 0.18})`;
-      ctx.lineWidth = 1;
+      ctx.moveTo(cx - baseRadius, cy);
+      ctx.lineTo(cx + baseRadius, cy);
       ctx.stroke();
-
+      // Vertical
+      ctx.beginPath();
+      ctx.moveTo(cx, cy - baseRadius);
+      ctx.lineTo(cx, cy + baseRadius);
+      ctx.stroke();
       ctx.restore();
 
-      animationFrameId = requestAnimationFrame(drawSculpture);
+      // === AI PLATFORM NODES (Hexagonal Layout) ===
+      const nodeRadius = baseRadius * 0.88;
+      const platforms = AI_PLATFORMS.map((p, i) => {
+        const angle = (i / 6) * Math.PI * 2 - Math.PI / 2;
+        const floatOffset = Math.sin(time * 1.5 + i * 1.2) * 4;
+        return {
+          ...p,
+          x: cx + Math.cos(angle) * (nodeRadius + floatOffset),
+          y: cy + Math.sin(angle) * (nodeRadius + floatOffset),
+          angle,
+          visibility: 0.55 + Math.sin(time * 0.8 + i * 1.1) * 0.35,
+        };
+      });
+
+      // === CONNECTION LINES (node-to-center pulsing data lines) ===
+      platforms.forEach((p, i) => {
+        const pulse = Math.sin(time * 2 + i * 0.9);
+        const opacity = 0.1 + Math.max(0, pulse) * 0.2;
+
+        // Main connection line
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(p.x, p.y);
+        ctx.strokeStyle = rgba(champagne, opacity);
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+
+        // Traveling data pulse dot
+        if (pulse > 0) {
+          const t = (Math.sin(time * 3 + i * 1.5) + 1) / 2;
+          const dotX = cx + (p.x - cx) * t;
+          const dotY = cy + (p.y - cy) * t;
+          ctx.beginPath();
+          ctx.arc(dotX, dotY, 2.5, 0, Math.PI * 2);
+          ctx.fillStyle = rgba(champagne, 0.6 + pulse * 0.3);
+          ctx.fill();
+        }
+      });
+
+      // === INTER-NODE CONNECTIONS (neighbor-to-neighbor) ===
+      for (let i = 0; i < platforms.length; i++) {
+        const next = platforms[(i + 1) % platforms.length];
+        const p = platforms[i];
+        const shimmer = Math.sin(time * 1.2 + i * 0.8);
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(next.x, next.y);
+        ctx.strokeStyle = rgba(bronze, 0.06 + Math.max(0, shimmer) * 0.1);
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+
+      // === PLATFORM NODE BADGES ===
+      platforms.forEach((p) => {
+        // Outer glow ring
+        const glowR = 22;
+        const glow = ctx.createRadialGradient(p.x, p.y, glowR * 0.5, p.x, p.y, glowR * 1.5);
+        glow.addColorStop(0, rgba(champagne, p.visibility * 0.15));
+        glow.addColorStop(1, 'transparent');
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, glowR * 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        // Node circle background
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 20, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? 'rgba(18,19,21,0.9)' : 'rgba(255,255,255,0.9)';
+        ctx.fill();
+        ctx.strokeStyle = rgba(champagne, 0.3 + p.visibility * 0.4);
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        // Platform short name
+        ctx.font = `bold 9px "SF Mono", "Fira Code", monospace`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = rgba(champagne, 0.7 + p.visibility * 0.3);
+        ctx.fillText(p.short, p.x, p.y);
+
+        // Full name below node
+        ctx.font = `600 8px -apple-system, system-ui, sans-serif`;
+        ctx.fillStyle = rgba(dimColor, 0.5 + p.visibility * 0.3);
+        ctx.fillText(p.name, p.x, p.y + 30);
+
+        // Live signal dot
+        const dotPulse = Math.sin(time * 3 + p.angle * 2);
+        if (dotPulse > 0.3) {
+          ctx.beginPath();
+          ctx.arc(p.x + 14, p.y - 14, 3, 0, Math.PI * 2);
+          ctx.fillStyle = rgba([80, 200, 120], 0.6 + dotPulse * 0.3);
+          ctx.fill();
+        }
+      });
+
+      // === CENTER HUB ===
+      // Outer glow
+      const hubGlow = ctx.createRadialGradient(cx, cy, 10, cx, cy, 60);
+      hubGlow.addColorStop(0, rgba(champagne, 0.12));
+      hubGlow.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(cx, cy, 60, 0, Math.PI * 2);
+      ctx.fillStyle = hubGlow;
+      ctx.fill();
+
+      // Hub circle
+      ctx.beginPath();
+      ctx.arc(cx, cy, 36, 0, Math.PI * 2);
+      ctx.fillStyle = isDark ? 'rgba(18,19,21,0.95)' : 'rgba(255,255,255,0.95)';
+      ctx.fill();
+
+      // Hub border with gradient
+      ctx.beginPath();
+      ctx.arc(cx, cy, 36, 0, Math.PI * 2);
+      ctx.strokeStyle = rgba(champagne, 0.5);
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Visibility score number (animated)
+      const score = Math.round(78 + Math.sin(time * 0.5) * 8);
+      ctx.font = `800 18px -apple-system, system-ui, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = rgba(champagne, 0.95);
+      ctx.fillText(`${score}`, cx, cy - 3);
+
+      // "AVI" label below score
+      ctx.font = `bold 7px "SF Mono", "Fira Code", monospace`;
+      ctx.fillStyle = rgba(dimColor, 0.6);
+      ctx.fillText('AVI SCORE', cx, cy + 14);
+
+      // === BOTTOM STATUS BAR ===
+      const barY = cy + baseRadius * 1.15;
+      const barWidth = baseRadius * 1.3;
+
+      // Status bar background
+      ctx.beginPath();
+      const barGrad = ctx.createLinearGradient(cx - barWidth / 2, barY, cx + barWidth / 2, barY);
+      barGrad.addColorStop(0, 'transparent');
+      barGrad.addColorStop(0.2, rgba(champagne, isDark ? 0.06 : 0.04));
+      barGrad.addColorStop(0.8, rgba(champagne, isDark ? 0.06 : 0.04));
+      barGrad.addColorStop(1, 'transparent');
+      ctx.fillStyle = barGrad;
+      ctx.roundRect(cx - barWidth / 2, barY - 12, barWidth, 24, 12);
+      ctx.fill();
+
+      // Status text
+      ctx.font = `600 8px "SF Mono", "Fira Code", monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+
+      const activePlatforms = platforms.filter((_, i) => Math.sin(time * 3 + i * 1.5) > 0.3).length;
+      ctx.fillStyle = rgba([80, 200, 120], 0.7);
+      ctx.fillText(`● ${activePlatforms}/6 ACTIVE`, cx - barWidth * 0.22, barY);
+
+      ctx.fillStyle = rgba(dimColor, 0.5);
+      ctx.fillText('|', cx, barY);
+
+      ctx.fillStyle = rgba(champagne, 0.6);
+      ctx.fillText('LIVE MONITORING', cx + barWidth * 0.22, barY);
+
+      animationFrameId = requestAnimationFrame(drawFrame);
     };
 
-    drawSculpture();
+    drawFrame();
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', setSize);
       cancelAnimationFrame(animationFrameId);
     };
   }, [isDark]);
 
   return (
     <div className={`relative w-full h-[420px] sm:h-[480px] lg:h-[520px] flex items-center justify-center ${className}`}>
-      {/* Background Soft Warm Lighting Glow Disc */}
+      {/* Background Warm Ambient Glow */}
       <motion.div
         animate={{
           scale: [1, 1.08, 1],
-          opacity: [0.35, 0.5, 0.35],
+          opacity: [0.25, 0.4, 0.25],
         }}
         transition={{
           duration: 8,
@@ -180,8 +295,8 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
         }`}
       />
 
-      {/* Clean Interactive 3D Metal & Glass Sculpture Canvas without text clutter */}
-      <canvas ref={canvasRef} className="relative z-10 w-full h-full cursor-pointer" />
+      {/* AI Visibility Intelligence Radar Canvas */}
+      <canvas ref={canvasRef} className="relative z-10 w-full h-full" />
     </div>
   );
 }

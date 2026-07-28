@@ -690,7 +690,7 @@ export default function HomePage() {
                 { number: '6', label: 'AI Platforms Monitored' },
                 { number: '100+', label: 'AI Visibility Signals' },
                 { number: '24/7', label: 'Continuous Monitoring' },
-                { number: 'Enterprise', label: 'Ready' },
+                { number: '99.9%', label: 'Uptime SLA' },
               ].map((stat, idx) => (
                 <ScrollReveal key={idx} variant="scaleUp" delay={idx * 0.1} className="space-y-2">
                   <span className="text-4xl sm:text-6xl font-black champagne-gradient-text block">
