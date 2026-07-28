@@ -256,24 +256,32 @@ export default function HomePage() {
             <ScrollReveal variant="fadeUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               <div className="lg:col-span-5 space-y-6">
                 <span className="text-xs font-mono text-[#B87333] font-bold uppercase tracking-widest">
-                  01 // Multi-Model Search Heatmap
+                  01 // AI CITATION INTELLIGENCE
                 </span>
                 <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
                   isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
                 }`}>
-                  Cross-LLM Search Citation Audit
+                  AI Search Citation Intelligence
                 </h2>
                 <p className={`text-base leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-                  Visualize exact brand citation rankings and share of voice across all six generative search engines simultaneously. Instantly detect prompt queries where competitors displace your brand.
+                  Understand how leading AI platforms reference, rank, and recommend your brand. Compare citation performance across ChatGPT, Gemini, Claude, Perplexity, Grok, and DeepSeek to uncover visibility gaps, benchmark competitors, and strengthen AI discoverability.
                 </p>
                 <ul className="space-y-3 text-xs font-bold">
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-[#C7A15A]" />
-                    <span>Simultaneous side-by-side prompt output scraping</span>
+                    <span>Compare AI citations across every major LLM</span>
                   </li>
                   <li className="flex items-center gap-2">
                     <Check className="w-4 h-4 text-[#C7A15A]" />
-                    <span>Exact URL backlink & referral source mapping</span>
+                    <span>Track citation sources and answer references</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C7A15A]" />
+                    <span>Benchmark competitor visibility in real time</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C7A15A]" />
+                    <span>Identify missing AI visibility opportunities</span>
                   </li>
                 </ul>
               </div>
@@ -283,25 +291,56 @@ export default function HomePage() {
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-xl'
                 } space-y-4 hover-luxury-lift`}>
                   <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                    <span className="text-xs font-mono text-[#C7A15A] font-bold">LIVE CITATION MATRIX</span>
-                    <span className="px-3 py-1 rounded-full bg-[#B87333]/15 text-[#C7A15A] text-[10px] font-mono font-bold">
-                      94.8% ACCURACY
+                    <span className="text-xs font-mono text-[#C7A15A] font-bold">AI CITATION OVERVIEW</span>
+                    <span className="px-3 py-1 rounded-full bg-[#C7A15A]/15 text-[#C7A15A] text-[10px] font-mono font-bold uppercase">
+                      LIVE ANALYSIS
                     </span>
                   </div>
                   <div className="grid grid-cols-3 gap-3 text-xs font-mono">
                     <div className={`p-4 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'}`}>
-                      <span className="block text-[10px] text-[#B7B7B5]">ChatGPT-4o</span>
-                      <span className="text-lg font-bold text-[#C7A15A]">#1 Rank</span>
+                      <span className="block text-[10px] text-[#B7B7B5]">Models Monitored</span>
+                      <span className="text-base sm:text-lg font-bold text-[#C7A15A]">6 Active</span>
                     </div>
                     <div className={`p-4 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'}`}>
-                      <span className="block text-[10px] text-[#B7B7B5]">Gemini Pro</span>
-                      <span className="text-lg font-bold text-[#C7A15A]">#1 Rank</span>
+                      <span className="block text-[10px] text-[#B7B7B5]">Citation Coverage</span>
+                      <span className="text-base sm:text-lg font-bold text-[#C7A15A]">94%</span>
                     </div>
                     <div className={`p-4 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'}`}>
-                      <span className="block text-[10px] text-[#B7B7B5]">Perplexity</span>
-                      <span className="text-lg font-bold text-[#B87333]">#2 Rank</span>
+                      <span className="block text-[10px] text-[#B7B7B5]">Average Position</span>
+                      <span className="text-base sm:text-lg font-bold text-[#B87333]">#1.8</span>
                     </div>
                   </div>
+
+                  {/* Thin Divider & Status List */}
+                  <div className="border-t border-white/10 pt-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 text-xs font-mono font-medium">
+                      <div className="flex items-center gap-1.5 text-emerald-400">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        <span>ChatGPT — Referenced</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-emerald-400">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        <span>Gemini — Referenced</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-emerald-400">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        <span>Claude — Referenced</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-emerald-400">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        <span>Perplexity — Position #2</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-emerald-400">
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                        <span>Grok — Position #1</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-amber-400">
+                        <span className="font-bold shrink-0">⚠️</span>
+                        <span>DeepSeek — Limited Coverage</span>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </ScrollReveal>
@@ -313,38 +352,57 @@ export default function HomePage() {
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-xl'
                 } space-y-4 hover-luxury-lift`}>
                   <div className="flex items-center justify-between pb-4 border-b border-white/10">
-                    <span className="text-xs font-mono text-[#B87333] font-bold">AUTOMATED SCHEMA REPAIR</span>
-                    <span className="px-3 py-1 rounded-full bg-[#C7A15A]/15 text-[#C7A15A] text-[10px] font-mono font-bold">
-                      JSON-LD READY
+                    <span className="text-xs font-mono text-[#B87333] font-bold uppercase">AI SCHEMA INTELLIGENCE</span>
+                    <span className="px-3 py-1 rounded-full bg-[#C7A15A]/15 text-[#C7A15A] text-[10px] font-mono font-bold uppercase">
+                      AI OPTIMIZED
                     </span>
                   </div>
                   <div className={`p-4 rounded-2xl border font-mono text-xs ${
                     isDark ? 'bg-[#0B0B0C] border-white/10 text-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#B87333]'
                   }`}>
-                    <code>
-                      {`{
+                    <pre><code>{`{
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Organization",
   "name": "TangentCore",
-  "applicationCategory": "GEO Suite"
-}`}
-                    </code>
+  "sameAs": [
+    "https://linkedin.com/company/tangentcore"
+  ],
+  "url": "https://tangentcore.in"
+}`}</code></pre>
                   </div>
                 </div>
               </div>
 
               <div className="lg:col-span-5 space-y-6 lg:order-2">
                 <span className="text-xs font-mono text-[#B87333] font-bold uppercase tracking-widest">
-                  02 // On-Page Technical GEO Crawl
+                  02 // STRUCTURED DATA INTELLIGENCE
                 </span>
                 <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
                   isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
                 }`}>
-                  JSON-LD & Vector Entity Validation
+                  Structured Data Intelligence
                 </h2>
                 <p className={`text-base leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-                  Audit meta titles, heading structures, and JSON-LD schema markups. TangentCore automatically injects missing Organization, FAQPage, and Product schemas required for LLM embedding alignment.
+                  Analyse structured data, entity relationships, and schema coverage to help AI platforms better understand your brand. Detect missing schema, validate structured markup, and optimise content for stronger AI visibility across modern answer engines.
                 </p>
+                <ul className="space-y-3 text-xs font-bold">
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C7A15A]" />
+                    <span>Automatic JSON-LD validation</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C7A15A]" />
+                    <span>Entity relationship detection</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C7A15A]" />
+                    <span>Missing schema recommendations</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="w-4 h-4 text-[#C7A15A]" />
+                    <span>AI-ready structured data optimisation</span>
+                  </li>
+                </ul>
               </div>
             </ScrollReveal>
 
