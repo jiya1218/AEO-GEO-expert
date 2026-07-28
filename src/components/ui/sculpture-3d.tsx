@@ -61,7 +61,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
       const cx = width / 2;
       const cy = height / 2;
-      const baseRadius = Math.min(width, height) * 0.35;
+      const baseRadius = Math.min(width, height) * 0.40;
 
       // === OUTER RADAR RINGS ===
       for (let r = 1; r <= 3; r++) {
@@ -276,7 +276,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
   }, [isDark]);
 
   return (
-    <div className={`relative w-full h-[420px] sm:h-[480px] lg:h-[520px] flex items-center justify-center ${className}`}>
+    <div className={`relative w-full h-[500px] sm:h-[560px] lg:h-[620px] flex items-center justify-center ${className}`}>
       {/* Background Warm Ambient Glow */}
       <motion.div
         animate={{
@@ -288,7 +288,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
           repeat: Infinity,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className={`absolute w-80 h-80 rounded-full blur-[120px] pointer-events-none ${
+        className={`absolute w-96 h-96 rounded-full blur-[120px] pointer-events-none ${
           isDark
             ? 'bg-gradient-to-tr from-[#B87333]/15 via-[#C7A15A]/20 to-transparent'
             : 'bg-gradient-to-tr from-[#B87333]/10 via-[#C7A15A]/15 to-transparent'
