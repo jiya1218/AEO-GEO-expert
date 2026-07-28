@@ -13,10 +13,11 @@ import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { Navbar } from '@/components/navbar';
 import { BrandLogo } from '@/components/ui/brand-logo';
 import { Footer } from '@/components/footer';
+import { useTheme } from '@/components/theme-provider';
 import { blogPostsData } from '@/lib/blog-data';
 
 export default function BlogDetailPage() {
-  const [isDark, setIsDark] = useState(true);
+  const { isDark } = useTheme();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
   
@@ -38,7 +39,7 @@ export default function BlogDetailPage() {
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Audit Your Brand" ctaHref="/dashboard" />
+      <Navbar ctaText="Audit Your Brand" ctaHref="/dashboard" />
 
       {/* Article Content Container */}
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10 w-full">

@@ -13,6 +13,7 @@ import { AiBackground } from '@/components/ui/ai-background';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { Footer } from '@/components/footer';
 import { CheckoutModal } from '@/components/pricing/checkout-modal';
+import { useTheme } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { BrandLogo } from '@/components/ui/brand-logo';
 
@@ -47,7 +48,7 @@ const scaleInVariants: Variants = {
 };
 
 export default function PricingPage() {
-  const [isDark, setIsDark] = useState(true);
+  const { isDark } = useTheme();
   const [isAnnual, setIsAnnual] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPlanPrice, setSelectedPlanPrice] = useState('$149');
@@ -148,7 +149,7 @@ export default function PricingPage() {
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Choose Plan" ctaHref="#plans" />
+      <Navbar ctaText="Choose Plan" ctaHref="#plans" />
 
       {/* Main Content Container */}
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10 w-full">

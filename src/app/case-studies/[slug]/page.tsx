@@ -13,10 +13,11 @@ import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { Navbar } from '@/components/navbar';
 import { BrandLogo } from '@/components/ui/brand-logo';
 import { Footer } from '@/components/footer';
+import { useTheme } from '@/components/theme-provider';
 import { caseStudiesData } from '@/lib/case-studies-data';
 
 export default function CaseStudyDetailPage() {
-  const [isDark, setIsDark] = useState(true);
+  const { isDark } = useTheme();
   const params = useParams();
   const slug = params?.slug as string;
 
@@ -40,7 +41,7 @@ export default function CaseStudyDetailPage() {
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Audit Your Brand" ctaHref="/dashboard" />
+      <Navbar ctaText="Audit Your Brand" ctaHref="/dashboard" />
 
       {/* Main Content */}
       <main className="flex-1 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10 w-full">

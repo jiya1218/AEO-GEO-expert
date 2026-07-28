@@ -14,11 +14,12 @@ import { Sculpture3D } from '@/components/ui/sculpture-3d';
 import { Footer } from '@/components/footer';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal';
 
+import { useTheme } from '@/components/theme-provider';
 import { Navbar } from '@/components/navbar';
 import { BrandLogo } from '@/components/ui/brand-logo';
 
 export default function HomePage() {
-  const [isDark, setIsDark] = useState(true);
+  const { isDark, setIsDark } = useTheme();
   const [searchUrl, setSearchUrl] = useState('');
   const [activeIndustryTab, setActiveIndustryTab] = useState(0);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -96,14 +97,14 @@ export default function HomePage() {
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Audit Your Brand" ctaHref="/dashboard" />
+      <Navbar ctaText="Audit Your Brand" ctaHref="/dashboard" />
 
       {/* Main Content Sections */}
       <main className="flex-1">
 
         {/* SECTION 1: HERO SECTION (45% Left Copy / 55% Right 3D Sculpture) */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-28 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-start">
 
             {/* Left 45% Content Column (Columns 1-5) */}
             <ScrollReveal variant="fadeRight" duration={0.8} className="lg:col-span-5 space-y-8 text-left">

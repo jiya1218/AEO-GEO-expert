@@ -19,7 +19,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
     let animationFrameId: number;
     let width = (canvas.width = canvas.parentElement?.clientWidth || 600);
-    let height = (canvas.height = canvas.parentElement?.clientHeight || 600);
+    let height = (canvas.height = canvas.parentElement?.clientHeight || 500);
 
     const handleResize = () => {
       if (!canvas || !canvas.parentElement) return;
@@ -40,13 +40,14 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
     const drawSculpture = () => {
       ctx.clearRect(0, 0, width, height);
 
+      // Centered slightly upward to align with header headline
       const centerX = width / 2;
-      const centerY = height / 2 + Math.sin(floatTime) * 12; // Gentle floating motion
+      const centerY = height * 0.45 + Math.sin(floatTime) * 10; 
       floatTime += 0.015;
       angleX += 0.004;
       angleY += 0.007;
 
-      const size = Math.min(width, height) * 0.38;
+      const size = Math.min(width, height) * 0.42;
 
       // Render concentric precision-machined metallic rings
       const ringCount = 5;
@@ -114,7 +115,6 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
         const v1 = vertices[i];
         const v2 = vertices[(i + 1) % vertices.length];
 
-        // 3D rotation matrix
         const cosY = Math.cos(angleY * 0.8);
         const sinY = Math.sin(angleY * 0.8);
         const x1 = v1.x * cosY - v1.z * sinY;
@@ -161,7 +161,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
   }, [isDark]);
 
   return (
-    <div className={`relative w-full h-[520px] sm:h-[600px] flex items-center justify-center ${className}`}>
+    <div className={`relative w-full h-[450px] sm:h-[500px] flex items-center justify-center -mt-6 sm:-mt-10 lg:-mt-16 ${className}`}>
       {/* Background Soft Warm Lighting Glow Disc */}
       <motion.div
         animate={{
@@ -173,42 +173,15 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
           repeat: Infinity,
           ease: [0.22, 1, 0.36, 1],
         }}
-        className={`absolute w-96 h-96 rounded-full blur-[140px] pointer-events-none ${
+        className={`absolute w-80 h-80 rounded-full blur-[120px] pointer-events-none ${
           isDark
             ? 'bg-gradient-to-tr from-[#B87333]/15 via-[#C7A15A]/20 to-transparent'
             : 'bg-gradient-to-tr from-[#B87333]/10 via-[#C7A15A]/15 to-transparent'
         }`}
       />
 
-      {/* Interactive 3D Metal & Glass Sculpture Canvas */}
+      {/* Clean Interactive 3D Metal & Glass Sculpture Canvas without text clutter */}
       <canvas ref={canvasRef} className="relative z-10 w-full h-full cursor-pointer" />
-
-      {/* Floating Metallic Specs / Precision Indicators */}
-      <div className="absolute inset-0 z-20 pointer-events-none flex flex-col justify-between p-6 sm:p-10">
-        <div className="flex items-center justify-between text-[10px] font-mono tracking-widest uppercase">
-          <span className={`px-2.5 py-1 rounded-md border ${
-            isDark ? 'bg-[#121315]/80 border-white/10 text-[#B7B7B5]' : 'bg-white/80 border-[#E5E3DF] text-[#5C5C5C]'
-          } backdrop-blur-md`}>
-            Fig. 01 — Machined Bronze Core
-          </span>
-          <span className={`px-2.5 py-1 rounded-md border ${
-            isDark ? 'bg-[#121315]/80 border-white/10 text-[#C7A15A]' : 'bg-white/80 border-[#E5E3DF] text-[#B87333]'
-          } backdrop-blur-md font-bold`}>
-            6 LLM Synchronized
-          </span>
-        </div>
-
-        <div className="flex items-center justify-between text-[10px] font-mono tracking-widest uppercase">
-          <span className={isDark ? 'text-[#B7B7B5]/60' : 'text-[#5C5C5C]/60'}>
-            R: 0.22 | E: 1.00 | T: 0.36
-          </span>
-          <span className={`px-2.5 py-1 rounded-md border ${
-            isDark ? 'bg-[#121315]/80 border-white/10 text-[#B7B7B5]' : 'bg-white/80 border-[#E5E3DF] text-[#5C5C5C]'
-          } backdrop-blur-md`}>
-            Precision GEO Sculpture
-          </span>
-        </div>
-      </div>
     </div>
   );
 }

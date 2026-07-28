@@ -3,23 +3,23 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sun, Moon, ArrowRight, Sparkles } from 'lucide-react';
+import { Sun, Moon, ArrowRight } from 'lucide-react';
 import { BrandLogo } from '@/components/ui/brand-logo';
+import { useTheme } from '@/components/theme-provider';
 
 interface NavbarProps {
-  isDark: boolean;
-  setIsDark: (val: boolean | ((prev: boolean) => boolean)) => void;
+  isDark?: boolean;
+  setIsDark?: (val: boolean | ((prev: boolean) => boolean)) => void;
   ctaText?: string;
   ctaHref?: string;
 }
 
 export function Navbar({
-  isDark,
-  setIsDark,
   ctaText = 'Get Started',
   ctaHref = '/dashboard',
 }: NavbarProps) {
   const pathname = usePathname();
+  const { isDark, toggleTheme } = useTheme();
 
   const navLinks = [
     { label: 'Home', href: '/' },
@@ -36,29 +36,29 @@ export function Navbar({
         isDark ? 'border-white/10 bg-[#0B0B0C]/90 text-[#F6F6F4]' : 'border-[#E5E3DF] bg-[#FCFCFB]/90 text-[#181818]'
       } backdrop-blur-2xl sticky top-0 z-40 transition-colors duration-300`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4 md:gap-8">
         
-        {/* Left: Brand Logo */}
+        {/* Left: Brand Logo (shrink-0 guarantees it never gets squeezed or overlapped) */}
         <div className="flex items-center shrink-0">
           <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
         </div>
 
-        {/* Center: Main Navigation Menu Links - Perfectly Centered */}
-        <div className="hidden lg:flex items-center justify-center absolute left-1/2 -translate-x-1/2 gap-7 text-xs font-mono font-bold uppercase tracking-wider">
+        {/* Center: Main Navigation Menu Links - Flexibly Centered without overlapping */}
+        <div className="hidden md:flex items-center justify-center gap-5 lg:gap-7 flex-1 min-w-0 max-w-2xl text-xs font-mono font-bold uppercase tracking-wider">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href) && !link.href.includes('#'));
             return (
               <Link
                 key={link.label}
                 href={link.href}
-                className={`transition-all py-1 relative ${
+                className={`transition-all py-1 shrink-0 relative ${
                   isActive
                     ? isDark
                       ? 'text-[#C7A15A] font-extrabold'
                       : 'text-[#B87333] font-extrabold'
                     : isDark
                     ? 'text-[#B7B7B5] hover:text-white'
-                    : 'text-[#4A4A4A] hover:text-[#181818]'
+                    : 'text-[#3A3A3A] hover:text-[#181818]'
                 }`}
               >
                 <span>{link.label}</span>
@@ -76,9 +76,9 @@ export function Navbar({
 
         {/* Right: Icon-Only Theme Toggle & Primary CTA Button */}
         <div className="flex items-center gap-3.5 shrink-0">
-          {/* Icon-Only Theme Toggle (No Light/Dark text) */}
+          {/* Icon-Only Theme Toggle (Persistent Global State) */}
           <button
-            onClick={() => setIsDark(!isDark)}
+            onClick={toggleTheme}
             className={`p-2.5 rounded-2xl border ${
               isDark
                 ? 'bg-[#121315] border-white/10 text-[#C7A15A] hover:border-[#C7A15A] hover:bg-[#1B1C1F]'

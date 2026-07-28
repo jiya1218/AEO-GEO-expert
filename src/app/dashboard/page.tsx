@@ -22,10 +22,12 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { useTheme } from '@/components/theme-provider';
+
 type ActiveTab = 'overview' | 'crawler' | 'heatmap' | 'keywords' | 'citations' | 'gaps';
 
 export default function DashboardPage() {
-  const [isDark, setIsDark] = useState(false);
+  const { isDark } = useTheme();
   const [activeTab, setActiveTab] = useState<ActiveTab>('overview');
   const [userEmail, setUserEmail] = useState<string | null>(null);
 
@@ -127,7 +129,7 @@ export default function DashboardPage() {
       )}
 
       {/* Top Header Navbar */}
-      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Run AI Audit" ctaHref="#scanner" />
+      <Navbar ctaText="Run AI Audit" ctaHref="#scanner" />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         
