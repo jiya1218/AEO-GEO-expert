@@ -80,7 +80,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
 
       const cx = width / 2;
       const cy = height / 2;
-      const baseRadius = Math.min(width, height) * 0.40;
+      const baseRadius = Math.min(width, height) * 0.45;
 
       // === ENTRANCE: Radar rings scale in ===
       const ringEntrance = easeOutExpo(Math.min(1, entranceProgress * 1.8));
@@ -292,7 +292,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
   return (
     <div className={`relative w-full flex flex-col items-center ${className}`}>
       {/* Canvas Container */}
-      <div className="relative w-full h-[480px] sm:h-[540px] lg:h-[580px] flex items-center justify-center">
+      <div className="relative w-full h-[580px] sm:h-[640px] lg:h-[720px] flex items-center justify-center">
         {/* Background Warm Ambient Glow */}
         <motion.div
           initial={{ scale: 0.6, opacity: 0 }}
@@ -303,7 +303,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
             ease: [0.22, 1, 0.36, 1],
             delay: 0.3,
           }}
-          className={`absolute w-96 h-96 rounded-full blur-[120px] pointer-events-none ${
+          className={`absolute w-[28rem] h-[28rem] rounded-full blur-[120px] pointer-events-none ${
             isDark
               ? 'bg-gradient-to-tr from-[#B87333]/15 via-[#C7A15A]/20 to-transparent'
               : 'bg-gradient-to-tr from-[#B87333]/10 via-[#C7A15A]/15 to-transparent'
