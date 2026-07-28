@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { AiBackground } from '@/components/ui/ai-background';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
+import { Navbar } from '@/components/navbar';
 import { BrandLogo } from '@/components/ui/brand-logo';
 import { Footer } from '@/components/footer';
 import { blogPostsData } from '@/lib/blog-data';
@@ -37,46 +38,7 @@ export default function BlogDetailPage() {
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <nav className={`border-b ${isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
-
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-8 text-xs font-bold tracking-wide uppercase">
-              <Link href="/" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Home
-              </Link>
-              <Link href="/pricing" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Pricing
-              </Link>
-              <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Case Studies
-              </Link>
-              <Link href="/blog" className={`${isDark ? 'text-[#C7A15A] font-extrabold border-b-2 border-[#C7A15A]' : 'text-[#B87333] font-extrabold border-b-2 border-[#B87333]'} py-1`}>
-                Blog
-              </Link>
-              <Link href="/dashboard" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Dashboard
-              </Link>
-            </div>
-
-            <button
-              onClick={() => setIsDark(!isDark)}
-              className={`p-2.5 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A]' : 'bg-white border-[#E5E3DF] text-[#B87333]'} transition-all text-xs font-bold flex items-center gap-2`}
-            >
-              <span>{isDark ? 'Light' : 'Dark'}</span>
-            </button>
-
-            <Link
-              href="/dashboard"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-primary font-bold text-xs shadow-lg shadow-[#C7A15A]/20"
-            >
-              <span>Audit Your Brand</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </nav>
+      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Audit Your Brand" ctaHref="/dashboard" />
 
       {/* Article Content Container */}
       <main className="flex-1 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10 w-full">

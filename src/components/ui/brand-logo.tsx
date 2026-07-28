@@ -62,7 +62,7 @@ export function BrandLogo({
 
         {subtitle && (
           <span className={`font-mono uppercase font-bold ${dimensions.sub} mt-1 ${
-            isDark ? 'text-[#B7B7B5]/80' : 'text-[#5C5C5C]/80'
+            isDark ? 'text-[#B7B7B5]' : 'text-[#3A3A3A]'
           }`}>
             {subtitle}
           </span>

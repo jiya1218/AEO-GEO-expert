@@ -13,6 +13,7 @@ import { AnalysisAnimation } from '@/components/dashboard/analysis-animation';
 import { ReportDownloadButton } from '@/components/dashboard/report-download-button';
 import { AiBackground } from '@/components/ui/ai-background';
 import { ScrollReveal } from '@/components/ui/scroll-reveal';
+import { Navbar } from '@/components/navbar';
 import { BrandLogo } from '@/components/ui/brand-logo';
 import {
   Brain, RefreshCw, LogOut, Globe, Sparkles, CheckCircle2,
@@ -126,51 +127,7 @@ export default function DashboardPage() {
       )}
 
       {/* Top Header Navbar */}
-      <header className={`border-b ${isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
-
-          {/* Navigation Links */}
-          <div className="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-wide">
-            <Link href="/" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-              Home
-            </Link>
-            <Link href="/pricing" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-              Pricing
-            </Link>
-            <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-              Case Studies
-            </Link>
-            <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-              Blog
-            </Link>
-            <Link href="/dashboard" className={`${isDark ? 'text-[#C7A15A] font-extrabold border-b-2 border-[#C7A15A]' : 'text-[#B87333] font-extrabold border-b-2 border-[#B87333]'} py-1`}>
-              Dashboard
-            </Link>
-          </div>
-          <div className="flex items-center gap-3">
-            {/* Theme Toggle Button */}
-            <button
-              onClick={() => setIsDark(!isDark)}
-              className={`px-3.5 py-2 rounded-xl border ${
-                isDark
-                  ? 'bg-[#181818] border-[#2A2A2A] text-[#D4AF37] hover:border-[#D4AF37]'
-                  : 'bg-slate-100 border-slate-300 text-slate-800 hover:bg-slate-200 shadow-2xs'
-              } transition-all text-xs font-extrabold flex items-center gap-2`}
-              title="Toggle Light / Dark Mode"
-            >
-              {isDark ? <Sun className="w-4 h-4 text-[#F5D76E]" /> : <Moon className="w-4 h-4 text-slate-700" />}
-              <span>{isDark ? 'Light' : 'Dark'}</span>
-            </button>
-
-            {userEmail && (
-              <span className={`hidden md:inline-block text-xs font-semibold ${isDark ? 'text-[#9E9E9E] border-[#2A2A2A]' : 'text-slate-600 border-slate-200'} border-l pl-3`}>
-                {userEmail}
-              </span>
-            )}
-          </div>
-        </div>
-      </header>
+      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Run AI Audit" ctaHref="#scanner" />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 relative z-10">
         

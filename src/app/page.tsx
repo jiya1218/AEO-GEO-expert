@@ -14,6 +14,7 @@ import { Sculpture3D } from '@/components/ui/sculpture-3d';
 import { Footer } from '@/components/footer';
 import { ScrollReveal, StaggerContainer, StaggerItem } from '@/components/ui/scroll-reveal';
 
+import { Navbar } from '@/components/navbar';
 import { BrandLogo } from '@/components/ui/brand-logo';
 
 export default function HomePage() {
@@ -95,54 +96,7 @@ export default function HomePage() {
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <ScrollReveal variant="fadeDown" duration={0.6} as="nav" className={`border-b ${
-        isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'
-      } backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
-
-          <div className="flex items-center gap-6">
-            <div className="hidden md:flex items-center gap-7 text-xs font-bold tracking-wide uppercase">
-              <a href="#capabilities" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Capabilities
-              </a>
-              <Link href="/pricing" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Pricing
-              </Link>
-              <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Case Studies
-              </Link>
-              <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#F6F6F4]' : 'text-[#5C5C5C] hover:text-[#181818]'} transition-colors`}>
-                Blog
-              </Link>
-              <Link href="/dashboard" className={`${isDark ? 'text-[#C7A15A] hover:text-white' : 'text-[#B87333] hover:text-[#181818]'} transition-colors font-extrabold`}>
-                Dashboard
-              </Link>
-            </div>
-
-            {/* Theme Toggle Button */}
-            <button
-              onClick={() => setIsDark(!isDark)}
-              className={`p-2.5 rounded-2xl border ${
-                isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A] hover:border-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#B87333]'
-              } transition-all text-xs font-bold flex items-center gap-2`}
-              title="Toggle Theme"
-            >
-              {isDark ? <Sun className="w-4 h-4 text-[#C7A15A]" /> : <Moon className="w-4 h-4 text-[#B87333]" />}
-              <span className="hidden sm:inline text-[11px] uppercase tracking-wider">{isDark ? 'Light' : 'Dark'}</span>
-            </button>
-
-            {/* Primary CTA */}
-            <Link
-              href="/dashboard"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-primary text-xs shadow-lg shadow-[#C7A15A]/20"
-            >
-              <span>Audit Your Brand</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      </ScrollReveal>
+      <Navbar isDark={isDark} setIsDark={setIsDark} ctaText="Audit Your Brand" ctaHref="/dashboard" />
 
       {/* Main Content Sections */}
       <main className="flex-1">

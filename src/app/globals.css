@@ -46,8 +46,22 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+html:not(.dark) .champagne-gradient-text,
+.light .champagne-gradient-text {
+  background: linear-gradient(135deg, #181818 0%, #B87333 60%, #8A511B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .bronze-gradient-text {
   background: linear-gradient(135deg, #FFFFFF 0%, #E8C19D 35%, #B87333 70%, #7E4A19 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html:not(.dark) .bronze-gradient-text,
+.light .bronze-gradient-text {
+  background: linear-gradient(135deg, #181818 0%, #B87333 60%, #7E4A19 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
