@@ -32,19 +32,19 @@ export function Footer({ isDark = true }: FooterProps) {
   const resourceLinks = [
     { label: 'Blog', href: '/blog' },
     { label: 'Case Studies', href: '/case-studies' },
-    { label: 'Documentation', href: '/blog' },
-    { label: 'API Reference', href: '/blog' },
-    { label: 'Changelog', href: '/blog' },
-    { label: 'Help Center', href: '/blog' },
+    { label: 'Documentation', href: '/docs' },
+    { label: 'API Reference', href: '/api-reference' },
+    { label: 'Changelog', href: '/changelog' },
+    { label: 'Help Center', href: '/help' },
   ];
 
   const companyLinks = [
-    { label: 'About', href: '/' },
-    { label: 'Careers', href: '/' },
-    { label: 'Contact', href: '/pricing' },
-    { label: 'Partners', href: '/' },
-    { label: 'Press Kit', href: '/' },
-    { label: 'Brand Assets', href: '/' },
+    { label: 'About', href: '/about' },
+    { label: 'Careers', href: '/careers' },
+    { label: 'Contact', href: '/contact' },
+    { label: 'Partners', href: '/partners' },
+    { label: 'Press Kit', href: '/press-kit' },
+    { label: 'Brand Assets', href: '/brand-assets' },
   ];
 
   const legalLinks = [
