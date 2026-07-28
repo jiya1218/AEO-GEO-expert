@@ -321,7 +321,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 1.8, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center justify-center gap-4 mt-3"
+            className="flex items-center justify-center gap-4 -mt-8 sm:-mt-10 relative z-20"
           >
             <div className={`flex items-center gap-4 px-6 py-2.5 rounded-full border backdrop-blur-sm ${
               isDark
