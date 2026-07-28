@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-// Real-world domain authority lookup database for unbiased fallbacks
-const REAL_DOMAIN_AUTHORITY: Record<string, number> = {
+// Fixed, deterministic real-world domain authority scores (0-100)
+const DETERMINISTIC_BRAND_AUTHORITY: Record<string, number> = {
   'google.com': 99,
   'amazon.com': 96,
   'nike.in': 90,
@@ -15,18 +15,34 @@ const REAL_DOMAIN_AUTHORITY: Record<string, number> = {
   'eatsure.com': 55,
   'toingit.com': 20,
   'catsurc.com': 15,
-  'rajaranicoaching.com': 65,
-  'solospider.ai': 60,
-  'venueconnect.in': 58,
+  'rajaranicoaching.com': 68,
+  'solospider.ai': 64,
+  'venueconnect.in': 60,
   'adyen.com': 85,
   'paypal.com': 94,
   'checkout.com': 78,
   'square.com': 88,
   'atlassian.com': 93,
+  'jira.com': 92,
   'asana.com': 89,
   'monday.com': 87,
   'linear.app': 82,
 };
+
+// Deterministic string hash function for any unknown domain (always yields exact same score)
+function getDeterministicDomainScore(domain: string): number {
+  const dClean = domain.toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').replace(/\/.*$/, '');
+  if (DETERMINISTIC_BRAND_AUTHORITY[dClean]) {
+    return DETERMINISTIC_BRAND_AUTHORITY[dClean];
+  }
+  let hash = 0;
+  for (let i = 0; i < dClean.length; i++) {
+    hash = (hash << 5) - hash + dClean.charCodeAt(i);
+    hash |= 0;
+  }
+  // Map hash deterministically between 25 and 65
+  return 25 + (Math.abs(hash) % 41);
+}
 
 export async function POST(req: Request) {
   try {
@@ -45,12 +61,41 @@ export async function POST(req: Request) {
 
     const allDomains = [brand, c1, c2, c3].filter(Boolean);
 
-    let radar: any[] = [];
-    let modelBreakdown: any = null;
+    // 1. Calculate 100% Deterministic Scores & Relative Citation Percentages
+    const scoredDomains = allDomains.map((d) => {
+      const score = getDeterministicDomainScore(d);
+      return {
+        domain: d,
+        name: d.split('.')[0].toUpperCase(),
+        score,
+        isUser: d === brand,
+      };
+    });
+
+    const sumScores = scoredDomains.reduce((acc, curr) => acc + curr.score, 0);
+
+    let rawShares = scoredDomains.map((item) => Math.round((item.score / sumScores) * 100));
+    const totalShareSum = rawShares.reduce((a, b) => a + b, 0);
+
+    // Ensure total sum is exactly 100%
+    if (totalShareSum !== 100 && rawShares.length > 0) {
+      rawShares[0] += (100 - totalShareSum);
+    }
+
+    const radar = scoredDomains.map((item, idx) => ({
+      name: item.name,
+      domain: item.domain,
+      share: rawShares[idx],
+      isUser: item.isUser,
+    }));
+
+    // Sort radar deterministically descending by share (market leader always at top)
+    radar.sort((a, b) => b.share - a.share);
+
     let competitiveDetails: any[] = [];
     let recommendation = '';
 
-    // Stage 1: Unbiased OpenRouter AI Analysis (google/gemini-2.5-flash)
+    // Stage 2: OpenRouter AI for Brand-Specific Citation Insights & Gaps
     if (process.env.OPENROUTER_API_KEY) {
       try {
         const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
@@ -66,34 +111,23 @@ export async function POST(req: Request) {
             messages: [
               {
                 role: 'system',
-                content: 'You are an objective, unbiased market research and LLM citation share analyst. Evaluate real-world market dominance without bias.',
+                content: 'You are an AI Search Citation & Market Analyst. Return strictly JSON matching the requested schema without markdown codeblocks.',
               },
               {
                 role: 'user',
-                content: `Perform an OBJECTIVE, UNBIASED market analysis and calculate the true AI citation share of voice percentage (totaling 100%) among these domains:
-${allDomains.map((d, i) => `${i + 1}. ${d}`).join('\n')}
+                content: `Provide qualitative competitive citation insights for these domains: ${allDomains.join(', ')}.
 
-CRITICAL INSTRUCTIONS:
-- Do NOT favor the first domain! Evaluate real market share, web traffic, brand recognition, and actual LLM citation dominance objectively.
-- If a small domain (e.g. toingit.com) is listed against a giant market leader (e.g. swiggy.com or amazon.com), the giant market leader MUST have a significantly higher share (e.g. Swiggy 75%, Toingit 5%).
-
-Return strictly JSON matching:
+Return JSON matching:
 {
-  "radar": [
-    {"domain": "${brand}", "share": 35},
-    ${c1 ? `{"domain": "${c1}", "share": 45},` : ''}
-    ${c2 ? `{"domain": "${c2}", "share": 15},` : ''}
-    ${c3 ? `{"domain": "${c3}", "share": 5}` : ''}
-  ],
   "competitiveDetails": [
     {
-      "domain": "${brand}",
-      "citationEstPer1000": 350,
-      "keyStrengths": "Objective real strength based on market presence",
-      "citationGaps": "Objective content gap"
+      "name": "BRAND NAME",
+      "citationEstPer1000": 380,
+      "keyStrengths": "Specific real strength in generative search",
+      "citationGaps": "Specific content or schema gap"
     }
   ],
-  "recommendation": "Objective strategic advice based on real market position."
+  "recommendation": "1-sentence strategic advice for ${bName} based on its current position."
 }`,
               },
             ],
@@ -107,49 +141,17 @@ Return strictly JSON matching:
           const cleanedText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
           const parsed = JSON.parse(cleanedText);
 
-          if (parsed.radar && parsed.radar.length > 0) {
-            radar = parsed.radar.map((item: any) => {
-              const dClean = (item.domain || '').toLowerCase();
-              const isUserDomain = dClean === brand || dClean.includes(brand) || brand.includes(dClean);
-              return {
-                name: dClean ? dClean.split('.')[0].toUpperCase() : bName,
-                domain: item.domain || brand,
-                share: Math.min(Math.max(item.share || 10, 2), 95),
-                isUser: isUserDomain,
-              };
-            });
-            // Sort by share descending
-            radar.sort((a, b) => b.share - a.share);
-          }
           if (parsed.competitiveDetails) competitiveDetails = parsed.competitiveDetails;
           if (parsed.recommendation) recommendation = parsed.recommendation;
         }
       } catch (aiErr) {
-        console.warn('OpenRouter API call error for unbiased SOV radar:', aiErr);
+        console.warn('OpenRouter API call error for SOV details:', aiErr);
       }
     }
 
-    // Stage 2: Objective Real-World Domain Authority Engine (Fallback)
-    if (radar.length === 0) {
-      let totalAuth = 0;
-      const scored = allDomains.map((d) => {
-        let auth = REAL_DOMAIN_AUTHORITY[d] || REAL_DOMAIN_AUTHORITY[d.replace(/^www\./, '')] || 35;
-        totalAuth += auth;
-        return { domain: d, name: d.split('.')[0].toUpperCase(), auth, isUser: d === brand };
-      });
-
-      radar = scored.map((b) => ({
-        name: b.name,
-        domain: b.domain,
-        share: Math.round((b.auth / totalAuth) * 100),
-        isUser: b.isUser,
-      }));
-
-      // Sort by share descending (market leader first)
-      radar.sort((a, b) => b.share - a.share);
-
+    if (!recommendation) {
       const userItem = radar.find((r) => r.isUser);
-      recommendation = `${bName} currently holds an estimated ${userItem?.share || 25}% citation share against the comparison set. Implement structured schemas and high fact-density content to increase generative search citations.`;
+      recommendation = `${bName} holds an estimated ${userItem?.share || 25}% citation share against the comparison set. Implement Organization and Product schemas to expand AI citation dominance.`;
     }
 
     return NextResponse.json({
@@ -158,7 +160,6 @@ Return strictly JSON matching:
         brand: bName,
         domain: brand,
         radar,
-        modelBreakdown,
         competitiveDetails,
         recommendation,
       },
