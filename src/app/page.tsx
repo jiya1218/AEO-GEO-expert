@@ -437,41 +437,46 @@ export default function HomePage() {
                   desc: 'Track percentage of AI search prompts where your domain is cited vs. top competitors.',
                   icon: TrendingUp,
                   metric: '4.2x Avg. Lift',
+                  href: '/tools/citation-sov',
                 },
                 {
                   title: 'Competitor Displacement Briefs',
                   desc: 'Generate AI-optimized editorial briefs designed specifically to displace competitor citations.',
                   icon: Zap,
                   metric: 'Instant Briefs',
+                  href: '/tools/prompt-research',
                 },
                 {
                   title: 'Vector Entity Density',
                   desc: 'Analyze semantic keyword density to align content with LLM vector embedding parameters.',
                   icon: Cpu,
                   metric: '100% Vector Precision',
+                  href: '/tools/brand-auditor',
                 },
               ].map((solution, idx) => (
                 <ScrollReveal key={idx} variant="fadeUp" delay={idx * 0.15}>
-                  <div className={`p-8 rounded-3xl border ${
-                    isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-lg'
-                  } space-y-6 hover-luxury-lift h-full flex flex-col justify-between`}>
-                    <div className="space-y-4">
-                      <div className="w-12 h-12 rounded-2xl bg-[#B87333]/15 text-[#C7A15A] flex items-center justify-center">
-                        <solution.icon className="w-6 h-6" />
+                  <Link href={solution.href} className="block h-full">
+                    <div className={`p-8 rounded-3xl border ${
+                      isDark ? 'bg-[#1B1C1F] border-white/10 hover:border-[#C7A15A]/40' : 'bg-white border-[#E5E3DF] hover:border-[#B87333]/40 shadow-lg'
+                    } space-y-6 hover-luxury-lift h-full flex flex-col justify-between cursor-pointer group transition-all`}>
+                      <div className="space-y-4">
+                        <div className="w-12 h-12 rounded-2xl bg-[#B87333]/15 text-[#C7A15A] flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <solution.icon className="w-6 h-6" />
+                        </div>
+                        <h3 className={`text-xl font-bold ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'} group-hover:text-[#C7A15A] transition-colors`}>
+                          {solution.title}
+                        </h3>
+                        <p className={`text-xs leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+                          {solution.desc}
+                        </p>
                       </div>
-                      <h3 className={`text-xl font-bold ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'}`}>
-                        {solution.title}
-                      </h3>
-                      <p className={`text-xs leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-                        {solution.desc}
-                      </p>
-                    </div>
 
-                    <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono font-bold text-[#C7A15A]">
-                      <span>{solution.metric}</span>
-                      <ChevronRight className="w-4 h-4 text-[#B87333]" />
+                      <div className="pt-4 border-t border-white/10 flex items-center justify-between text-xs font-mono font-bold text-[#C7A15A]">
+                        <span>{solution.metric}</span>
+                        <ChevronRight className="w-4 h-4 text-[#B87333] group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </ScrollReveal>
               ))}
             </div>
