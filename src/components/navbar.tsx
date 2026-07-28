@@ -44,7 +44,7 @@ export function Navbar({
         </div>
 
         {/* Center: Main Navigation Menu Links - Mathematically Centered */}
-        <div className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 text-xs font-mono font-bold uppercase tracking-wider absolute left-1/2 -translate-x-1/2">
+        <div className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 text-sm font-mono font-bold uppercase tracking-wider absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href) && !link.href.includes('#'));
             return (
@@ -97,7 +97,7 @@ export function Navbar({
           {/* Primary CTA */}
           <Link
             href={ctaHref}
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-primary font-bold text-xs shadow-lg shadow-[#C7A15A]/20 transition-transform hover:scale-105"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-primary font-bold text-sm shadow-lg shadow-[#C7A15A]/20 transition-transform hover:scale-105"
           >
             <span>{ctaText}</span>
             <ArrowRight className="w-3.5 h-3.5" />

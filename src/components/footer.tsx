@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Twitter, Github, Linkedin, Sparkles, Send, CheckCircle2 } from 'lucide-react';
+import { Twitter, Github, Linkedin, Sparkles, CheckCircle2 } from 'lucide-react';
 import { BrandLogo } from '@/components/ui/brand-logo';
 
 interface FooterProps {
@@ -71,16 +71,16 @@ export function Footer({ isDark = true }: FooterProps) {
           
           {/* Col 1: Brand Column (lg:col-span-4) */}
           <div className="lg:col-span-4 space-y-5">
-            <BrandLogo isDark={isDark || true} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
+            <BrandLogo isDark={isDark || true} size="lg" subtitle="INTELLIGENT ROUTING ENGINE" />
             
-            <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#A0A0A5]'} leading-relaxed max-w-sm`}>
+            <p className={`text-sm sm:text-base ${isDark ? 'text-[#B7B7B5]' : 'text-[#A0A0A5]'} leading-relaxed max-w-sm`}>
               The enterprise standard for Generative Engine Optimization (GEO) & Answer Engine Optimization (AEO). Command AI recommendations across ChatGPT, Gemini, Claude, Perplexity, DeepSeek, and Grok.
             </p>
 
             {/* Newsletter Inline Subscription Box */}
             <div className="pt-2 max-w-sm">
               {subscribed ? (
-                <div className="p-3 rounded-xl bg-[#C7A15A]/15 text-[#C7A15A] text-xs font-mono font-bold border border-[#C7A15A]/30 flex items-center gap-2">
+                <div className="p-3.5 rounded-xl bg-[#C7A15A]/15 text-[#C7A15A] text-sm font-mono font-bold border border-[#C7A15A]/30 flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 shrink-0" />
                   <span>Subscribed to TangentCore Insider!</span>
                 </div>
@@ -92,11 +92,11 @@ export function Footer({ isDark = true }: FooterProps) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter work email..."
-                    className="w-full text-xs pl-4 pr-24 py-3 rounded-xl bg-[#0F1014] border border-white/15 text-white placeholder-[#85858A] focus:border-[#C7A15A] focus:outline-none transition-all"
+                    className="w-full text-sm pl-4 pr-28 py-3 rounded-xl bg-[#0F1014] border border-white/15 text-white placeholder-[#85858A] focus:border-[#C7A15A] focus:outline-none transition-all"
                   />
                   <button
                     type="submit"
-                    className="absolute right-1.5 top-1.5 bottom-1.5 px-3.5 rounded-lg luxury-btn-primary text-xs font-bold shadow-xs"
+                    className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-lg luxury-btn-primary text-xs sm:text-sm font-bold shadow-xs"
                   >
                     Subscribe
                   </button>
@@ -106,13 +106,13 @@ export function Footer({ isDark = true }: FooterProps) {
 
             {/* Social Links */}
             <div className="flex items-center gap-3 pt-1">
-              <a href="#" className="p-2 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="Twitter">
+              <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="Twitter">
                 <Twitter className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="GitHub">
+              <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="GitHub">
                 <Github className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="LinkedIn">
+              <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="LinkedIn">
                 <Linkedin className="w-4 h-4" />
               </a>
             </div>
@@ -120,10 +120,10 @@ export function Footer({ isDark = true }: FooterProps) {
 
           {/* Col 2: PLATFORM (lg:col-span-2) */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+            <h4 className="text-sm sm:text-base font-mono font-bold uppercase tracking-wider text-white">
               PLATFORM
             </h4>
-            <ul className="space-y-3 text-xs font-medium">
+            <ul className="space-y-3 text-sm sm:text-base font-medium">
               {platformLinks.map((item) => (
                 <li key={item.label}>
                   <Link
@@ -139,10 +139,10 @@ export function Footer({ isDark = true }: FooterProps) {
 
           {/* Col 3: RESOURCES (lg:col-span-2) */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+            <h4 className="text-sm sm:text-base font-mono font-bold uppercase tracking-wider text-white">
               RESOURCES
             </h4>
-            <ul className="space-y-3 text-xs font-medium">
+            <ul className="space-y-3 text-sm sm:text-base font-medium">
               {resourceLinks.map((item) => (
                 <li key={item.label}>
                   <Link
@@ -158,10 +158,10 @@ export function Footer({ isDark = true }: FooterProps) {
 
           {/* Col 4: COMPANY (lg:col-span-2) */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+            <h4 className="text-sm sm:text-base font-mono font-bold uppercase tracking-wider text-white">
               COMPANY
             </h4>
-            <ul className="space-y-3 text-xs font-medium">
+            <ul className="space-y-3 text-sm sm:text-base font-medium">
               {companyLinks.map((item) => (
                 <li key={item.label}>
                   <Link
@@ -177,10 +177,10 @@ export function Footer({ isDark = true }: FooterProps) {
 
           {/* Col 5: LEGAL (lg:col-span-2) */}
           <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-white">
+            <h4 className="text-sm sm:text-base font-mono font-bold uppercase tracking-wider text-white">
               LEGAL
             </h4>
-            <ul className="space-y-3 text-xs font-medium">
+            <ul className="space-y-3 text-sm sm:text-base font-medium">
               {legalLinks.map((item) => (
                 <li key={item.label}>
                   <a
@@ -197,10 +197,10 @@ export function Footer({ isDark = true }: FooterProps) {
         </div>
 
         {/* Bottom Bar Matching Reference Image */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#85858A]">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm font-mono text-[#85858A]">
           <div className="flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-[#C7A15A]" />
-            <span>© {new Date().getFullYear()} TangentCore (<a href="https://tangentcore.in" target="_blank" rel="noreferrer" className="text-[#C7A15A] font-bold hover:underline">tangentcore.in</a>). All rights reserved.</span>
+            <span>© {new Date().getFullYear()} TangentCore. All rights reserved.</span>
           </div>
           
           <div className="flex items-center gap-2">
