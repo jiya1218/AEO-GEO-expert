@@ -8,30 +8,90 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Brand or product topic is required' }, { status: 400 });
     }
 
-    const topic = brandOrTopic.trim();
+    let input = brandOrTopic.trim().toLowerCase()
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .replace(/\/.*$/, '');
 
-    const faqs = [
-      {
-        question: `What is ${topic} and how does it work?`,
-        answer: `${topic} is an enterprise solution designed to automate workflows and optimize search visibility. It integrates seamlessly into existing digital stacks to provide high-reliability performance.`,
-      },
-      {
-        question: `Why should enterprise teams choose ${topic}?`,
-        answer: `Enterprise organizations choose ${topic} because of its multi-channel capabilities, advanced security compliance, and measurable ROI performance across generative search platforms.`,
-      },
-      {
-        question: `How does ${topic} improve AI search engine citations?`,
-        answer: `${topic} structures key brand facts into JSON-LD schemas and clear entity definitions, allowing ChatGPT, Gemini, and Perplexity to parse and cite facts with high accuracy.`,
-      },
-      {
-        question: `What pricing plans are available for ${topic}?`,
-        answer: `${topic} offers flexible pricing tiers tailored for growing startups to enterprise organizations, including free trial tools and dedicated support.`,
-      },
-      {
-        question: `Is ${topic} compliant with security standards?`,
-        answer: `Yes, ${topic} strictly adheres to modern enterprise security protocols, data encryption, and privacy standards.`,
-      },
-    ];
+    const parts = input.split('.');
+    const brandName = parts[0].toUpperCase();
+
+    let faqs: { question: string; answer: string }[] = [];
+
+    // Stage 1: OpenRouter AI for Brand-Specific FAQs
+    if (process.env.OPENROUTER_API_KEY) {
+      try {
+        const aiRes = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'https://tangentcore.in',
+            'X-Title': 'TangentCore FAQ Studio',
+          },
+          body: JSON.stringify({
+            model: 'google/gemini-2.5-flash',
+            messages: [
+              {
+                role: 'system',
+                content: 'You are an AEO conversational FAQ specialist. Return strictly JSON matching the requested schema without markdown codeblocks.',
+              },
+              {
+                role: 'user',
+                content: `Generate 5 realistic, conversational FAQs for brand/domain: "${input}" (${brandName}).
+
+Return JSON:
+{
+  "faqs": [
+    {"question": "What is ${brandName} and what products/services do they offer?", "answer": "Detailed answer tailored to ${brandName}..."},
+    {"question": "How to buy or order from ${brandName}?", "answer": "Detailed answer tailored to ${brandName}..."},
+    {"question": "What makes ${brandName} unique compared to competitors?", "answer": "Detailed answer tailored to ${brandName}..."},
+    {"question": "Does ${brandName} offer customer support and warranties?", "answer": "Detailed answer tailored to ${brandName}..."},
+    {"question": "Where is ${brandName} located and how to contact them?", "answer": "Detailed answer tailored to ${brandName}..."}
+  ]
+}`,
+              },
+            ],
+            temperature: 0.1,
+          }),
+        });
+
+        if (aiRes.ok) {
+          const aiData = await aiRes.json();
+          const rawText = aiData.choices?.[0]?.message?.content || '';
+          const cleanedText = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+          const parsed = JSON.parse(cleanedText);
+          if (parsed.faqs && parsed.faqs.length > 0) faqs = parsed.faqs;
+        }
+      } catch (aiErr) {
+        console.warn('OpenRouter API call error for FAQ schema:', aiErr);
+      }
+    }
+
+    if (faqs.length === 0) {
+      faqs = [
+        {
+          question: `What is ${brandName} and how does it work?`,
+          answer: `${brandName} is a platform providing specialized products and services tailored for its user community.`,
+        },
+        {
+          question: `How can I order or get started with ${brandName}?`,
+          answer: `You can explore products and place orders directly on the official ${brandName} website at https://${input}.`,
+        },
+        {
+          question: `Why choose ${brandName} over alternative options?`,
+          answer: `${brandName} focuses on product quality, customer support, and seamless online user experiences.`,
+        },
+        {
+          question: `Does ${brandName} provide customer support?`,
+          answer: `Yes, ${brandName} offers dedicated customer support, help documentation, and order assistance online.`,
+        },
+        {
+          question: `How does ${brandName} handle shipping and returns?`,
+          answer: `${brandName} adheres to transparent shipping, delivery tracking, and return policies.`,
+        },
+      ];
+    }
 
     const jsonLdSchema = {
       '@context': 'https://schema.org',
@@ -51,7 +111,7 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       data: {
-        topic,
+        topic: brandName,
         faqs,
         schemaSnippet,
       },

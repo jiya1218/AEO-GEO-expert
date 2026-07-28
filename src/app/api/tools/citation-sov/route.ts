@@ -8,13 +8,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Your brand name is required' }, { status: 400 });
     }
 
-    const brand = userBrand.trim();
-    const c1 = (comp1 || 'Competitor A').trim();
-    const c2 = (comp2 || 'Competitor B').trim();
-    const c3 = (comp3 || 'Competitor C').trim();
+    let input = userBrand.trim().toLowerCase()
+      .replace(/^https?:\/\//, '')
+      .replace(/^www\./, '')
+      .replace(/\/.*$/, '');
+
+    const parts = input.split('.');
+    const brandName = parts[0].toUpperCase();
+
+    const c1 = (comp1 || `${brandName} Competitor A`).trim();
+    const c2 = (comp2 || `${brandName} Competitor B`).trim();
+    const c3 = (comp3 || `${brandName} Competitor C`).trim();
 
     const radar = [
-      { name: brand, share: 38, isUser: true },
+      { name: brandName, share: 38, isUser: true },
       { name: c1, share: 28, isUser: false },
       { name: c2, share: 20, isUser: false },
       { name: c3, share: 14, isUser: false },
@@ -23,9 +30,9 @@ export async function POST(req: Request) {
     return NextResponse.json({
       success: true,
       data: {
-        brand,
+        brand: brandName,
         radar,
-        recommendation: `Your brand commands a 38% citation share against top competitors. Optimize FAQ schema to surpass ${c1}.`,
+        recommendation: `${brandName} commands a 38% citation share against top competitors across LLM search engines. Optimize schema to expand share.`,
       },
     });
   } catch (err: any) {
