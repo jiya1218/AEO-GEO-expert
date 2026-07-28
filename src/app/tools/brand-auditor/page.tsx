@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   Building2, Globe, Search, Loader2, Sparkles, CheckCircle2, 
-  ExternalLink, ArrowRight, Layers, Bot 
+  ExternalLink, ArrowRight, Layers, Bot, Palette 
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTheme } from '@/components/theme-provider';
@@ -19,13 +19,14 @@ export default function BrandAuditorToolPage() {
   const [loading, setLoading] = useState(false);
   const [auditResult, setAuditResult] = useState<any | null>(null);
   const [logoIdx, setLogoIdx] = useState(0);
+  const [logoBgColor, setLogoBgColor] = useState<'dark' | 'light' | 'checker' | 'gold'>('light');
 
-  const sampleDomains = ['swiggy.com', 'amazon.com', 'stripe.com', 'linear.app', 'notion.so'];
+  const sampleDomains = ['rajaranicoaching.com', 'swiggy.com', 'amazon.com', 'stripe.com', 'linear.app'];
 
   const handleRunAudit = async (targetDomain?: string) => {
     const domainToAudit = targetDomain || domainInput;
     if (!domainToAudit.trim()) {
-      toast.error('Please enter a valid website domain (e.g. swiggy.com or amazon.com)');
+      toast.error('Please enter a valid website domain (e.g. rajaranicoaching.com or swiggy.com)');
       return;
     }
 
@@ -87,7 +88,7 @@ export default function BrandAuditorToolPage() {
           </h1>
 
           <p className={`text-base sm:text-lg leading-relaxed ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-            Extract real brand logos, complete AI executive business summaries, top market competitors, and AEO citation scores.
+            Extract real brand logos in full original color, complete AI executive business summaries, top market competitors, and AEO citation scores.
           </p>
         </div>
 
@@ -113,7 +114,7 @@ export default function BrandAuditorToolPage() {
                 type="text"
                 value={domainInput}
                 onChange={(e) => setDomainInput(e.target.value)}
-                placeholder="e.g. swiggy.com or amazon.com"
+                placeholder="e.g. rajaranicoaching.com or swiggy.com"
                 className={`w-full ${
                   isDark
                     ? 'bg-[#1B1C1F] border-white/10 text-white placeholder-[#B7B7B5]/60 focus:border-[#C7A15A]'
@@ -173,7 +174,7 @@ export default function BrandAuditorToolPage() {
             <div className="space-y-2">
               <h3 className="text-xl font-bold">Auditing Website & Real Market Competitors...</h3>
               <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-                Extracting brand logo, executive business summary, and competitive mapping.
+                Extracting original brand logo, executive business summary, and competitive mapping.
               </p>
             </div>
           </div>
@@ -213,28 +214,74 @@ export default function BrandAuditorToolPage() {
                   </a>
                 </div>
 
-                {/* LOGO Box (Heading "LOGO" on top, Full Brand Logo Image) */}
+                {/* LOGO Box with Background Controls */}
                 <div className="flex items-center gap-6">
-                  <div className={`p-4 rounded-2xl border flex flex-col items-center gap-2 ${
+                  <div className={`p-4 rounded-2xl border flex flex-col items-center gap-3 ${
                     isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
                   }`}>
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#C7A15A]">
                       LOGO
                     </span>
                     
-                    {/* Render candidate logo URL */}
-                    {auditResult.logoCandidates && auditResult.logoCandidates[logoIdx] ? (
-                      <img
-                        src={auditResult.logoCandidates[logoIdx]}
-                        alt={`${auditResult.brandName} Logo`}
-                        className="h-12 max-w-48 object-contain bg-white/10 px-3 py-1 rounded-xl"
-                        onError={handleLogoError}
+                    {/* Dynamic Background Logo Container */}
+                    <div className={`p-3 rounded-xl transition-colors duration-300 flex items-center justify-center min-w-[140px] min-h-[56px] ${
+                      logoBgColor === 'light'
+                        ? 'bg-white border border-slate-200'
+                        : logoBgColor === 'dark'
+                        ? 'bg-[#0B0B0C] border border-slate-800'
+                        : logoBgColor === 'gold'
+                        ? 'bg-[#C7A15A]/20 border border-[#C7A15A]/40'
+                        : 'bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:8px_8px] bg-slate-100 border border-slate-300'
+                    }`}>
+                      {auditResult.logoCandidates && auditResult.logoCandidates[logoIdx] ? (
+                        <img
+                          src={auditResult.logoCandidates[logoIdx]}
+                          alt={`${auditResult.brandName} Logo`}
+                          className="h-12 max-w-44 object-contain"
+                          onError={handleLogoError}
+                        />
+                      ) : (
+                        <div className="h-10 px-4 rounded-xl bg-gradient-to-r from-[#B87333] to-[#C7A15A] flex items-center justify-center text-white font-extrabold text-sm tracking-wider">
+                          {auditResult.brandName}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Background Color Mode Selector Buttons */}
+                    <div className="flex items-center gap-1.5 pt-1">
+                      <span className="text-[9px] font-mono text-[#B7B7B5] mr-1 flex items-center gap-1">
+                        <Palette className="w-3 h-3 text-[#C7A15A]" />
+                        <span>Bg:</span>
+                      </span>
+                      <button
+                        title="White Background"
+                        onClick={() => setLogoBgColor('light')}
+                        className={`w-4 h-4 rounded-full bg-white border ${
+                          logoBgColor === 'light' ? 'ring-2 ring-[#C7A15A]' : 'border-slate-400'
+                        }`}
                       />
-                    ) : (
-                      <div className="h-12 px-4 rounded-xl bg-gradient-to-r from-[#B87333] to-[#C7A15A] flex items-center justify-center text-white font-extrabold text-lg tracking-wider">
-                        {auditResult.brandName}
-                      </div>
-                    )}
+                      <button
+                        title="Dark Background"
+                        onClick={() => setLogoBgColor('dark')}
+                        className={`w-4 h-4 rounded-full bg-[#0B0B0C] border ${
+                          logoBgColor === 'dark' ? 'ring-2 ring-[#C7A15A]' : 'border-slate-600'
+                        }`}
+                      />
+                      <button
+                        title="Gold Accent Background"
+                        onClick={() => setLogoBgColor('gold')}
+                        className={`w-4 h-4 rounded-full bg-[#C7A15A] border ${
+                          logoBgColor === 'gold' ? 'ring-2 ring-white' : 'border-[#B87333]'
+                        }`}
+                      />
+                      <button
+                        title="Transparent Checkerboard"
+                        onClick={() => setLogoBgColor('checker')}
+                        className={`w-4 h-4 rounded-full bg-slate-300 border ${
+                          logoBgColor === 'checker' ? 'ring-2 ring-[#C7A15A]' : 'border-slate-400'
+                        }`}
+                      />
+                    </div>
                   </div>
 
                   {/* AEO Score Badge */}
