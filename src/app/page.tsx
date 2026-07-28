@@ -725,23 +725,23 @@ export default function HomePage() {
             </ScrollReveal>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Growth Plan */}
+              {/* Starter Plan */}
               <ScrollReveal variant="fadeUp">
                 <div className={`p-8 rounded-3xl border ${
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-lg'
                 } space-y-6 hover-luxury-lift flex flex-col justify-between h-full`}>
                   <div className="space-y-4">
                     <span className="text-xs font-mono text-[#B7B7B5] font-bold uppercase">Starter GEO Audit</span>
-                    <h3 className="text-2xl font-extrabold">Growth Tier</h3>
-                    <div className="text-3xl font-black text-[#C7A15A]">$1,899 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
+                    <h3 className="text-2xl font-extrabold">Starter Plan</h3>
+                    <div className="text-3xl font-black text-[#C7A15A]">$39 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
                     <ul className="space-y-2.5 text-xs font-medium pt-4 border-t border-white/10">
                       <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 2 Monitored LLM Engines</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 25 Target Prompt Keywords</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 15 Target Prompt Keywords</li>
                       <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Basic JSON-LD Schema Validation</li>
                     </ul>
                   </div>
                   <Link href="/pricing" className="w-full py-3.5 rounded-2xl luxury-btn-secondary text-center text-xs font-bold block">
-                    Select Growth Plan
+                    Select Starter ($39/mo)
                   </Link>
                 </div>
               </ScrollReveal>
@@ -754,40 +754,40 @@ export default function HomePage() {
                   <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#B87333] via-[#C7A15A] to-[#F5E8C7]" />
                   <div className="space-y-4">
                     <span className="text-xs font-mono text-[#C7A15A] font-bold uppercase flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-[#C7A15A]" /> Flagship Enterprise Suite
+                      <Star className="w-3.5 h-3.5 fill-[#C7A15A]" /> Flagship Most Popular
                     </span>
-                    <h3 className="text-2xl font-extrabold">GEO Dominator</h3>
-                    <div className="text-4xl font-black champagne-gradient-text">$4,499 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
+                    <h3 className="text-2xl font-extrabold">Growth Dominator</h3>
+                    <div className="text-4xl font-black champagne-gradient-text">$149 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
                     <ul className="space-y-2.5 text-xs font-medium pt-4 border-t border-white/10">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> All 6 Multi-LLM Engine Scanning</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Unlimited Target Prompts & Keywords</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Automated Schema Injection & Repair</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Dedicated Senior GEO AI Strategist</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> All 6 Multi-LLM Continuous Scans</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 100 Target Prompt Keywords</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Automated Schema Auto-Repair</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Competitor Displacement Briefs</li>
                     </ul>
                   </div>
                   <Link href="/pricing" className="w-full py-3.5 rounded-2xl luxury-btn-primary text-center text-xs font-bold block shadow-md">
-                    Get Started Now
+                    Get Started ($149/mo)
                   </Link>
                 </div>
               </ScrollReveal>
 
-              {/* Custom Holding Group Plan */}
+              {/* Enterprise Plan */}
               <ScrollReveal variant="fadeUp" delay={0.3}>
                 <div className={`p-8 rounded-3xl border ${
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-lg'
                 } space-y-6 hover-luxury-lift flex flex-col justify-between h-full`}>
                   <div className="space-y-4">
                     <span className="text-xs font-mono text-[#B7B7B5] font-bold uppercase">Multi-Brand Enterprise</span>
-                    <h3 className="text-2xl font-extrabold">Holding Group</h3>
-                    <div className="text-3xl font-black text-[#C7A15A]">Custom <span className="text-xs text-[#B7B7B5] font-normal">/annual</span></div>
+                    <h3 className="text-2xl font-extrabold">Enterprise Scale</h3>
+                    <div className="text-3xl font-black text-[#C7A15A]">$399 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
                     <ul className="space-y-2.5 text-xs font-medium pt-4 border-t border-white/10">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Custom SLA & Dedicated Engineer</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Unlimited Brand Portfolios (5+ Domains)</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Enterprise Single Sign-On (SSO)</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Unlimited Brands & Portfolios (5 Domains)</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Automated Webhooks & API Integration</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Dedicated Senior GEO AI Strategist</li>
                     </ul>
                   </div>
                   <Link href="/pricing" className="w-full py-3.5 rounded-2xl luxury-btn-secondary text-center text-xs font-bold block">
-                    Contact Sales
+                    Select Enterprise ($399/mo)
                   </Link>
                 </div>
               </ScrollReveal>
