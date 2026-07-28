@@ -19,120 +19,95 @@ export function AiBackground({ isDark }: AiBackgroundProps) {
     setMounted(true);
   }, []);
 
-  // Generate 60 floating particles with deterministic values
+  // Generate floating gold dust particles deterministically
   const particles = useMemo(() => {
-    return Array.from({ length: 65 }, (_, i) => ({
+    return Array.from({ length: 55 }, (_, i) => ({
       id: i,
       x: (pseudoRandom(i * 1.1 + 1) * 100).toFixed(4),
       y: (pseudoRandom(i * 2.3 + 2) * 100).toFixed(4),
-      size: (pseudoRandom(i * 3.7 + 3) * 3.5 + 1.5).toFixed(4),
-      duration: (pseudoRandom(i * 4.9 + 4) * 6 + 4).toFixed(4),
+      size: (pseudoRandom(i * 3.7 + 3) * 2.5 + 1.2).toFixed(4),
+      duration: (pseudoRandom(i * 4.9 + 4) * 8 + 6).toFixed(4), // slower, subtle movement
       delay: (pseudoRandom(i * 5.2 + 5) * 5).toFixed(4),
-      opacity: Number((pseudoRandom(i * 6.4 + 6) * 0.45 + 0.25).toFixed(4)),
-      colorType: i % 3, // 0 = cyan, 1 = sky/blue, 2 = indigo/purple
+      opacity: Number((pseudoRandom(i * 6.4 + 6) * 0.25 + 0.1).toFixed(4)),
     }));
   }, []);
 
-  // Generate neural network connection lines
+  // Generate subtle geometric connection lines
   const connections = useMemo(() => {
-    return Array.from({ length: 24 }, (_, i) => ({
+    return Array.from({ length: 18 }, (_, i) => ({
       id: i,
       x1: (pseudoRandom(i * 7.1 + 10) * 100).toFixed(4),
       y1: (pseudoRandom(i * 8.3 + 20) * 100).toFixed(4),
       x2: (pseudoRandom(i * 9.5 + 30) * 100).toFixed(4),
       y2: (pseudoRandom(i * 10.7 + 40) * 100).toFixed(4),
-      duration: (pseudoRandom(i * 11.9 + 50) * 4 + 3).toFixed(4),
+      duration: (pseudoRandom(i * 11.9 + 50) * 5 + 4).toFixed(4),
       delay: (pseudoRandom(i * 12.1 + 60) * 3).toFixed(4),
     }));
   }, []);
 
   return (
     <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden no-print">
-      {/* 1. Base Gradient Layer */}
+      {/* 1. Base Background Color Layer */}
       <div
         className={`absolute inset-0 transition-colors duration-700 ${
           isDark
-            ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950'
+            ? 'bg-[#0A0A0A]'
             : 'bg-gradient-to-br from-[#f8fafc] via-[#f0f9ff] to-[#e0f2fe]'
         }`}
       />
 
-      {/* 2. Subdued Tech Grid Pattern Overlay */}
+      {/* 2. Minimal Tech Grid Pattern Overlay */}
       <div
-        className={`absolute inset-0 ${isDark ? 'opacity-[0.035]' : 'opacity-[0.06]'}`}
+        className={`absolute inset-0 ${isDark ? 'opacity-[0.025]' : 'opacity-[0.06]'}`}
         style={{
-          backgroundImage: `radial-gradient(${isDark ? '#38bdf8' : '#0284c7'} 1px, transparent 1px)`,
-          backgroundSize: '32px 32px',
+          backgroundImage: `radial-gradient(${isDark ? '#D4AF37' : '#0284c7'} 1px, transparent 1px)`,
+          backgroundSize: '36px 36px',
         }}
       />
 
-      {/* 3. Sweeping Aurora Glowing Light Beam */}
-      <div
-        className={`absolute -top-32 -left-32 w-[900px] h-[450px] rounded-full blur-[140px] animate-aurora pointer-events-none ${
-          isDark ? 'bg-gradient-to-r from-cyan-600/20 via-sky-500/15 to-indigo-600/20' : 'bg-gradient-to-r from-cyan-400/30 via-sky-300/35 to-indigo-300/30'
-        }`}
-      />
+      {/* 3. Luxury Ambient Gold Radial Orbs (Subtle, Restrained Lighting) */}
+      {isDark ? (
+        <>
+          {/* Top-Left Soft Gold Glow */}
+          <div className="absolute -top-[15%] -left-[10%] w-[750px] h-[750px] rounded-full blur-[160px] bg-[#D4AF37]/[0.04] pointer-events-none" />
+          {/* Bottom-Right Dark Warm Glow */}
+          <div className="absolute -bottom-[15%] -right-[10%] w-[700px] h-[700px] rounded-full blur-[160px] bg-[#C8A951]/[0.035] pointer-events-none" />
+          {/* Center Subtle Lighting */}
+          <div className="absolute top-[35%] left-[45%] w-[500px] h-[500px] rounded-full blur-[140px] bg-[#F5D76E]/[0.025] pointer-events-none" />
+        </>
+      ) : (
+        <>
+          <div className="absolute -top-[12%] -left-[8%] w-[700px] h-[700px] rounded-full blur-[140px] bg-cyan-400/30 pointer-events-none" />
+          <div className="absolute -bottom-[12%] -right-[8%] w-[650px] h-[650px] rounded-full blur-[140px] bg-purple-400/25 pointer-events-none" />
+        </>
+      )}
 
-      {/* 4. Glowing Floating Mesh Orbs */}
-      {/* Top-Left Orb */}
-      <div
-        className={`absolute -top-[12%] -left-[8%] w-[700px] h-[700px] rounded-full blur-[140px] animate-blob pointer-events-none ${
-          isDark ? 'bg-cyan-500/20' : 'bg-cyan-400/35'
-        }`}
-      />
-      {/* Bottom-Right Orb */}
-      <div
-        className={`absolute -bottom-[12%] -right-[8%] w-[650px] h-[650px] rounded-full blur-[140px] animate-blob animation-delay-2000 pointer-events-none ${
-          isDark ? 'bg-indigo-600/20' : 'bg-purple-400/30'
-        }`}
-      />
-      {/* Top-Right Orb */}
-      <div
-        className={`absolute top-[10%] right-[5%] w-[550px] h-[550px] rounded-full blur-[130px] animate-blob animation-delay-4000 pointer-events-none ${
-          isDark ? 'bg-sky-500/15' : 'bg-sky-300/35'
-        }`}
-      />
-      {/* Center-Left Orb */}
-      <div
-        className={`absolute top-[45%] -left-[10%] w-[500px] h-[500px] rounded-full blur-[120px] animate-blob animation-delay-3000 pointer-events-none ${
-          isDark ? 'bg-teal-500/15' : 'bg-teal-300/30'
-        }`}
-      />
-
-      {/* 5. Animated Particles & Neural Constellations (Rendered after hydration mount) */}
+      {/* 4. Animated Gold Dust Particles & Subtle Lines (Mounted check) */}
       {mounted && (
         <>
-          {/* Floating Particles Container */}
+          {/* Floating Gold Particles Container */}
           <div className="absolute inset-0">
-            {particles.map((p) => {
-              // Color selection based on dark/light mode & particle type
-              let particleBg = isDark ? 'bg-cyan-400' : 'bg-cyan-600';
-              if (p.colorType === 1) {
-                particleBg = isDark ? 'bg-sky-400' : 'bg-sky-500';
-              } else if (p.colorType === 2) {
-                particleBg = isDark ? 'bg-indigo-400' : 'bg-indigo-600';
-              }
-
-              return (
-                <div
-                  key={p.id}
-                  className={`absolute rounded-full animate-float-particle shadow-sm ${particleBg}`}
-                  style={{
-                    left: `${p.x}%`,
-                    top: `${p.y}%`,
-                    width: `${p.size}px`,
-                    height: `${p.size}px`,
-                    opacity: p.opacity,
-                    animationDuration: `${p.duration}s`,
-                    animationDelay: `${p.delay}s`,
-                  }}
-                />
-              );
-            })}
+            {particles.map((p) => (
+              <div
+                key={p.id}
+                className={`absolute rounded-full animate-float-particle ${
+                  isDark ? 'bg-[#D4AF37]' : 'bg-cyan-600'
+                }`}
+                style={{
+                  left: `${p.x}%`,
+                  top: `${p.y}%`,
+                  width: `${p.size}px`,
+                  height: `${p.size}px`,
+                  opacity: p.opacity,
+                  animationDuration: `${p.duration}s`,
+                  animationDelay: `${p.delay}s`,
+                }}
+              />
+            ))}
           </div>
 
-          {/* Neural Network SVG Constellation Grid */}
-          <svg className="absolute inset-0 w-full h-full opacity-70" xmlns="http://www.w3.org/2000/svg">
+          {/* Minimal Geometric Connection Grid */}
+          <svg className="absolute inset-0 w-full h-full opacity-60" xmlns="http://www.w3.org/2000/svg">
             {connections.map((c) => (
               <line
                 key={c.id}
@@ -140,9 +115,9 @@ export function AiBackground({ isDark }: AiBackgroundProps) {
                 y1={`${c.y1}%`}
                 x2={`${c.x2}%`}
                 y2={`${c.y2}%`}
-                stroke={isDark ? 'rgba(56, 189, 248, 0.28)' : 'rgba(2, 132, 199, 0.32)'}
-                strokeWidth="0.95"
-                strokeDasharray="4 6"
+                stroke={isDark ? 'rgba(212, 175, 55, 0.12)' : 'rgba(2, 132, 199, 0.25)'}
+                strokeWidth="0.8"
+                strokeDasharray="4 8"
                 className="animate-pulse"
                 style={{
                   animationDuration: `${c.duration}s`,

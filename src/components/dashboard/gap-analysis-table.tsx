@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { GapItem } from '@/lib/aeo-engine/gap-detector';
 import { Target, Sparkles, FileText, CheckCircle2, Copy, X, ExternalLink } from 'lucide-react';
 import { toast } from 'sonner';
+import { ScrollReveal } from '@/components/ui/scroll-reveal';
 
 interface GapProps {
   gaps?: GapItem[];
@@ -28,19 +29,21 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
   };
 
   return (
-    <div className={`p-6 rounded-2xl border ${
-      isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200/90 shadow-xl shadow-slate-900/5'
-    } backdrop-blur-md relative`}>
+    <ScrollReveal variant="fadeUp" duration={0.55} className={`p-6 sm:p-8 rounded-3xl border ${
+      isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-white border-slate-200/90 shadow-xl shadow-slate-900/5'
+    } backdrop-blur-2xl relative`}>
       <div className="flex items-center justify-between mb-6">
         <div>
           <h3 className={`text-lg font-extrabold ${isDark ? 'text-white' : 'text-slate-900'} flex items-center gap-2`}>
-            <Target className="w-5 h-5 text-amber-500" /> Gap Detection & GEO Content Briefs
+            <Target className={`w-5 h-5 ${isDark ? 'text-[#D4AF37]' : 'text-amber-500'}`} /> Gap Detection & GEO Content Briefs
           </h3>
-          <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} mt-1 font-medium`}>
+          <p className={`text-xs ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} mt-1 font-medium`}>
             Queries where competitors are cited in AI answers but your brand is missing
           </p>
         </div>
-        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/30 text-amber-600 rounded-full text-xs font-bold">
+        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+          isDark ? 'bg-[#121212] border border-[#D4AF37]/30 text-[#D4AF37]' : 'bg-amber-500/10 border border-amber-500/30 text-amber-600'
+        }`}>
           {gaps.length} Opportunities
         </span>
       </div>
@@ -51,61 +54,67 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
           return (
             <div
               key={gap.id}
-              className={`p-5 rounded-xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
-                isDark ? 'bg-slate-950/70 border-slate-800/80 hover:border-slate-700' : 'bg-amber-50/30 border-amber-200/80 hover:border-amber-300 shadow-2xs'
+              className={`p-5 rounded-2xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
+                isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] hover-luxury-lift' : 'bg-amber-50/30 border-amber-200/80 hover:border-amber-300 shadow-2xs'
               }`}
             >
               <div className="space-y-2 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-amber-500/10 text-amber-600 border border-amber-500/20">
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase ${
+                    isDark ? 'bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/30' : 'bg-amber-500/10 text-amber-600 border border-amber-500/20'
+                  }`}>
                     Opportunity Score: {gap.opportunityScore}/100
                   </span>
-                  <span className={`text-xs font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Category: {gap.category}</span>
+                  <span className={`text-xs font-medium ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'}`}>Category: {gap.category}</span>
                 </div>
-                <h4 className={`text-sm font-bold ${isDark ? 'text-slate-200' : 'text-slate-900'}`}>
-                  "{gap.missingPrompt}"
+                <h4 className={`text-sm font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  &quot;{gap.missingPrompt}&quot;
                 </h4>
-                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} flex items-center gap-1.5`}>
+                <p className={`text-xs ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} flex items-center gap-1.5`}>
                   <span>Competitor cited:</span>
                   <a
                     href={compUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-extrabold text-amber-500 hover:text-amber-400 hover:underline flex items-center gap-1"
+                    className={`font-extrabold ${isDark ? 'text-[#D4AF37] hover:text-[#F5D76E]' : 'text-amber-500 hover:text-amber-400'} hover:underline flex items-center gap-1`}
                     title={`Open ${gap.competitorDomain} in new tab`}
                   >
                     <span>{gap.competitorDomain}</span>
-                    <ExternalLink className="w-3 h-3 text-amber-500" />
+                    <ExternalLink className={`w-3 h-3 ${isDark ? 'text-[#D4AF37]' : 'text-amber-500'}`} />
                   </a>
                 </p>
               </div>
 
-            <button
-              onClick={() => setSelectedGap(gap)}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-500 text-slate-950 font-extrabold text-xs shadow-md transition-all self-start md:self-center shrink-0"
-            >
-              <FileText className="w-4 h-4" />
-              <span>Generate GEO Brief</span>
-            </button>
-          </div>
-        );
+              <button
+                onClick={() => setSelectedGap(gap)}
+                className={`inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl ${
+                  isDark ? 'luxury-btn-primary' : 'bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 text-slate-950'
+                } font-extrabold text-xs shadow-md transition-all self-start md:self-center shrink-0`}
+              >
+                <FileText className="w-4 h-4" />
+                <span>Generate GEO Brief</span>
+              </button>
+            </div>
+          );
         })}
       </div>
 
       {/* Content Brief Modal */}
       {selectedGap && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-          <div className={`border rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 relative shadow-2xl ${
-            isDark ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
+          <div className={`border rounded-3xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 relative shadow-2xl ${
+            isDark ? 'bg-[#181818] border-[#2A2A2A] text-white' : 'bg-white border-slate-200 text-slate-900'
           }`}>
             <button
               onClick={() => setSelectedGap(null)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg bg-slate-800"
+              className={`absolute top-4 right-4 p-2 rounded-xl border ${
+                isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-[#9E9E9E] hover:text-white' : 'bg-slate-100 text-slate-500 hover:text-slate-900'
+              }`}
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
 
-            <div className="flex items-center gap-2 text-amber-500 text-xs font-extrabold uppercase tracking-wider mb-2">
+            <div className={`flex items-center gap-2 ${isDark ? 'text-[#D4AF37]' : 'text-amber-500'} text-xs font-extrabold uppercase tracking-wider mb-2`}>
               <Sparkles className="w-4 h-4" /> AI Generated GEO Content Brief
             </div>
             <h2 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-slate-900'} mb-4`}>
@@ -114,16 +123,16 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
 
             <div className="space-y-4 text-sm">
               {/* Target Keywords */}
-              <div className={`p-4 rounded-xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">
+              <div className={`p-4 rounded-2xl border ${isDark ? 'bg-[#0A0A0A] border-[#2A2A2A]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'} uppercase tracking-wider block mb-2`}>
                   Target Vector Keywords
                 </span>
                 <div className="flex flex-wrap gap-2">
                   {selectedGap.suggestedContentBrief.targetKeywords.map((kw, kIdx) => (
                     <span
                       key={kIdx}
-                      className={`px-2.5 py-1 rounded-md text-xs font-semibold border ${
-                        isDark ? 'bg-slate-800 text-slate-200 border-slate-700' : 'bg-white text-slate-800 border-slate-300 shadow-2xs'
+                      className={`px-3 py-1 rounded-xl text-xs font-semibold border ${
+                        isDark ? 'bg-[#202020] text-white border-[#2A2A2A]' : 'bg-white text-slate-800 border-slate-300 shadow-2xs'
                       }`}
                     >
                       {kw}
@@ -133,25 +142,25 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
               </div>
 
               {/* Direct Answer Summary */}
-              <div className={`p-4 rounded-xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
-                <span className="text-xs font-bold text-cyan-600 uppercase tracking-wider block mb-1">
+              <div className={`p-4 rounded-2xl border ${isDark ? 'bg-[#0A0A0A] border-[#2A2A2A]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-xs font-bold ${isDark ? 'text-[#D4AF37]' : 'text-cyan-600'} uppercase tracking-wider block mb-1`}>
                   Direct Answer Summary (For LLM Embedding)
                 </span>
-                <p className="text-xs font-medium italic">
-                  "{selectedGap.suggestedContentBrief.directAnswerSummary}"
+                <p className={`text-xs font-medium italic ${isDark ? 'text-[#CFCFCF]' : ''}`}>
+                  &quot;{selectedGap.suggestedContentBrief.directAnswerSummary}&quot;
                 </p>
               </div>
 
               {/* Headings Outline */}
-              <div className={`p-4 rounded-xl border ${isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-50 border-slate-200'}`}>
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-2">
+              <div className={`p-4 rounded-2xl border ${isDark ? 'bg-[#0A0A0A] border-[#2A2A2A]' : 'bg-slate-50 border-slate-200'}`}>
+                <span className={`text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'} uppercase tracking-wider block mb-2`}>
                   Suggested Article Structure (H2 Outline)
                 </span>
-                <ul className="space-y-1 text-xs font-medium">
+                <ul className="space-y-1.5 text-xs font-medium">
                   {selectedGap.suggestedContentBrief.suggestedHeadings.map((h, hIdx) => (
                     <li key={hIdx} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                      <span>{h}</span>
+                      <CheckCircle2 className={`w-3.5 h-3.5 ${isDark ? 'text-[#D4AF37]' : 'text-emerald-500'} shrink-0`} />
+                      <span className={isDark ? 'text-[#CFCFCF]' : ''}>{h}</span>
                     </li>
                   ))}
                 </ul>
@@ -161,13 +170,17 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
             <div className="mt-6 flex justify-end gap-3">
               <button
                 onClick={() => setSelectedGap(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold"
+                className={`px-4 py-2.5 rounded-xl text-xs font-bold border ${
+                  isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-[#9E9E9E] hover:text-white' : 'bg-slate-100 text-slate-700'
+                }`}
               >
                 Close
               </button>
               <button
                 onClick={() => copyBriefToClipboard(selectedGap.suggestedContentBrief)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-extrabold shadow-md transition-all"
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl ${
+                  isDark ? 'luxury-btn-primary' : 'bg-cyan-600 text-white'
+                } text-xs font-extrabold shadow-md transition-all`}
               >
                 <Copy className="w-4 h-4" /> Copy Brief Content
               </button>
@@ -175,6 +188,6 @@ export function GapAnalysisTable({ gaps = [], isDark = true }: GapProps) {
           </div>
         </div>
       )}
-    </div>
+    </ScrollReveal>
   );
 }

@@ -112,25 +112,31 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Header Branding */}
         <div className="text-center mb-8">
-          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${isDark ? 'bg-slate-900/80 border-slate-800 text-cyan-400' : 'bg-white border-slate-200 text-cyan-600'} border backdrop-blur-md mb-4 text-xs font-medium`}>
-            <Brain className="w-4 h-4 animate-pulse" />
+          <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${
+            isDark ? 'bg-[#181818] border-[#2A2A2A] text-[#D4AF37]' : 'bg-white border-slate-200 text-cyan-600'
+          } border backdrop-blur-md mb-4 text-xs font-bold`}>
+            <Brain className="w-4 h-4 text-[#D4AF37] animate-pulse" />
             <span>TangentCore</span>
           </div>
-          <h1 className={`text-3xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+          <h1 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
             {isSignUp ? 'Create your Account' : 'Welcome back'}
           </h1>
-          <p className={`${isDark ? 'text-slate-400' : 'text-slate-600'} text-sm mt-2`}>
+          <p className={`${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} text-sm mt-2 font-normal`}>
             Analyze, monitor, and dominate AI search citations across ChatGPT, Gemini, Claude & Perplexity.
           </p>
         </div>
 
         {/* Card */}
-        <div className={`${isDark ? 'bg-slate-900/70 border-slate-800/80' : 'bg-white border-slate-200/80 shadow-xl'} backdrop-blur-xl border p-8 rounded-2xl`}>
+        <div className={`${
+          isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-white border-slate-200/80 shadow-xl'
+        } backdrop-blur-2xl border p-8 rounded-3xl`}>
           {/* Google OAuth Button */}
           <button
             onClick={handleGoogleOAuth}
             disabled={loading}
-            className={`w-full flex items-center justify-center gap-3 ${isDark ? 'bg-slate-800 hover:bg-slate-700/80 text-white border-slate-700' : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 border-slate-300'} font-medium py-3 px-4 rounded-xl border transition-all shadow-sm group`}
+            className={`w-full flex items-center justify-center gap-3 ${
+              isDark ? 'bg-[#0A0A0A] hover:bg-[#202020] text-white border-[#2A2A2A] hover:border-[#D4AF37]' : 'bg-slate-100 hover:bg-slate-200/80 text-slate-900 border-slate-300'
+            } font-semibold py-3 px-4 rounded-2xl border transition-all shadow-sm group`}
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -143,9 +149,9 @@ export default function LoginPage() {
 
           <div className="relative my-6 text-center">
             <div className="absolute inset-0 flex items-center">
-              <div className={`w-full border-t ${isDark ? 'border-slate-800' : 'border-slate-200'}`} />
+              <div className={`w-full border-t ${isDark ? 'border-[#2A2A2A]' : 'border-slate-200'}`} />
             </div>
-            <span className={`relative px-3 ${isDark ? 'bg-slate-900 text-slate-500' : 'bg-white text-slate-400'} text-xs uppercase font-semibold`}>
+            <span className={`relative px-3 ${isDark ? 'bg-[#181818] text-[#9E9E9E]' : 'bg-white text-slate-400'} text-xs uppercase font-semibold`}>
               Or continue with email
             </span>
           </div>
@@ -153,34 +159,34 @@ export default function LoginPage() {
           {/* Email / Password Form */}
           <form onSubmit={handleEmailAuth} className="space-y-4">
             <div>
-              <label className={`block text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'} mb-1.5 uppercase tracking-wider`}>
+              <label className={`block text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} mb-1.5 uppercase tracking-wider`}>
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
+                <Mail className={`absolute left-3.5 top-3.5 h-4 w-4 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'}`} />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className={`w-full ${isDark ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-cyan-500 transition-all`}
+                  className={`w-full ${isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none transition-all`}
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className={`block text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'} mb-1.5 uppercase tracking-wider`}>
+              <label className={`block text-xs font-bold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'} mb-1.5 uppercase tracking-wider`}>
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-3.5 h-4 w-4 text-slate-400" />
+                <Lock className={`absolute left-3.5 top-3.5 h-4 w-4 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'}`} />
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className={`w-full ${isDark ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-cyan-500 transition-all`}
+                  className={`w-full ${isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]' : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400'} border rounded-2xl pl-10 pr-4 py-2.5 text-sm focus:outline-none transition-all`}
                   required
                 />
               </div>
@@ -189,10 +195,12 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full mt-2 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-lg shadow-cyan-500/25 flex items-center justify-center gap-2 group"
+              className={`w-full mt-2 ${
+                isDark ? 'luxury-btn-primary' : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
+              } font-bold py-3 px-4 rounded-2xl transition-all shadow-lg flex items-center justify-center gap-2 group`}
             >
               {loading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-slate-950 border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
                   <span>{isSignUp ? 'Sign Up' : 'Sign In'}</span>
@@ -206,24 +214,24 @@ export default function LoginPage() {
           <div className="mt-6 text-center space-y-3">
             <button
               onClick={() => setIsSignUp(!isSignUp)}
-              className={`text-xs ${isDark ? 'text-slate-400 hover:text-cyan-400' : 'text-slate-600 hover:text-cyan-600'} transition-colors font-medium`}
+              className={`text-xs ${isDark ? 'text-[#CFCFCF] hover:text-[#D4AF37]' : 'text-slate-600 hover:text-cyan-600'} transition-colors font-medium`}
             >
               {isSignUp ? (
-                <>Already have an account? <span className="text-cyan-500 underline font-semibold">Sign In</span></>
+                <>Already have an account? <span className={`${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} underline font-bold`}>Sign In</span></>
               ) : (
-                <>Don't have an account? <span className="text-cyan-500 underline font-semibold">Create one</span></>
+                <>Don't have an account? <span className={`${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} underline font-bold`}>Create one</span></>
               )}
             </button>
 
-            <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800">
+            <div className={`pt-3 border-t ${isDark ? 'border-[#2A2A2A]' : 'border-slate-200/80'}`}>
               <button
                 type="button"
                 onClick={handleGuestDemoAccess}
-                className={`w-full py-2.5 px-4 rounded-xl border ${
-                  isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:bg-slate-800' : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
+                className={`w-full py-2.5 px-4 rounded-2xl border ${
+                  isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white hover:border-[#D4AF37] hover:text-[#D4AF37]' : 'bg-slate-100 border-slate-300 text-slate-700 hover:bg-slate-200'
                 } text-xs font-bold transition-all flex items-center justify-center gap-1.5`}
               >
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
                 <span>Instant Demo Access (Skip Login)</span>
               </button>
             </div>

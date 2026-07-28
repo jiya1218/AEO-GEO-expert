@@ -7,6 +7,7 @@ import {
   Copy, Search, Filter, Flame, Sparkles, BarChart3, MessageSquare, ThumbsUp, ThumbsDown
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { ScrollReveal } from '@/components/ui/scroll-reveal';
 
 interface HeatmapProps {
   promptScans?: PromptScanItem[];
@@ -102,68 +103,68 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
   return (
     <div className="space-y-6">
       {/* MODEL PERFORMANCE CARDS (Top Banner) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <ScrollReveal variant="fadeUp" duration={0.5} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {modelStats.map(stat => (
           <div
             key={stat.name}
-            className={`p-4 rounded-2xl border ${
-              isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200 shadow-md shadow-slate-200/50'
-            } backdrop-blur-md transition-all hover:border-cyan-500/40`}
+            className={`p-5 rounded-3xl border ${
+              isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-md shadow-slate-200/50'
+            } backdrop-blur-2xl transition-all`}
           >
             <div className="flex items-center justify-between mb-2">
-              <span className={`text-xs font-black ${isDark ? 'text-slate-200' : 'text-slate-900'} flex items-center gap-1.5`}>
-                <Bot className="w-4 h-4 text-cyan-500" />
+              <span className={`text-xs font-black ${isDark ? 'text-white' : 'text-slate-900'} flex items-center gap-1.5`}>
+                <Bot className={`w-4 h-4 ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'}`} />
                 {stat.label}
               </span>
               <span className={`px-2 py-0.5 rounded-full text-[10px] font-extrabold ${
                 stat.visibilityRate >= 50
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                  ? (isDark ? 'bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/30' : 'bg-emerald-500/10 text-emerald-600 border border-emerald-500/30')
                   : stat.visibilityRate > 0
                   ? 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
-                  : 'bg-slate-800 text-slate-400 border border-slate-700'
+                  : (isDark ? 'bg-[#202020] text-[#9E9E9E] border border-[#2A2A2A]' : 'bg-slate-100 text-slate-500')
               }`}>
                 {stat.visibilityRate}% Visibility
               </span>
             </div>
 
             <div className="mt-3 flex items-baseline justify-between text-xs">
-              <span className={`font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              <span className={`font-semibold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'}`}>
                 Cited: <strong className={isDark ? 'text-white' : 'text-slate-950'}>{stat.mentions}/{promptScans.length}</strong> Prompts
               </span>
-              <span className="text-[11px] font-bold text-emerald-400">
+              <span className={`text-[11px] font-bold ${isDark ? 'text-[#D4AF37]' : 'text-emerald-500'}`}>
                 #{stat.rank1Count} Top Ranks
               </span>
             </div>
 
             {/* Visual Bar */}
-            <div className={`mt-2 w-full ${isDark ? 'bg-slate-800' : 'bg-slate-100'} h-1.5 rounded-full overflow-hidden`}>
+            <div className={`mt-2 w-full ${isDark ? 'bg-[#202020]' : 'bg-slate-100'} h-1.5 rounded-full overflow-hidden`}>
               <div
                 className={`h-full transition-all duration-700 ${
-                  stat.visibilityRate >= 50 ? 'bg-emerald-500' : stat.visibilityRate > 0 ? 'bg-amber-500' : 'bg-slate-600'
+                  isDark ? 'bg-[#D4AF37]' : (stat.visibilityRate >= 50 ? 'bg-emerald-500' : stat.visibilityRate > 0 ? 'bg-amber-500' : 'bg-slate-600')
                 }`}
                 style={{ width: `${stat.visibilityRate}%` }}
               />
             </div>
           </div>
         ))}
-      </div>
+      </ScrollReveal>
 
       {/* HEATMAP STUDIO MAIN CONTAINER */}
-      <div className={`p-6 rounded-3xl border ${
-        isDark ? 'bg-slate-900/90 border-slate-800 shadow-2xl shadow-cyan-950/10' : 'bg-white border-slate-200/90 shadow-xl shadow-slate-900/5'
-      } backdrop-blur-xl space-y-6`}>
+      <ScrollReveal variant="fadeUp" delay={0.15} duration={0.55} className={`p-6 rounded-3xl border ${
+        isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-white border-slate-200/90 shadow-xl shadow-slate-900/5'
+      } backdrop-blur-2xl space-y-6`}>
         
         {/* Header & Controls */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-slate-800/80">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-5 border-b border-slate-200/80 dark:border-[#2A2A2A]">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border ${
-                isDark ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' : 'bg-amber-50 text-amber-800 border-amber-200'
+                isDark ? 'bg-[#121212] text-[#D4AF37] border-[#D4AF37]/30' : 'bg-amber-50 text-amber-800 border-amber-200'
               }`}>
-                <Flame className="w-3.5 h-3.5 inline mr-1 text-amber-400 fill-amber-400" />
+                <Flame className={`w-3.5 h-3.5 inline mr-1 ${isDark ? 'text-[#D4AF37] fill-[#D4AF37]' : 'text-amber-500 fill-amber-500'}`} />
                 Live Matrix Heatmap
               </span>
-              <span className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'} font-semibold`}>
+              <span className={`text-xs ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'} font-semibold`}>
                 {filteredScans.length} of {promptScans.length} Prompts Displayed
               </span>
             </div>
@@ -176,17 +177,15 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
           <div className="flex flex-wrap items-center gap-2.5 no-print">
             {/* Search Input */}
             <div className="relative shrink-0">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-2.5 text-slate-400" />
+              <Search className={`w-3.5 h-3.5 absolute left-3 top-2.5 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-400'}`} />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                placeholder="Filter prompts..."
-                className={`pl-8 pr-3 py-1.5 rounded-xl text-xs font-semibold border ${
-                  isDark
-                    ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500 focus:border-cyan-500'
-                    : 'bg-slate-50 border-slate-300 text-slate-900 placeholder-slate-400 focus:border-cyan-600'
-                } focus:outline-none transition-all w-44`}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search prompt query..."
+                className={`text-xs pl-8 pr-3 py-1.5 rounded-xl border ${
+                  isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]' : 'bg-slate-50 border-slate-300 text-slate-800 focus:border-cyan-500'
+                } focus:outline-none transition-all w-44 sm:w-56`}
               />
             </div>
 
@@ -482,7 +481,7 @@ export function MultiModelHeatmap({ promptScans = [], isDark = true }: HeatmapPr
             </tbody>
           </table>
         </div>
-      </div>
+      </ScrollReveal>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import {
   FileCode, AlertTriangle, Users, DollarSign, Calculator
 } from 'lucide-react';
 import { AiBackground } from '@/components/ui/ai-background';
+import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { Footer } from '@/components/footer';
 import { CheckoutModal } from '@/components/pricing/checkout-modal';
 
@@ -119,45 +120,52 @@ export default function PricingPage() {
   }, [selectedFaqCategory]);
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-300 ${isDark ? 'text-slate-100' : 'text-slate-900'}`}>
+    <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-300 ${isDark ? 'bg-[#0A0A0A] text-white' : 'bg-[#f8fafc] text-slate-900'}`}>
+      {/* Top Fixed Gold Scroll Progress Bar */}
+      <ScrollProgress />
+
       <AiBackground isDark={isDark} />
 
       {/* Navigation Header */}
-      <nav className={`border-b ${isDark ? 'border-slate-800/80 bg-slate-950/70' : 'border-slate-200/80 bg-white/80'} backdrop-blur-xl sticky top-0 z-40 transition-colors`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform">
-              <Brain className="w-5 h-5 text-white" />
+      <nav className={`border-b ${isDark ? 'border-[#2A2A2A] bg-[#0A0A0A]/85' : 'border-slate-200/80 bg-white/80'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-3.5 group">
+            <div className={`w-11 h-11 rounded-xl ${
+              isDark ? 'bg-gradient-to-tr from-[#C8A951] via-[#D4AF37] to-[#F5D76E] text-[#111111] shadow-lg shadow-[#D4AF37]/20' : 'bg-gradient-to-tr from-cyan-500 to-blue-600 text-white shadow-lg shadow-cyan-500/20'
+            } flex items-center justify-center transition-transform duration-300 group-hover:scale-105`}>
+              <Brain className="w-5 h-5" />
             </div>
-            <span className={`font-extrabold text-lg ${isDark ? 'bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
+            <span className={`font-extrabold text-lg tracking-tight ${isDark ? 'gold-gradient-text' : 'text-slate-900'}`}>
               TangentCore
             </span>
           </Link>
 
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-6 text-xs font-semibold">
-              <Link href="/" className={`${isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
+              <Link href="/" className={`${isDark ? 'text-[#CFCFCF] hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
                 Home
               </Link>
-              <Link href="/pricing" className="text-cyan-500 font-bold border-b-2 border-cyan-500 py-1">
+              <Link href="/pricing" className={`${isDark ? 'text-[#D4AF37] font-bold border-b-2 border-[#D4AF37]' : 'text-cyan-500 font-bold border-b-2 border-cyan-500'} py-1`}>
                 Pricing
               </Link>
-              <Link href="/dashboard" className={`${isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
+              <Link href="/dashboard" className={`${isDark ? 'text-[#CFCFCF] hover:text-white' : 'text-slate-600 hover:text-slate-900'} transition-colors`}>
                 Dashboard
               </Link>
             </div>
 
             <button
               onClick={() => setIsDark(!isDark)}
-              className={`p-2.5 rounded-xl border ${isDark ? 'bg-slate-900 border-slate-800 text-amber-400' : 'bg-slate-100 border-slate-300 text-slate-700'} transition-all text-xs font-semibold flex items-center gap-1.5`}
+              className={`p-2.5 rounded-xl border ${isDark ? 'bg-[#181818] border-[#2A2A2A] text-[#D4AF37] hover:border-[#D4AF37]' : 'bg-slate-100 border-slate-300 text-slate-700'} transition-all text-xs font-semibold flex items-center gap-1.5`}
             >
-              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              {isDark ? <Sun className="w-4 h-4 text-[#F5D76E]" /> : <Moon className="w-4 h-4" />}
               <span className="hidden sm:inline">{isDark ? 'Light' : 'Dark'}</span>
             </button>
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all transform hover:-translate-y-0.5"
+              className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl ${
+                isDark ? 'luxury-btn-primary' : 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
+              } font-bold text-xs shadow-lg transition-all transform hover:-translate-y-0.5`}
             >
               <span>Get Started</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -179,10 +187,10 @@ export default function PricingPage() {
           <motion.div
             variants={fadeInUpVariants}
             className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full ${
-              isDark ? 'bg-slate-900/90 border-slate-800 text-cyan-400' : 'bg-white border-slate-200 text-cyan-600'
+              isDark ? 'bg-[#181818] border-[#2A2A2A] text-[#D4AF37]' : 'bg-white border-slate-200 text-cyan-600'
             } border backdrop-blur-md text-xs font-bold shadow-md`}
           >
-            <Sparkles className="w-4 h-4 text-cyan-500 animate-pulse" />
+            <Sparkles className={`w-4 h-4 ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} animate-pulse`} />
             <span>Generative Engine Optimization (GEO) Enterprise Plans</span>
           </motion.div>
 
@@ -191,14 +199,14 @@ export default function PricingPage() {
             className={`text-4xl sm:text-6xl font-black tracking-tight leading-tight ${isDark ? 'text-white' : 'text-slate-900'}`}
           >
             Dominate AI Search Citations Across{' '}
-            <span className="bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent underline decoration-cyan-500/40 underline-offset-8">
+            <span className={isDark ? 'gold-gradient-text' : 'bg-gradient-to-r from-cyan-400 via-sky-400 to-blue-500 bg-clip-text text-transparent underline decoration-cyan-500/40 underline-offset-8'}>
               Generative AI Engines
             </span>
           </motion.h1>
 
           <motion.p
             variants={fadeInUpVariants}
-            className={`text-base sm:text-lg ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed`}
+            className={`text-base sm:text-lg ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} leading-relaxed`}
           >
             Capture brand recommendations, automate JSON-LD schemas, and outrank competitors across ChatGPT, Gemini, Perplexity, Claude, DeepSeek & Grok with our full-service GEO suite.
           </motion.p>
@@ -208,38 +216,38 @@ export default function PricingPage() {
             variants={scaleInVariants}
             className="pt-4 flex justify-center items-center"
           >
-            <div className={`p-1.5 rounded-2xl border ${isDark ? 'bg-slate-900/90 border-slate-800' : 'bg-slate-200/80 border-slate-300'} backdrop-blur-md inline-flex items-center gap-2 shadow-inner`}>
+            <div className={`p-1.5 rounded-2xl border ${isDark ? 'bg-[#181818] border-[#2A2A2A]' : 'bg-slate-200/80 border-slate-300'} backdrop-blur-md inline-flex items-center gap-2 shadow-inner`}>
               <button
                 onClick={() => setIsAnnual(false)}
                 className={`relative px-6 py-2.5 rounded-xl text-xs font-extrabold transition-all ${
-                  !isAnnual ? (isDark ? 'text-white' : 'text-slate-900') : (isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-900')
+                  !isAnnual ? (isDark ? 'text-white' : 'text-slate-900') : (isDark ? 'text-[#9E9E9E] hover:text-white' : 'text-slate-600 hover:text-slate-900')
                 }`}
               >
                 {!isAnnual && (
                   <motion.div
                     layoutId="billing-pill"
-                    className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl shadow-md"
+                    className={`absolute inset-0 rounded-xl ${isDark ? 'bg-[#202020] border border-[#2A2A2A]' : 'bg-white shadow-md'} -z-10`}
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10">Monthly Billing</span>
+                <span>Monthly Billing</span>
               </button>
 
               <button
                 onClick={() => setIsAnnual(true)}
-                className={`relative px-6 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-2 ${
-                  isAnnual ? (isDark ? 'text-white' : 'text-slate-900') : (isDark ? 'text-slate-400 hover:text-slate-200' : 'text-slate-600 hover:text-slate-900')
+                className={`relative px-6 py-2.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 ${
+                  isAnnual ? (isDark ? 'text-white' : 'text-slate-900') : (isDark ? 'text-[#9E9E9E] hover:text-white' : 'text-slate-600 hover:text-slate-900')
                 }`}
               >
                 {isAnnual && (
                   <motion.div
                     layoutId="billing-pill"
-                    className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl shadow-md"
+                    className={`absolute inset-0 rounded-xl ${isDark ? 'bg-[#202020] border border-[#2A2A2A]' : 'bg-white shadow-md'} -z-10`}
                     transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10">Annual Billing</span>
-                <span className="relative z-10 px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 font-black text-[10px] uppercase">
+                <span>Annual Billing</span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-black ${isDark ? 'bg-[#D4AF37] text-[#111111]' : 'bg-emerald-500 text-white'}`}>
                   Save 20%
                 </span>
               </button>
@@ -254,7 +262,7 @@ export default function PricingPage() {
           transition={{ delay: 0.3 }}
           className="py-4 text-center"
         >
-          <p className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4">
+          <p className={`text-xs uppercase tracking-widest ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'} font-bold mb-4`}>
             Continuous Live Scanning Across 6 Major AI Search Engines
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 opacity-90">
@@ -262,9 +270,9 @@ export default function PricingPage() {
               <motion.div
                 key={engine}
                 whileHover={{ scale: 1.05, y: -2 }}
-                className={`px-4 py-2 rounded-xl border ${isDark ? 'bg-slate-900/60 border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700'} text-xs font-bold flex items-center gap-2 shadow-sm`}
+                className={`px-4 py-2 rounded-xl border ${isDark ? 'bg-[#181818] border-[#2A2A2A] text-white hover:border-[#D4AF37]' : 'bg-white border-slate-200 text-slate-700'} text-xs font-bold flex items-center gap-2 shadow-sm`}
               >
-                <Bot className="w-4 h-4 text-cyan-500" />
+                <Bot className={`w-4 h-4 ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'}`} />
                 <span>{engine}</span>
               </motion.div>
             ))}
@@ -286,85 +294,85 @@ export default function PricingPage() {
             whileHover={{ y: -6, scale: 1.01 }}
             transition={{ duration: 0.2 }}
             className={`rounded-3xl border ${
-              isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-xl'
-            } p-7 sm:p-8 flex flex-col justify-between backdrop-blur-md relative`}
+              isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-xl'
+            } p-7 sm:p-8 flex flex-col justify-between backdrop-blur-2xl relative`}
           >
             <div>
               {/* Header */}
               <div className="space-y-1">
-                <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
                   Starter GEO Audit
                 </span>
                 <h3 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Growth Tier
                 </h3>
-                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed min-h-[36px]`}>
+                <p className={`text-xs ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} leading-relaxed min-h-[36px]`}>
                   Essential GEO scanning for single product launches & small businesses.
                 </p>
               </div>
 
               {/* Price Box */}
               <div className={`my-6 p-4 rounded-2xl border ${
-                isDark ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-50 border-slate-200'
+                isDark ? 'bg-[#0A0A0A] border-[#2A2A2A]' : 'bg-slate-50 border-slate-200'
               }`}>
                 <div className="flex items-baseline gap-2">
-                  <span className={`text-3xl sm:text-4xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`text-3xl sm:text-4xl font-black ${isDark ? 'gold-gradient-text' : 'text-slate-900'}`}>
                     {isAnnual ? '$1,499' : '$1,899'}
                   </span>
-                  <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                  <span className={`text-xs font-semibold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
                     / month
                   </span>
                 </div>
-                <span className={`text-[11px] font-medium block mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                <span className={`text-[11px] font-medium block mt-1 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
                   {isAnnual ? 'Billed annually' : 'Flexible monthly billing'}
                 </span>
               </div>
 
               {/* Divider */}
-              <div className={`w-full h-px ${isDark ? 'bg-slate-800' : 'bg-slate-200'} mb-6`} />
+              <div className={`w-full h-px ${isDark ? 'bg-[#2A2A2A]' : 'bg-slate-200'} mb-6`} />
 
               {/* Feature List */}
               <ul className="space-y-3.5 text-xs sm:text-sm font-medium">
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/10 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/10 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     2 Monitored LLM Engines (ChatGPT & Perplexity)
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/10 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/10 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     Up to 25 Target Prompt Keywords
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/10 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/10 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     Basic JSON-LD Schema Validation
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/10 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/10 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     Weekly Citation Reports
                   </span>
                 </li>
-                <li className="flex items-start gap-3 text-slate-400 line-through">
-                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-slate-800 text-slate-500' : 'bg-slate-100 text-slate-400'} flex items-center justify-center shrink-0 mt-0.5`}>
+                <li className="flex items-start gap-3 text-slate-500 line-through">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#0A0A0A] text-[#9E9E9E]' : 'bg-slate-100 text-slate-400'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <X className="w-3.5 h-3.5" />
                   </div>
                   <span>Automated Schema Auto-Repair</span>
                 </li>
-                <li className="flex items-start gap-3 text-slate-400 line-through">
-                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-slate-800 text-slate-500' : 'bg-slate-100 text-slate-400'} flex items-center justify-center shrink-0 mt-0.5`}>
+                <li className="flex items-start gap-3 text-slate-500 line-through">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#0A0A0A] text-[#9E9E9E]' : 'bg-slate-100 text-slate-400'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <X className="w-3.5 h-3.5" />
                   </div>
                   <span>Dedicated Senior AI Strategist</span>
@@ -378,7 +386,7 @@ export default function PricingPage() {
                 onClick={() => setIsModalOpen(true)}
                 className={`w-full py-3.5 rounded-2xl border ${
                   isDark
-                    ? 'bg-slate-800 border-slate-700 hover:bg-slate-700 text-white'
+                    ? 'luxury-btn-secondary'
                     : 'bg-slate-100 border-slate-300 hover:bg-slate-200 text-slate-900'
                 } font-bold text-xs transition-all`}
               >
@@ -392,52 +400,52 @@ export default function PricingPage() {
             variants={scaleInVariants}
             whileHover={{ y: -8, scale: 1.015 }}
             transition={{ duration: 0.25 }}
-            className={`rounded-3xl border-2 border-cyan-500 ${
-              isDark ? 'bg-slate-900/90 shadow-2xl shadow-cyan-500/20' : 'bg-white shadow-2xl shadow-cyan-500/20'
-            } p-7 sm:p-8 flex flex-col justify-between backdrop-blur-xl relative overflow-hidden`}
+            className={`rounded-3xl border-2 ${
+              isDark ? 'bg-[#181818] border-[#D4AF37] shadow-2xl shadow-[#D4AF37]/15' : 'bg-white border-cyan-500 shadow-2xl shadow-cyan-500/20'
+            } p-7 sm:p-8 flex flex-col justify-between backdrop-blur-2xl relative overflow-hidden`}
           >
             {/* Top Glow Accent Bar */}
-            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-600 animate-pulse" />
+            <div className={`absolute top-0 inset-x-0 h-1.5 ${isDark ? 'bg-gradient-to-r from-[#C8A951] via-[#D4AF37] to-[#F5D76E]' : 'bg-gradient-to-r from-cyan-500 via-sky-400 to-blue-600'} animate-pulse`} />
 
             <div>
               {/* Header */}
               <div className="space-y-1">
-                <div className="text-xs font-extrabold uppercase tracking-wider text-cyan-500 flex items-center gap-1.5">
-                  <Star className="w-4 h-4 fill-cyan-500 text-cyan-500" />
+                <div className={`text-xs font-extrabold uppercase tracking-wider ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'} flex items-center gap-1.5`}>
+                  <Star className={`w-4 h-4 ${isDark ? 'fill-[#D4AF37] text-[#D4AF37]' : 'fill-cyan-500 text-cyan-500'}`} />
                   <span>Flagship Enterprise Suite</span>
                 </div>
                 <h3 className={`text-2xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   GEO Dominator
                 </h3>
-                <p className={`text-xs ${isDark ? 'text-slate-300' : 'text-slate-600'} leading-relaxed min-h-[36px]`}>
+                <p className={`text-xs ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} leading-relaxed min-h-[36px]`}>
                   Complete end-to-end platform for market leadership across all 6 generative engines.
                 </p>
               </div>
 
               {/* Price Box */}
               <div className={`my-6 p-4 rounded-2xl border ${
-                isDark ? 'bg-cyan-500/10 border-cyan-500/30' : 'bg-cyan-50/80 border-cyan-200'
+                isDark ? 'bg-[#0A0A0A] border-[#D4AF37]/40' : 'bg-cyan-50/80 border-cyan-200'
               }`}>
                 <div className="flex items-baseline gap-2">
-                  <span className={`text-4xl sm:text-5xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`text-4xl sm:text-5xl font-black ${isDark ? 'gold-gradient-text' : 'text-slate-900'}`}>
                     {isAnnual ? '$3,599' : '$4,499'}
                   </span>
-                  <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                  <span className={`text-xs font-semibold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-600'}`}>
                     / month
                   </span>
                 </div>
-                <span className={`text-xs font-medium block mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                <span className={`text-xs font-medium block mt-1 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
                   {isAnnual ? 'Save $10,800 annually (Billed $43,188/yr)' : 'Full Enterprise GEO Suite Access'}
                 </span>
               </div>
 
               {/* Divider */}
-              <div className={`w-full h-px ${isDark ? 'bg-slate-800' : 'bg-slate-200'} mb-6`} />
+              <div className={`w-full h-px ${isDark ? 'bg-[#2A2A2A]' : 'bg-slate-200'} mb-6`} />
 
               {/* Core Features Checklist */}
               <ul className="space-y-3.5 text-xs sm:text-sm font-medium">
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/20 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#D4AF37] text-[#111111]' : 'bg-cyan-500/20 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
                   <span className={`font-bold ${isDark ? 'text-white' : 'text-slate-900'}`}>
@@ -445,50 +453,50 @@ export default function PricingPage() {
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/20 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/20 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     Unlimited Target Prompts & Keywords
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/20 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/20 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className="font-bold text-cyan-500">
+                  <span className={`font-bold ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'}`}>
                     Automated JSON-LD Schema Injection & Repair
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/20 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/20 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     Competitor Displacement Brief Generator
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/20 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/20 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     Real-Time Share of Voice (SoV) Analytics & Webhooks
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-cyan-500/20 text-cyan-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#202020] text-[#D4AF37]' : 'bg-cyan-500/20 text-cyan-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
-                  <span className={isDark ? 'text-slate-200' : 'text-slate-700'}>
+                  <span className={isDark ? 'text-white' : 'text-slate-700'}>
                     Dedicated Senior GEO AI Strategist + Shared Slack
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <div className="w-5 h-5 rounded-md bg-emerald-500/20 text-emerald-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <div className={`w-5 h-5 rounded-md ${isDark ? 'bg-[#D4AF37]/20 text-[#D4AF37]' : 'bg-emerald-500/20 text-emerald-500'} flex items-center justify-center shrink-0 mt-0.5`}>
                     <ShieldCheck className="w-3.5 h-3.5" />
                   </div>
-                  <span className="text-emerald-500 font-bold">
+                  <span className={`${isDark ? 'text-[#D4AF37]' : 'text-emerald-500'} font-bold`}>
                     14-Day 100% Money-Back Guarantee
                   </span>
                 </li>
@@ -499,13 +507,15 @@ export default function PricingPage() {
             <div className="mt-8 space-y-2">
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-extrabold text-sm shadow-xl shadow-cyan-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer transform hover:scale-[1.02]"
+                className={`w-full py-4 rounded-2xl ${
+                  isDark ? 'luxury-btn-primary' : 'bg-gradient-to-r from-cyan-500 via-sky-500 to-blue-600 text-white'
+                } font-extrabold text-sm shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer transform hover:scale-[1.02]`}
               >
-                <Zap className="w-4 h-4 fill-current text-white" />
+                <Zap className={`w-4 h-4 fill-current ${isDark ? 'text-[#111111]' : 'text-white'}`} />
                 <span>Get Started Now — {isAnnual ? '$3,599' : '$4,499'}/mo</span>
               </button>
-              <div className={`text-[11px] text-center space-y-0.5 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                <p className="font-semibold text-cyan-600 dark:text-cyan-400">
+              <div className={`text-[11px] text-center space-y-0.5 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
+                <p className={`font-semibold ${isDark ? 'text-[#D4AF37]' : 'text-cyan-600'}`}>
                   ✓ Flexible monthly billing • Zero setup fees • Cancel anytime
                 </p>
                 <p>Priority scanning setup within 2 hours</p>
@@ -519,37 +529,37 @@ export default function PricingPage() {
             whileHover={{ y: -6, scale: 1.01 }}
             transition={{ duration: 0.2 }}
             className={`rounded-3xl border ${
-              isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-xl'
-            } p-7 sm:p-8 flex flex-col justify-between backdrop-blur-md relative`}
+              isDark ? 'bg-[#181818] border-[#2A2A2A] hover-luxury-lift' : 'bg-white border-slate-200 shadow-xl'
+            } p-7 sm:p-8 flex flex-col justify-between backdrop-blur-2xl relative`}
           >
             <div>
               {/* Header */}
               <div className="space-y-1">
-                <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                  Holding Companies & Agencies
+                <span className={`text-[11px] font-bold uppercase tracking-wider ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
+                  Multi-Brand Enterprise
                 </span>
                 <h3 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-slate-900'}`}>
-                  Enterprise Custom
+                  Holding Group
                 </h3>
-                <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'} leading-relaxed min-h-[36px]`}>
-                  Tailored multi-brand GEO architecture for global enterprise portfolios.
+                <p className={`text-xs ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} leading-relaxed min-h-[36px]`}>
+                  Tailored GEO infrastructure for conglomerate portfolios & multi-domain brands.
                 </p>
               </div>
 
               {/* Price Box */}
               <div className={`my-6 p-4 rounded-2xl border ${
-                isDark ? 'bg-slate-950/60 border-slate-800' : 'bg-slate-50 border-slate-200'
+                isDark ? 'bg-[#0A0A0A] border-[#2A2A2A]' : 'bg-slate-50 border-slate-200'
               }`}>
                 <div className="flex items-baseline gap-2">
-                  <span className={`text-3xl sm:text-4xl font-black ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`text-3xl sm:text-4xl font-black ${isDark ? 'gold-gradient-text' : 'text-slate-900'}`}>
                     Custom
                   </span>
-                  <span className={`text-xs font-semibold ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                    / tailored
+                  <span className={`text-xs font-semibold ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
+                    annual contract
                   </span>
                 </div>
-                <span className={`text-[11px] font-medium block mt-1 ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
-                  Dedicated engineering & custom SLAs
+                <span className={`text-[11px] font-medium block mt-1 ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
+                  Volume discount for 5+ brand domains
                 </span>
               </div>
 
