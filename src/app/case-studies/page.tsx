@@ -26,7 +26,7 @@ export default function CaseStudiesPage() {
     : caseStudiesData.filter((cs) => cs.industry === selectedIndustry);
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-500 ${isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'}`}>
+    <div className={`min-h-screen flex flex-col font-sans relative transition-colors duration-500 ${isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'}`}>
       <ScrollProgress />
       <AiBackground isDark={isDark} />
 

@@ -40,9 +40,9 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
     const drawSculpture = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Centered slightly upward to align with header headline
+      // Centered in hero column
       const centerX = width / 2;
-      const centerY = height * 0.45 + Math.sin(floatTime) * 10; 
+      const centerY = height / 2 + Math.sin(floatTime) * 10; 
       floatTime += 0.015;
       angleX += 0.004;
       angleY += 0.007;
@@ -161,7 +161,7 @@ export function Sculpture3D({ isDark = true, className = '' }: Sculpture3DProps)
   }, [isDark]);
 
   return (
-    <div className={`relative w-full h-[450px] sm:h-[500px] flex items-center justify-center -mt-6 sm:-mt-10 lg:-mt-16 ${className}`}>
+    <div className={`relative w-full h-[420px] sm:h-[480px] lg:h-[520px] flex items-center justify-center ${className}`}>
       {/* Background Soft Warm Lighting Glow Disc */}
       <motion.div
         animate={{

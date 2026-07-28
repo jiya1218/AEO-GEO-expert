@@ -87,7 +87,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-500 ${
+    <div className={`min-h-screen flex flex-col font-sans relative transition-colors duration-500 ${
       isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'
     }`}>
       {/* Top Fixed Champagne & Bronze Scroll Progress Bar */}
@@ -102,9 +102,9 @@ export default function HomePage() {
       {/* Main Content Sections */}
       <main className="flex-1">
 
-        {/* SECTION 1: HERO SECTION (45% Left Copy / 55% Right 3D Sculpture) */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-10 sm:pb-14 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        {/* SECTION 1: HERO SECTION (Equal 50/50 Unified Section) */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-16 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
             {/* Left 50% Content Column (Columns 1-6) */}
             <ScrollReveal variant="fadeRight" duration={0.8} className="lg:col-span-6 space-y-8 text-left">

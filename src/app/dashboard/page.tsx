@@ -120,7 +120,7 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className={`min-h-screen ${isDark ? 'bg-[#0A0A0A] text-white' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans transition-colors duration-300 relative overflow-hidden`}>
+    <div className={`min-h-screen ${isDark ? 'bg-[#0A0A0A] text-white' : 'bg-[#f8fafc] text-slate-900'} flex flex-col font-sans transition-colors duration-300 relative`}>
       <AiBackground isDark={isDark} />
 
       {/* Full-Screen Analysis Animation Overlay */}
