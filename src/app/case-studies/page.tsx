@@ -5,76 +5,23 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
   Building2, TrendingUp, CheckCircle2, ArrowRight, Sparkles, 
-  Star, ShieldCheck, Award, Layers, Bot, Download, ChevronRight, FileText
+  Star, ShieldCheck, Award, Layers, Bot, Download, ChevronRight, FileText, Check
 } from 'lucide-react';
 import { AiBackground } from '@/components/ui/ai-background';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { BrandLogo } from '@/components/ui/brand-logo';
 import { Footer } from '@/components/footer';
-
-const caseStudies = [
-  {
-    slug: 'apex-global-saas',
-    company: 'Apex Global',
-    industry: 'Enterprise SaaS',
-    logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=400',
-    headline: '+380% Increase in ChatGPT Software Recommendations in 3 Weeks',
-    challenge: 'Apex Global was completely missing from generative answer outputs when enterprise buyers prompted ChatGPT for "best enterprise CRM software with SOC2 compliance".',
-    solution: 'Engineered Organization and Product JSON-LD schemas, injected entity density data layers, and generated competitor displacement briefs targeting legacy CRM competitors.',
-    metrics: [
-      { label: 'ChatGPT Citation Share', value: '84%' },
-      { label: 'Share of Voice Lift', value: '4.8x' },
-      { label: 'Prompt Queries Captured', value: '142' },
-    ],
-    testimonial: 'TangentCore completely transformed our AI search presence. Within 3 weeks of implementing their schema fixes, our SaaS platform became the #1 recommended solution across ChatGPT software evaluation prompts.',
-    author: 'Marcus Vance',
-    role: 'VP of Digital Growth',
-  },
-  {
-    slug: 'soma-health-telemedicine',
-    company: 'Soma Health',
-    industry: 'Healthcare & Life Sciences',
-    logo: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=400',
-    headline: '100% Medical Entity Schema Accuracy Across Perplexity & Gemini',
-    challenge: 'Inaccurate medical entity parsing caused Google Gemini and Perplexity Pro to omit Soma Health from clinical telehealth prompts.',
-    solution: 'Implemented MedicalWebPage and MedicalCondition schema validation, structured clinical trial citation matrices, and automated continuous LLM monitoring.',
-    metrics: [
-      { label: 'Perplexity Citation Rank', value: '#1' },
-      { label: 'Medical Schema Accuracy', value: '100%' },
-      { label: 'Organic AI Referral Traffic', value: '+290%' },
-    ],
-    testimonial: 'The automated JSON-LD schema repair and competitor displacement content briefs gave our team the exact playbook needed to outrank legacy competitors on Perplexity and Gemini.',
-    author: 'Elena Rostova',
-    role: 'Chief Marketing Officer',
-  },
-  {
-    slug: 'krypton-ecommerce',
-    company: 'Krypton E-Commerce',
-    industry: 'Global E-Commerce & Retail',
-    logo: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&q=80&w=400',
-    headline: '94.2% AI Buying Guide Recommendation Rate Across 6 Engines',
-    challenge: 'Krypton lost millions in holiday retail revenue because AI search overviews recommended rival luxury luggage brands.',
-    solution: 'Integrated real-time product inventory vector feed, automated FAQPage schema injection, and monitored 200 high-intent purchasing prompts.',
-    metrics: [
-      { label: 'Recommendation Share', value: '94.2%' },
-      { label: 'Engines Monitored', value: '6 / 6' },
-      { label: 'Attributed AI Sales', value: '+$1.4M' },
-    ],
-    testimonial: 'We tried traditional SEO agencies for months with zero impact on AI search answers. TangentCore solved our entity mapping issues in 48 hours. The ROI on the $149/mo Growth plan is incredible.',
-    author: 'David Chen',
-    role: 'Head of SEO & AEO',
-  },
-];
+import { caseStudiesData } from '@/lib/case-studies-data';
 
 export default function CaseStudiesPage() {
   const [isDark, setIsDark] = useState(true);
   const [selectedIndustry, setSelectedIndustry] = useState('All');
 
-  const industries = ['All', 'Enterprise SaaS', 'Healthcare & Life Sciences', 'Global E-Commerce & Retail'];
+  const industries = ['All', 'Enterprise Software', 'Retail & E-Commerce', 'Healthcare & Life Sciences', 'Financial Services', 'Education Technology', 'Manufacturing & Industrial'];
 
   const filteredStudies = selectedIndustry === 'All'
-    ? caseStudies
-    : caseStudies.filter((cs) => cs.industry === selectedIndustry);
+    ? caseStudiesData
+    : caseStudiesData.filter((cs) => cs.industry === selectedIndustry);
 
   return (
     <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-500 ${isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'}`}>
@@ -130,13 +77,13 @@ export default function CaseStudiesPage() {
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-mono font-bold bg-[#121315] border-white/10 text-[#C7A15A]">
             <Award className="w-3.5 h-3.5 text-[#C7A15A]" />
-            <span>VERIFIED ENTERPRISE RESULTS</span>
+            <span>VERIFIED CUSTOMER SUCCESS STORIES</span>
           </div>
           <h1 className={`text-4xl sm:text-6xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-[#181818]'}`}>
-            How Industry Leaders Win <span className="champagne-gradient-text">AI Search Citations</span>
+            Real Businesses. Real <span className="champagne-gradient-text">AI Visibility Growth</span>.
           </h1>
           <p className={`text-base sm:text-lg ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-            Explore real-world case studies demonstrating how enterprise brands capture #1 recommendations across ChatGPT, Perplexity, Gemini & Claude.
+            Discover how organisations across industries improved their presence across ChatGPT, Gemini, Claude, Perplexity, and Google AI using TangentCore.
           </p>
         </div>
 
@@ -160,14 +107,14 @@ export default function CaseStudiesPage() {
         </div>
 
         {/* Case Studies Stack */}
-        <div className="space-y-12">
+        <div className="space-y-12 mb-20">
           {filteredStudies.map((cs, idx) => (
             <motion.div
               key={cs.slug}
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
+              transition={{ delay: idx * 0.08 }}
               className={`p-8 sm:p-12 rounded-3xl border ${
                 isDark ? 'bg-[#1B1C1F] border-white/10 hover-luxury-lift' : 'bg-white border-[#E5E3DF] shadow-2xl'
               } space-y-8`}
@@ -179,14 +126,14 @@ export default function CaseStudiesPage() {
                     <Building2 className="w-6 h-6" />
                   </div>
                   <div>
+                    <span className="text-[11px] font-mono font-bold text-[#C7A15A] uppercase">{cs.number}</span>
                     <h3 className={`text-xl font-extrabold ${isDark ? 'text-white' : 'text-[#181818]'}`}>{cs.company}</h3>
-                    <span className="text-xs font-mono text-[#C7A15A] font-bold">{cs.industry}</span>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
-                  <span className="px-3 py-1 rounded-full bg-[#121315] border border-white/10 text-xs font-mono font-bold text-[#C7A15A]">
-                    Verified Case Study
+                <div className="flex items-center gap-3">
+                  <span className={`text-xs font-mono ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+                    {cs.companySize} • {cs.projectDuration}
                   </span>
                 </div>
               </div>
@@ -194,48 +141,67 @@ export default function CaseStudiesPage() {
               {/* Headline & Story */}
               <div className="space-y-4">
                 <h2 className={`text-2xl sm:text-3xl font-extrabold ${isDark ? 'text-white' : 'text-[#181818]'}`}>
-                  {cs.headline}
+                  <Link href={`/case-studies/${cs.slug}`} className="hover:text-[#C7A15A] transition-colors">
+                    {cs.title}
+                  </Link>
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs sm:text-sm leading-relaxed">
                   <div className={`p-5 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10 text-[#B7B7B5]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#5C5C5C]'}`}>
-                    <strong className={`block text-xs uppercase font-mono font-bold mb-1 ${isDark ? 'text-white' : 'text-[#181818]'}`}>The Challenge</strong>
-                    {cs.challenge}
+                    <strong className={`block text-xs uppercase font-mono font-bold mb-1 ${isDark ? 'text-white' : 'text-[#181818]'}`}>The Business Challenge</strong>
+                    {cs.businessChallenge}
                   </div>
                   <div className={`p-5 rounded-2xl border ${isDark ? 'bg-[#121315] border-white/10 text-[#B7B7B5]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#5C5C5C]'}`}>
                     <strong className="block text-xs uppercase font-mono font-bold mb-1 text-[#C7A15A]">The TangentCore Solution</strong>
-                    {cs.solution}
+                    {cs.solutionDetails}
                   </div>
                 </div>
               </div>
 
-              {/* Metrics Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
-                {cs.metrics.map((m, mIdx) => (
-                  <div key={mIdx} className={`p-5 rounded-2xl border text-center ${
+              {/* Results Grid */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+                {cs.results.slice(0, 4).map((r, rIdx) => (
+                  <div key={rIdx} className={`p-5 rounded-2xl border text-center ${
                     isDark ? 'bg-[#121315] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
                   }`}>
-                    <div className="text-3xl font-black champagne-gradient-text">{m.value}</div>
-                    <span className={`text-xs font-mono font-bold uppercase ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>{m.label}</span>
+                    <div className="text-3xl font-black champagne-gradient-text">{r.metric}</div>
+                    <span className={`text-[11px] font-mono font-bold block mt-1 ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>{r.description}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Quote Footer */}
+              {/* Quote Footer & Navigation */}
               <div className="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <p className={`text-xs italic leading-relaxed ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'} max-w-2xl`}>
-                  &quot;{cs.testimonial}&quot; — <strong className="text-[#C7A15A]">{cs.author}</strong>, {cs.role}
+                  &quot;{cs.quote}&quot; — <strong className="text-[#C7A15A]">{cs.author}</strong>, {cs.authorRole}
                 </p>
                 <Link
-                  href="/pricing"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-secondary text-xs font-bold shrink-0"
+                  href={`/case-studies/${cs.slug}`}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl luxury-btn-primary font-bold text-xs shrink-0 shadow-md"
                 >
-                  <span>Replicate Results</span>
+                  <span>Read Full Case Study</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </motion.div>
           ))}
         </div>
+
+        {/* Ready to Become Success Story Banner */}
+        <div className="p-10 rounded-3xl border border-[#C7A15A]/40 bg-[#121315] text-center space-y-6">
+          <h2 className="text-3xl font-extrabold text-white">Ready to Become Our Next Success Story?</h2>
+          <p className="text-xs sm:text-sm text-[#B7B7B5] max-w-xl mx-auto">
+            Whether your goal is increasing AI visibility, strengthening brand authority, or becoming the preferred recommendation across ChatGPT, Gemini, Claude & Perplexity, TangentCore delivers measurable outcomes.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link href="/pricing" className="px-8 py-3.5 rounded-2xl luxury-btn-primary font-bold text-xs">
+              View Pricing & Plans
+            </Link>
+            <Link href="/dashboard" className="px-8 py-3.5 rounded-2xl luxury-btn-secondary font-bold text-xs">
+              Start Free AI Visibility Audit
+            </Link>
+          </div>
+        </div>
+
       </main>
 
       <Footer isDark={isDark} />

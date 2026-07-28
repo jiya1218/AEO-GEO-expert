@@ -5,77 +5,25 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { 
   Search, Calendar, Clock, ArrowRight, Sparkles, Tag, 
-  Brain, Bot, ShieldCheck, TrendingUp, BookOpen, ChevronRight, User
+  Brain, Bot, ShieldCheck, TrendingUp, BookOpen, ChevronRight, User, Send, CheckCircle2
 } from 'lucide-react';
 import { AiBackground } from '@/components/ui/ai-background';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { BrandLogo } from '@/components/ui/brand-logo';
 import { Footer } from '@/components/footer';
-
-const blogPosts = [
-  {
-    slug: 'geo-vs-seo-the-2026-guide',
-    title: 'Generative Engine Optimization (GEO) vs Traditional SEO: The 2026 Enterprise Guide',
-    excerpt: 'Why 68% of enterprise search queries are bypassing traditional SERPs in favor of ChatGPT and Perplexity, and how to structure your brand knowledge for generative recommendations.',
-    category: 'GEO Strategy',
-    date: 'July 24, 2026',
-    readTime: '6 min read',
-    author: 'Dr. Alistair Vance',
-    authorRole: 'Chief AI Strategist',
-    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-    featured: true,
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=1000',
-  },
-  {
-    slug: 'json-ld-schema-for-chatgpt-citation',
-    title: 'How ChatGPT-4o Processes JSON-LD Schemas: Entity Density & Extraction Vectors',
-    excerpt: 'Deep-dive technical breakdown of how LLM crawlers parse Organization, Product, and FAQPage schemas to construct verified citation answers.',
-    category: 'Schema Engineering',
-    date: 'July 18, 2026',
-    readTime: '9 min read',
-    author: 'Elena Rostova',
-    authorRole: 'Head of Vector Architecture',
-    authorAvatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=200',
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800',
-  },
-  {
-    slug: 'outranking-competitors-on-perplexity-pro',
-    title: 'Displacing Competitors on Perplexity Pro: The Entity Displacement Playbook',
-    excerpt: 'Step-by-step tactics to audit competitor Share of Voice on Perplexity, identify source domain vulnerabilities, and inject authoritative replacement citations.',
-    category: 'Case Studies',
-    date: 'July 12, 2026',
-    readTime: '7 min read',
-    author: 'David Chen',
-    authorRole: 'Senior GEO Lead',
-    authorAvatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=200',
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800',
-  },
-  {
-    slug: 'llm-benchmark-chatgpt-gemini-claude-deepseek',
-    title: '2026 Benchmark Study: How ChatGPT, Gemini, Claude, & DeepSeek Cite SaaS Brands',
-    excerpt: 'An analysis of 10,000 prompt simulations across B2B software categories evaluating brand recommendation frequency and source attribution accuracy.',
-    category: 'LLM Benchmark',
-    date: 'July 05, 2026',
-    readTime: '11 min read',
-    author: 'Dr. Alistair Vance',
-    authorRole: 'Chief AI Strategist',
-    authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=200',
-    featured: false,
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&q=80&w=800',
-  },
-];
+import { blogPostsData } from '@/lib/blog-data';
 
 export default function BlogPage() {
   const [isDark, setIsDark] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
 
-  const categories = ['All', 'GEO Strategy', 'Schema Engineering', 'Case Studies', 'LLM Benchmark'];
+  const categories = ['All', 'AI Search', 'GEO Strategy', 'AEO Strategy', 'AI Visibility', 'Schema Engineering', 'Industry Research'];
 
   const filteredPosts = useMemo(() => {
-    return blogPosts.filter((post) => {
+    return blogPostsData.filter((post) => {
       const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
       const matchesSearch = searchQuery === '' || 
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -84,7 +32,14 @@ export default function BlogPage() {
     });
   }, [selectedCategory, searchQuery]);
 
-  const featuredPost = blogPosts.find((p) => p.featured) || blogPosts[0];
+  const featuredPost = blogPostsData.find((p) => p.featured) || blogPostsData[0];
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setEmail('');
+  };
 
   return (
     <div className={`min-h-screen flex flex-col font-sans relative overflow-hidden transition-colors duration-500 ${isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'}`}>
@@ -140,17 +95,17 @@ export default function BlogPage() {
         <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-mono font-bold bg-[#121315] border-white/10 text-[#C7A15A]">
             <BookOpen className="w-3.5 h-3.5 text-[#C7A15A]" />
-            <span>GEO & AEO RESEARCH INSIGHTS</span>
+            <span>INSIGHTS ON AI SEARCH & GEO</span>
           </div>
           <h1 className={`text-4xl sm:text-6xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-[#181818]'}`}>
             The Enterprise GEO <span className="champagne-gradient-text">Knowledge Hub</span>
           </h1>
           <p className={`text-base sm:text-lg ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-            Actionable strategy guides, vector schema blueprints, and AI search benchmarks created by Senior GEO Engineers.
+            Stay ahead of the rapidly evolving AI search landscape with expert insights, industry research, and practical guides from TangentCore.
           </p>
         </div>
 
-        {/* Featured Post Card */}
+        {/* Featured Article Card */}
         {selectedCategory === 'All' && !searchQuery && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -162,7 +117,7 @@ export default function BlogPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="flex items-center gap-3">
                 <span className="px-3 py-1 rounded-full bg-[#C7A15A]/15 text-[#C7A15A] text-xs font-mono font-bold uppercase">
-                  Featured Guide
+                  Featured Article
                 </span>
                 <span className={`text-xs font-mono ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
                   {featuredPost.date} • {featuredPost.readTime}
@@ -249,7 +204,7 @@ export default function BlogPage() {
         </div>
 
         {/* Blog Posts Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
           {filteredPosts.map((post) => (
             <motion.article
               key={post.slug}
@@ -305,6 +260,41 @@ export default function BlogPage() {
             </motion.article>
           ))}
         </div>
+
+        {/* Newsletter In-Page Subscribe Banner */}
+        <div className="p-8 sm:p-12 rounded-3xl border border-[#C7A15A]/40 bg-[#121315] space-y-6 text-center">
+          <div className="max-w-2xl mx-auto space-y-3">
+            <h2 className="text-3xl font-extrabold text-white">Stay Ahead of AI Search</h2>
+            <p className="text-xs sm:text-sm text-[#B7B7B5]">
+              Receive expert insights, research reports, and practical strategies to improve your AI visibility—delivered directly to your inbox.
+            </p>
+          </div>
+
+          {subscribed ? (
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#C7A15A]/15 text-[#C7A15A] text-xs font-mono font-bold border border-[#C7A15A]/30">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Successfully subscribed to GEO Insights!</span>
+            </div>
+          ) : (
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                required
+                placeholder="Enter work email..."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full sm:w-72 px-4 py-3 rounded-2xl bg-[#0B0B0C] border border-white/10 text-xs font-mono text-white outline-none focus:border-[#C7A15A]"
+              />
+              <button
+                type="submit"
+                className="w-full sm:w-auto px-6 py-3 rounded-2xl luxury-btn-primary font-bold text-xs shrink-0"
+              >
+                Subscribe
+              </button>
+            </form>
+          )}
+        </div>
+
       </main>
 
       <Footer isDark={isDark} />

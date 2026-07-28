@@ -18,8 +18,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className="antialiased bg-slate-950 text-slate-100 min-h-screen">
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <body className="antialiased bg-[#0B0B0C] text-[#F6F6F4] min-h-screen" suppressHydrationWarning>
         {children}
         <Toaster position="top-right" theme="dark" richColors />
       </body>
