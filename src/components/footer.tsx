@@ -18,168 +18,199 @@ export function Footer({ isDark = true }: FooterProps) {
     e.preventDefault();
     if (!email) return;
     setSubscribed(true);
-    toast.success('Successfully subscribed to GEO & AEO Insider insights!');
+    toast.success('Subscribed to TangentCore Intelligence Updates!');
     setEmail('');
   };
+
+  const platformLinks = [
+    { label: 'Home', href: '/' },
+    { label: 'Features', href: '/#capabilities' },
+    { label: 'Solutions', href: '/#capabilities' },
+    { label: 'Pricing', href: '/pricing' },
+    { label: 'AI Visibility Audit', href: '/dashboard' },
+    { label: 'Integrations', href: '/dashboard' },
+  ];
+
+  const resourceLinks = [
+    { label: 'Blog', href: '/blog' },
+    { label: 'Case Studies', href: '/case-studies' },
+    { label: 'Documentation', href: '/blog' },
+    { label: 'API Reference', href: '/blog' },
+    { label: 'Changelog', href: '/blog' },
+    { label: 'Help Center', href: '/blog' },
+  ];
+
+  const companyLinks = [
+    { label: 'About', href: '/' },
+    { label: 'Careers', href: '/' },
+    { label: 'Contact', href: '/pricing' },
+    { label: 'Partners', href: '/' },
+    { label: 'Press Kit', href: '/' },
+    { label: 'Brand Assets', href: '/' },
+  ];
+
+  const legalLinks = [
+    { label: 'Privacy Policy', href: '#' },
+    { label: 'Terms of Service', href: '#' },
+    { label: 'Cookie Policy', href: '#' },
+    { label: 'Security', href: '#' },
+    { label: 'Responsible AI', href: '#' },
+    { label: 'Status', href: '#' },
+  ];
 
   return (
     <footer className={`border-t ${isDark ? 'border-white/10 bg-[#0B0B0C] text-[#B7B7B5]' : 'border-[#E5E3DF] bg-[#FCFCFB] text-[#5C5C5C]'} pt-16 pb-8 transition-colors duration-500 relative z-10`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Main Footer Links Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-10 pb-12 border-b border-white/10 dark:border-white/10">
-          
-          {/* Brand & Overview */}
-          <div className="sm:col-span-2 space-y-4">
-            <div>
-              <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
-            </div>
-            
-            <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} leading-relaxed max-w-sm`}>
-              The enterprise standard for Generative Engine Optimization (GEO) & Answer Engine Optimization (AEO). Monitor, audit, and command brand citations across ChatGPT, Google Gemini, Claude, Perplexity, DeepSeek, and Grok.
+        {/* Brand Header & Newsletter Bar */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-12 border-b border-white/10 dark:border-white/10 items-center">
+          <div className="lg:col-span-6 space-y-3">
+            <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
+            <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} leading-relaxed max-w-md`}>
+              The enterprise standard for Generative Engine Optimization (GEO) & Answer Engine Optimization (AEO). Command AI recommendations across ChatGPT, Gemini, Claude, Perplexity, DeepSeek, and Grok.
             </p>
-
-            {/* Live Operational Status Indicator */}
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] font-mono font-bold ${isDark ? 'bg-[#121315] border border-white/10 text-white' : 'bg-[#F6F5F3] border border-[#E5E3DF] text-[#181818]'} shadow-sm`}>
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C7A15A] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C7A15A]"></span>
-              </span>
-              <span>All 6 LLM Scanners Operational</span>
-            </div>
-
-            {/* Social Links */}
-            <div className="flex items-center gap-2.5 pt-1">
-              <a href="#" className={`p-2 rounded-xl ${isDark ? 'bg-[#121315] hover:bg-[#242529] text-[#B7B7B5] hover:text-white border border-white/10' : 'bg-[#F6F5F3] hover:bg-[#E5E3DF] text-[#5C5C5C] hover:text-[#181818]'} transition-colors`} aria-label="Twitter">
-                <Twitter className="w-3.5 h-3.5" />
-              </a>
-              <a href="#" className={`p-2 rounded-lg ${isDark ? 'bg-[#181818] hover:bg-[#202020] text-[#9E9E9E] hover:text-white border border-[#2A2A2A]' : 'bg-white hover:bg-slate-200 text-slate-600 hover:text-slate-900'} transition-colors`} aria-label="GitHub">
-                <Github className="w-3.5 h-3.5" />
-              </a>
-              <a href="#" className={`p-2 rounded-lg ${isDark ? 'bg-[#181818] hover:bg-[#202020] text-[#9E9E9E] hover:text-white border border-[#2A2A2A]' : 'bg-white hover:bg-slate-200 text-slate-600 hover:text-slate-900'} transition-colors`} aria-label="LinkedIn">
-                <Linkedin className="w-3.5 h-3.5" />
-              </a>
-            </div>
           </div>
 
-          {/* Quick Navigation Links */}
-          <div className="space-y-3">
+          <div className="lg:col-span-6 space-y-3">
             <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
-              Platform Navigation
+              Stay Ahead of AI Search
             </h4>
-            <ul className="space-y-2 text-xs font-medium">
-              <li>
-                <Link href="/" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  Home Overview
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className={`${isDark ? 'text-[#C7A15A] hover:text-[#F5E8C7]' : 'text-[#B87333] hover:text-[#181818]'} font-bold transition-colors block py-0.5`}>
-                  Pricing & Plans ($39-$399)
-                </Link>
-              </li>
-              <li>
-                <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  Case Studies & Proof
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  GEO Strategy Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/dashboard" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  Live AI Audit Dashboard
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* GEO Solutions & Resources */}
-          <div className="space-y-3">
-            <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
-              Resources & Guides
-            </h4>
-            <ul className="space-y-2 text-xs font-medium">
-              <li>
-                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  JSON-LD Schema Engineering
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  Perplexity Citation Playbook
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  2026 6-LLM Benchmark Report
-                </Link>
-              </li>
-              <li>
-                <Link href="/case-studies" className={`${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors block py-0.5`}>
-                  Enterprise SaaS Case Studies
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Newsletter Column */}
-          <div className="space-y-3">
-            <h4 className={`text-xs font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-slate-900'}`}>
-              GEO Insights Newsletter
-            </h4>
-            <p className={`text-xs ${isDark ? 'text-[#CFCFCF]' : 'text-slate-600'} leading-relaxed`}>
-              Get weekly breakdowns of changes in ChatGPT & Perplexity citation algorithms.
-            </p>
             {subscribed ? (
-              <div className={`p-2.5 rounded-xl border text-[11px] flex items-center gap-2 ${
-                isDark ? 'bg-[#D4AF37]/10 border-[#D4AF37]/30 text-[#D4AF37]' : 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600'
-              }`}>
-                <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                <span>Subscribed to GEO Insights!</span>
+              <div className="p-3 rounded-xl bg-[#C7A15A]/15 text-[#C7A15A] text-xs font-mono font-bold border border-[#C7A15A]/30 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Subscribed to TangentCore Insider Updates!</span>
               </div>
             ) : (
-              <form onSubmit={handleSubscribe} className="space-y-2">
-                <div className="relative">
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter business email..."
-                    className={`w-full text-xs px-3.5 py-2.5 rounded-xl border ${
-                      isDark ? 'bg-[#0A0A0A] border-[#2A2A2A] text-white placeholder-[#9E9E9E] focus:border-[#D4AF37]' : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-cyan-500'
-                    } focus:outline-none transition-all pr-10`}
-                  />
-                  <button
-                    type="submit"
-                    className={`absolute right-1 top-1 p-2 rounded-lg ${
-                      isDark ? 'bg-[#D4AF37] text-[#111111] hover:bg-[#F5D76E]' : 'bg-cyan-500 hover:bg-cyan-400 text-white'
-                    } transition-colors`}
-                  >
-                    <Send className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row items-center gap-3">
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter business email..."
+                  className={`w-full sm:w-72 text-xs px-4 py-3 rounded-2xl border ${
+                    isDark
+                      ? 'bg-[#121315] border-white/10 text-white placeholder-[#B7B7B5]/60 focus:border-[#C7A15A]'
+                      : 'bg-white border-[#E5E3DF] text-[#181818] placeholder-[#5C5C5C]/60 focus:border-[#B87333]'
+                  } focus:outline-none transition-all`}
+                />
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-6 py-3 rounded-2xl luxury-btn-primary text-xs font-bold shrink-0 shadow-md"
+                >
+                  Subscribe
+                </button>
               </form>
             )}
+          </div>
+        </div>
+
+        {/* 4 Categorized Columns Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-b border-white/10 dark:border-white/10">
+          
+          {/* Column 1: Platform */}
+          <div className="space-y-4">
+            <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
+              Platform
+            </h4>
+            <ul className="space-y-2.5 text-xs font-medium">
+              {platformLinks.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className={`${
+                      isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'
+                    } transition-colors block py-0.5`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 2: Resources */}
+          <div className="space-y-4">
+            <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
+              Resources
+            </h4>
+            <ul className="space-y-2.5 text-xs font-medium">
+              {resourceLinks.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className={`${
+                      isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'
+                    } transition-colors block py-0.5`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 3: Company */}
+          <div className="space-y-4">
+            <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
+              Company
+            </h4>
+            <ul className="space-y-2.5 text-xs font-medium">
+              {companyLinks.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className={`${
+                      isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'
+                    } transition-colors block py-0.5`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Column 4: Legal */}
+          <div className="space-y-4">
+            <h4 className={`text-xs font-mono font-bold uppercase tracking-wider ${isDark ? 'text-white' : 'text-[#181818]'}`}>
+              Legal
+            </h4>
+            <ul className="space-y-2.5 text-xs font-medium">
+              {legalLinks.map((item) => (
+                <li key={item.label}>
+                  <a
+                    href={item.href}
+                    className={`${
+                      isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'
+                    } transition-colors block py-0.5`}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
         </div>
 
-        {/* Compact Bottom Copyright Bar */}
-        <div className={`pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] ${isDark ? 'text-[#9E9E9E]' : 'text-slate-500'}`}>
-          <div className="flex items-center gap-1.5">
-            <Sparkles className={`w-3.5 h-3.5 ${isDark ? 'text-[#D4AF37]' : 'text-cyan-500'}`} />
-            <span>© {new Date().getFullYear()} TangentCore (<a href="https://tangentcore.in" target="_blank" rel="noreferrer" className={`${isDark ? 'text-[#D4AF37] hover:text-[#F5D76E]' : 'text-cyan-500'} hover:underline font-bold`}>tangentcore.in</a>). All rights reserved.</span>
+        {/* Bottom Copyright & Operational Status Bar */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-[#C7A15A]" />
+            <span className={isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}>
+              © {new Date().getFullYear()} TangentCore (<a href="https://tangentcore.in" target="_blank" rel="noreferrer" className="text-[#C7A15A] font-bold hover:underline">tangentcore.in</a>). All rights reserved.
+            </span>
           </div>
           
-          <div className="flex items-center gap-5">
-            <a href="#" className={`hover:${isDark ? 'text-white' : 'text-slate-900'} transition-colors`}>Privacy Policy</a>
-            <a href="#" className={`hover:${isDark ? 'text-white' : 'text-slate-900'} transition-colors`}>Terms of Service</a>
-            <a href="#" className={`hover:${isDark ? 'text-white' : 'text-slate-900'} transition-colors`}>Security</a>
-            <a href="#" className={`hover:${isDark ? 'text-white' : 'text-slate-900'} transition-colors`}>GEO Standard 2.0</a>
+          <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-[11px] font-bold ${
+            isDark ? 'bg-[#121315] border border-white/10 text-[#C7A15A]' : 'bg-[#F6F5F3] border border-[#E5E3DF] text-[#B87333]'
+          }`}>
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C7A15A] opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C7A15A]"></span>
+            </span>
+            <span>All 6 LLM Scanners Active</span>
           </div>
         </div>
 
