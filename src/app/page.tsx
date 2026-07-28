@@ -708,49 +708,82 @@ export default function HomePage() {
         </section>
 
 
-        {/* SECTION 9 & 10: EDITORIAL CASE STUDIES & TESTIMONIALS */}
+        {/* SECTION 9: WHY TANGENTCORE */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-36 space-y-16">
           <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4">
             <span className="text-xs font-mono text-[#C7A15A] font-bold uppercase tracking-widest">
-              Customer Success
+              Why TangentCore
             </span>
             <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
               isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
             }`}>
-              Trusted by Industry Leaders
+              Built for Enterprise AI Visibility
             </h2>
+            <p className={`text-base leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+              Everything your organisation needs to monitor, analyse, optimise, and improve brand visibility across modern AI search and answer engines.
+            </p>
           </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {[
-              {
-                quote: 'TangentCore gave us complete visibility into how AI platforms reference our brand. We identified critical citation gaps across ChatGPT and Gemini, and improved our AI discoverability within weeks.',
-                author: 'Marcus Vance',
-                role: 'VP of Digital Growth, Apex Global',
-              },
-              {
-                quote: 'The structured data intelligence and competitive benchmarking features gave our marketing team actionable insights we couldn\'t find anywhere else. Our AI visibility score improved by 3.8x.',
-                author: 'Elena Rostova',
-                role: 'Chief Marketing Officer, Soma Health',
-              },
-            ].map((t, idx) => (
-              <ScrollReveal key={idx} variant="fadeUp" delay={idx * 0.15}>
-                <div className={`p-8 sm:p-10 rounded-3xl border ${
-                  isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-xl'
-                } space-y-6 hover-luxury-lift h-full flex flex-col justify-between`}>
-                  <p className={`text-base leading-[1.7] italic ${isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'}`}>
-                    &quot;{t.quote}&quot;
-                  </p>
-                  <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                    <div>
-                      <h4 className="text-sm font-bold text-[#C7A15A]">{t.author}</h4>
-                      <span className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>{t.role}</span>
-                    </div>
-                    <Star className="w-5 h-5 text-[#C7A15A] fill-[#C7A15A]" />
-                  </div>
+            {/* Card 1: AI Visibility Intelligence */}
+            <ScrollReveal variant="fadeUp">
+              <div className={`p-8 sm:p-10 rounded-3xl border ${
+                isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-xl'
+              } space-y-6 hover-luxury-lift h-full flex flex-col`}>
+                <div className="w-12 h-12 rounded-2xl bg-[#B87333]/15 text-[#C7A15A] flex items-center justify-center border border-[#B87333]/30">
+                  <BarChart3 className="w-6 h-6" />
                 </div>
-              </ScrollReveal>
-            ))}
+                <div className="space-y-2">
+                  <h3 className="text-xl font-extrabold">Enterprise AI Visibility Intelligence</h3>
+                  <p className={`text-sm leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+                    Monitor how leading AI platforms discover, reference, and recommend your brand across ChatGPT, Gemini, Claude, Perplexity, Grok, and DeepSeek.
+                  </p>
+                </div>
+                <div className="pt-4 space-y-2.5 flex-1">
+                  {['Real-time AI visibility monitoring', 'Cross-platform citation intelligence', 'Competitor benchmarking', 'Executive-ready reporting'].map((feat, fIdx) => (
+                    <div key={fIdx} className="flex items-center gap-2 text-xs font-semibold">
+                      <CheckCircle2 className="w-4 h-4 text-[#B87333] shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-4 border-t border-white/10">
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#B87333]/15 text-[#C7A15A] text-[10px] font-mono font-bold uppercase tracking-wide">
+                    Continuous Intelligence
+                  </span>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* Card 2: Structured Data & Knowledge Optimisation */}
+            <ScrollReveal variant="fadeUp" delay={0.15}>
+              <div className={`p-8 sm:p-10 rounded-3xl border ${
+                isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-xl'
+              } space-y-6 hover-luxury-lift h-full flex flex-col`}>
+                <div className="w-12 h-12 rounded-2xl bg-[#B87333]/15 text-[#C7A15A] flex items-center justify-center border border-[#B87333]/30">
+                  <Cpu className="w-6 h-6" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-extrabold">Structured Data & Knowledge Optimisation</h3>
+                  <p className={`text-sm leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+                    Strengthen structured data, entity relationships, and knowledge signals to improve how AI platforms interpret, rank, and reference your content.
+                  </p>
+                </div>
+                <div className="pt-4 space-y-2.5 flex-1">
+                  {['JSON-LD validation', 'Entity relationship optimisation', 'Knowledge graph enhancement', 'AI-ready content recommendations'].map((feat, fIdx) => (
+                    <div key={fIdx} className="flex items-center gap-2 text-xs font-semibold">
+                      <CheckCircle2 className="w-4 h-4 text-[#B87333] shrink-0" />
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+                <div className="pt-4 border-t border-white/10">
+                  <span className="inline-block px-3 py-1 rounded-full bg-[#B87333]/15 text-[#C7A15A] text-[10px] font-mono font-bold uppercase tracking-wide">
+                    Enterprise Ready
+                  </span>
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
         </section>
 
@@ -762,13 +795,16 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
             <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4">
               <span className="text-xs font-mono text-[#B87333] font-bold uppercase tracking-widest">
-                Enterprise Platform
+                Plans & Pricing
               </span>
               <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
                 isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
               }`}>
-                Simple, Transparent Pricing
+                Choose the Right Plan for Your Business
               </h2>
+              <p className={`text-base leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+                Start with an AI Visibility Audit and scale your monitoring, optimisation, and reporting as your organisation grows.
+              </p>
             </ScrollReveal>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -778,22 +814,24 @@ export default function HomePage() {
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-lg'
                 } space-y-6 hover-luxury-lift flex flex-col justify-between h-full`}>
                   <div className="space-y-4">
-                    <span className="text-xs font-mono text-[#B7B7B5] font-bold uppercase">Starter GEO Audit</span>
-                    <h3 className="text-2xl font-extrabold">Starter Plan</h3>
+                    <span className="text-xs font-mono text-[#B7B7B5] font-bold uppercase">Starter</span>
+                    <h3 className="text-2xl font-extrabold">Starter</h3>
                     <div className="text-3xl font-black text-[#C7A15A]">$39 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
                     <ul className="space-y-2.5 text-xs font-medium pt-4 border-t border-white/10">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 2 Monitored LLM Engines</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 15 Target Prompt Keywords</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Basic JSON-LD Schema Validation</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Monitor 2 AI Search Platforms</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 15 AI Search Prompts</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> AI Visibility Dashboard</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> JSON-LD Validation</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Monthly AI Visibility Report</li>
                     </ul>
                   </div>
                   <Link href="/pricing" className="w-full py-3.5 rounded-2xl luxury-btn-secondary text-center text-xs font-bold block">
-                    Select Starter ($39/mo)
+                    Start Free Audit
                   </Link>
                 </div>
               </ScrollReveal>
 
-              {/* Dominator Plan */}
+              {/* Professional Plan */}
               <ScrollReveal variant="fadeUp" delay={0.15}>
                 <div className={`p-8 rounded-3xl border-2 border-[#C7A15A] ${
                   isDark ? 'bg-[#242529] shadow-2xl shadow-[#C7A15A]/15' : 'bg-white shadow-2xl'
@@ -801,19 +839,21 @@ export default function HomePage() {
                   <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-[#B87333] via-[#C7A15A] to-[#F5E8C7]" />
                   <div className="space-y-4">
                     <span className="text-xs font-mono text-[#C7A15A] font-bold uppercase flex items-center gap-1">
-                      <Star className="w-3.5 h-3.5 fill-[#C7A15A]" /> Flagship Most Popular
+                      <Star className="w-3.5 h-3.5 fill-[#C7A15A]" /> Most Popular
                     </span>
-                    <h3 className="text-2xl font-extrabold">Growth Dominator</h3>
+                    <h3 className="text-2xl font-extrabold">Professional</h3>
                     <div className="text-4xl font-black champagne-gradient-text">$149 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
                     <ul className="space-y-2.5 text-xs font-medium pt-4 border-t border-white/10">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> All 6 Multi-LLM Continuous Scans</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 100 Target Prompt Keywords</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Automated Schema Auto-Repair</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Competitor Displacement Briefs</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Monitor All 6 AI Platforms</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> 100 AI Search Prompts</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> AI Citation Intelligence</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Automated Schema Optimisation</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Competitor Intelligence Reports</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Weekly Visibility Reports</li>
                     </ul>
                   </div>
                   <Link href="/pricing" className="w-full py-3.5 rounded-2xl luxury-btn-primary text-center text-xs font-bold block shadow-md">
-                    Get Started ($149/mo)
+                    Choose Professional
                   </Link>
                 </div>
               </ScrollReveal>
@@ -824,21 +864,38 @@ export default function HomePage() {
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-lg'
                 } space-y-6 hover-luxury-lift flex flex-col justify-between h-full`}>
                   <div className="space-y-4">
-                    <span className="text-xs font-mono text-[#B7B7B5] font-bold uppercase">Multi-Brand Enterprise</span>
-                    <h3 className="text-2xl font-extrabold">Enterprise Scale</h3>
+                    <span className="text-xs font-mono text-[#B7B7B5] font-bold uppercase">Enterprise</span>
+                    <h3 className="text-2xl font-extrabold">Enterprise</h3>
                     <div className="text-3xl font-black text-[#C7A15A]">$399 <span className="text-xs text-[#B7B7B5] font-normal">/mo</span></div>
                     <ul className="space-y-2.5 text-xs font-medium pt-4 border-t border-white/10">
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Unlimited Brands & Portfolios (5 Domains)</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Automated Webhooks & API Integration</li>
-                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Dedicated Senior GEO AI Strategist</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Unlimited Brands</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Unlimited Monitoring</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> API Access</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Custom Integrations</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Dedicated Customer Success Manager</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Priority Support</li>
+                      <li className="flex items-center gap-2"><Check className="w-4 h-4 text-[#C7A15A]" /> Enterprise SLA</li>
                     </ul>
                   </div>
-                  <Link href="/pricing" className="w-full py-3.5 rounded-2xl luxury-btn-secondary text-center text-xs font-bold block">
-                    Select Enterprise ($399/mo)
+                  <Link href="/contact" className="w-full py-3.5 rounded-2xl luxury-btn-secondary text-center text-xs font-bold block">
+                    Contact Sales
                   </Link>
                 </div>
               </ScrollReveal>
             </div>
+
+            {/* Bottom Note */}
+            <ScrollReveal variant="fadeUp" className="text-center max-w-2xl mx-auto space-y-4 pt-4">
+              <p className={`text-sm leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+                Need custom deployments, higher usage limits, or tailored onboarding? Contact our enterprise team for a personalised solution.
+              </p>
+              <Link
+                href="/contact"
+                className="inline-block px-8 py-3.5 rounded-2xl luxury-btn-secondary text-xs font-bold"
+              >
+                Contact Sales
+              </Link>
+            </ScrollReveal>
           </div>
         </section>
 

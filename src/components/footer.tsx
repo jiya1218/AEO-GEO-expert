@@ -22,11 +22,11 @@ export function Footer({ isDark = true }: FooterProps) {
 
   const platformLinks = [
     { label: 'Home', href: '/' },
-    { label: 'Tools Hub', href: '/tools' },
-    { label: 'Brand Audit Matrix', href: '/tools/brand-auditor' },
-    { label: 'AI ROI Estimator', href: '/tools/roi-calculator' },
+    { label: 'Features', href: '/features' },
+    { label: 'Solutions', href: '/tools' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'AI Visibility Audit', href: '/dashboard' },
+    { label: 'Integrations', href: '/docs' },
   ];
 
   const resourceLinks = [
@@ -71,10 +71,10 @@ export function Footer({ isDark = true }: FooterProps) {
           
           {/* Col 1: Brand Column (lg:col-span-4) */}
           <div className="lg:col-span-4 space-y-5">
-            <BrandLogo isDark={isDark || true} size="lg" subtitle="INTELLIGENT ROUTING ENGINE" />
+            <BrandLogo isDark={isDark || true} size="lg" subtitle="AI VISIBILITY INTELLIGENCE" />
             
             <p className={`text-sm ${isDark ? 'text-[#B7B7B5]' : 'text-[#A0A0A5]'} leading-relaxed max-w-sm`}>
-              The enterprise standard for GEO & AEO. Command AI recommendations across major LLM search engines.
+              Enterprise AI Visibility Intelligence for monitoring, analysing, and optimising how your brand is discovered across AI-powered search and answer engines.
             </p>
 
             {/* Newsletter Inline Subscription Box */}
@@ -91,14 +91,14 @@ export function Footer({ isDark = true }: FooterProps) {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter work email..."
+                    placeholder="Enter your work email"
                     className="w-full text-sm pl-4 pr-28 py-3 rounded-xl bg-[#0F1014] border border-white/15 text-white placeholder-[#85858A] focus:border-[#C7A15A] focus:outline-none transition-all"
                   />
                   <button
                     type="submit"
                     className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-lg luxury-btn-primary text-xs sm:text-sm font-bold shadow-xs"
                   >
-                    Subscribe
+                    Get Updates
                   </button>
                 </form>
               )}
@@ -106,14 +106,14 @@ export function Footer({ isDark = true }: FooterProps) {
 
             {/* Social Links */}
             <div className="flex items-center gap-3 pt-1">
-              <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="Twitter">
-                <Twitter className="w-4 h-4" />
+              <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="LinkedIn">
+                <Linkedin className="w-4 h-4" />
               </a>
               <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="GitHub">
                 <Github className="w-4 h-4" />
               </a>
-              <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="LinkedIn">
-                <Linkedin className="w-4 h-4" />
+              <a href="#" className="p-2.5 rounded-xl bg-[#0F1014] border border-white/10 text-[#A0A0A5] hover:text-white hover:border-white/30 transition-colors" aria-label="X (Twitter)">
+                <Twitter className="w-4 h-4" />
               </a>
             </div>
           </div>
@@ -204,7 +204,7 @@ export function Footer({ isDark = true }: FooterProps) {
           </div>
           
           <div className="flex items-center gap-2">
-            <span className="text-[#B7B7B5]">The Enterprise Standard for Multi-Model AI Search Optimization.</span>
+            <span className="text-[#B7B7B5]">Enterprise AI Visibility Intelligence for the Next Generation of Search.</span>
           </div>
         </div>
 
