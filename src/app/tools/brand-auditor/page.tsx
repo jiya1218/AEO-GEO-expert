@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { 
   Building2, Globe, Search, Loader2, Sparkles, CheckCircle2, 
-  ShieldCheck, ExternalLink, ArrowRight, Layers, Bot, Tag, Eye, Image as ImageIcon 
+  ShieldCheck, ExternalLink, ArrowRight, Layers, Bot 
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTheme } from '@/components/theme-provider';
@@ -19,12 +19,12 @@ export default function BrandAuditorToolPage() {
   const [loading, setLoading] = useState(false);
   const [auditResult, setAuditResult] = useState<any | null>(null);
 
-  const sampleDomains = ['swiggy.com', 'stripe.com', 'linear.app', 'notion.so', 'figma.com'];
+  const sampleDomains = ['swiggy.com', 'amazon.com', 'stripe.com', 'linear.app', 'notion.so'];
 
   const handleRunAudit = async (targetDomain?: string) => {
     const domainToAudit = targetDomain || domainInput;
     if (!domainToAudit.trim()) {
-      toast.error('Please enter a valid website domain (e.g. swiggy.com or stripe.com)');
+      toast.error('Please enter a valid website domain (e.g. swiggy.com or amazon.com)');
       return;
     }
 
@@ -79,7 +79,7 @@ export default function BrandAuditorToolPage() {
           </h1>
 
           <p className={`text-base sm:text-lg leading-relaxed ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-            Extract real brand assets (favicons AND logos), complete AI executive business summaries, top market competitors, and AEO citation scores.
+            Extract real brand logos, complete AI executive business summaries, top market competitors, and AEO citation scores.
           </p>
         </div>
 
@@ -105,7 +105,7 @@ export default function BrandAuditorToolPage() {
                 type="text"
                 value={domainInput}
                 onChange={(e) => setDomainInput(e.target.value)}
-                placeholder="e.g. swiggy.com or stripe.com"
+                placeholder="e.g. swiggy.com or amazon.com"
                 className={`w-full ${
                   isDark
                     ? 'bg-[#1B1C1F] border-white/10 text-white placeholder-[#B7B7B5]/60 focus:border-[#C7A15A]'
@@ -163,9 +163,9 @@ export default function BrandAuditorToolPage() {
           } p-12 text-center space-y-6 animate-pulse`}>
             <Loader2 className="w-10 h-10 text-[#C7A15A] animate-spin mx-auto" />
             <div className="space-y-2">
-              <h3 className="text-xl font-bold">Extracting Brand Assets, Favicon, Logo & Real Competitors...</h3>
+              <h3 className="text-xl font-bold">Auditing Website & Real Market Competitors...</h3>
               <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-                Running live HTTP inspection and AI market competitor mapping.
+                Extracting brand logo, executive business summary, and competitive mapping.
               </p>
             </div>
           </div>
@@ -175,7 +175,7 @@ export default function BrandAuditorToolPage() {
         {auditResult && !loading && (
           <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             
-            {/* Card 1: Both Brand Logo AND Favicon Displayed */}
+            {/* Card 1: Brand Overview & LOGO */}
             <div className={`rounded-3xl border ${
               isDark ? 'bg-[#121315] border-white/10' : 'bg-white border-[#E5E3DF]'
             } p-6 sm:p-8 space-y-6 shadow-2xl`}>
@@ -205,52 +205,30 @@ export default function BrandAuditorToolPage() {
                   </a>
                 </div>
 
-                {/* Both Brand Logo & Favicon Display Badges */}
-                <div className="flex flex-wrap items-center gap-4">
-                  {/* 1. Favicon Badge */}
-                  <div className={`p-3 rounded-2xl border flex items-center gap-3 ${
+                {/* LOGO Box (Only Logo, Heading "LOGO" on top, No size text, No Favicon) */}
+                <div className="flex items-center gap-6">
+                  <div className={`p-4 rounded-2xl border flex flex-col items-center gap-2 ${
                     isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
                   }`}>
-                    <img
-                      src={auditResult.faviconUrl}
-                      alt={`${auditResult.brandName} Favicon`}
-                      className="w-8 h-8 rounded-lg object-contain bg-white/10 p-1"
-                      onError={(e: any) => { e.target.src = 'https://google.com/favicon.ico'; }}
-                    />
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase text-[#C7A15A] block">
-                        Favicon
-                      </span>
-                      <span className="text-[11px] font-mono text-white/70">128x128 Icon</span>
-                    </div>
-                  </div>
-
-                  {/* 2. Brand Logo Badge */}
-                  <div className={`p-3 px-4 rounded-2xl border flex items-center gap-3 ${
-                    isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
-                  }`}>
+                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#C7A15A]">
+                      LOGO
+                    </span>
                     <img
                       src={auditResult.logoUrl}
-                      alt={`${auditResult.brandName} Brand Logo`}
-                      className="h-8 max-w-32 object-contain bg-white/10 px-2 py-1 rounded-lg"
+                      alt={`${auditResult.brandName} Logo`}
+                      className="h-10 max-w-44 object-contain bg-white/10 px-3 py-1 rounded-xl"
                       onError={(e: any) => { e.target.src = auditResult.faviconUrl; }}
                     />
-                    <div>
-                      <span className="text-[10px] font-mono font-bold uppercase text-[#C7A15A] block">
-                        Brand Logo
-                      </span>
-                      <span className="text-[11px] font-mono text-white/70">Official Logo</span>
-                    </div>
                   </div>
 
-                  {/* AEO Readiness Score Badge */}
-                  <div className={`p-3 px-5 rounded-2xl border text-center ${
+                  {/* AEO Score Badge */}
+                  <div className={`p-4 rounded-2xl border text-center ${
                     isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
                   }`}>
-                    <span className="text-[10px] font-mono font-bold uppercase text-[#B7B7B5] block">
+                    <span className="text-[10px] font-mono font-bold uppercase text-[#B7B7B5] block mb-1">
                       AEO Score
                     </span>
-                    <span className="text-xl font-extrabold text-[#C7A15A]">
+                    <span className="text-2xl font-extrabold text-[#C7A15A]">
                       {auditResult.aeoReadiness.score}/100
                     </span>
                   </div>
