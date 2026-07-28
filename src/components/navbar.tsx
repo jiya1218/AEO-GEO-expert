@@ -36,15 +36,15 @@ export function Navbar({
         isDark ? 'border-white/10 bg-[#0B0B0C]/90 text-[#F6F6F4]' : 'border-[#E5E3DF] bg-[#FCFCFB]/90 text-[#181818]'
       } backdrop-blur-2xl sticky top-0 z-40 transition-colors duration-300`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4 md:gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between relative">
         
-        {/* Left: Brand Logo (shrink-0 guarantees it never gets squeezed or overlapped) */}
+        {/* Left: Brand Logo */}
         <div className="flex items-center shrink-0">
           <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
         </div>
 
-        {/* Center: Main Navigation Menu Links - Flexibly Centered without overlapping */}
-        <div className="hidden md:flex items-center justify-center gap-5 lg:gap-7 flex-1 min-w-0 max-w-2xl text-xs font-mono font-bold uppercase tracking-wider">
+        {/* Center: Main Navigation Menu Links - Mathematically Centered */}
+        <div className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 text-xs font-mono font-bold uppercase tracking-wider absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href) && !link.href.includes('#'));
             return (

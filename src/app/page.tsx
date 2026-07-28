@@ -103,11 +103,11 @@ export default function HomePage() {
       <main className="flex-1">
 
         {/* SECTION 1: HERO SECTION (45% Left Copy / 55% Right 3D Sculpture) */}
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-start">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-10 sm:pb-14 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
 
-            {/* Left 45% Content Column (Columns 1-5) */}
-            <ScrollReveal variant="fadeRight" duration={0.8} className="lg:col-span-5 space-y-8 text-left">
+            {/* Left 50% Content Column (Columns 1-6) */}
+            <ScrollReveal variant="fadeRight" duration={0.8} className="lg:col-span-6 space-y-8 text-left">
               <div className="space-y-4">
                 <div className={`inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-xs font-bold ${
                   isDark ? 'bg-[#121315] border-white/10 text-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#B87333]'
@@ -184,8 +184,8 @@ export default function HomePage() {
               </div>
             </ScrollReveal>
 
-            {/* Right 55% 3D Precision Engineering Sculpture Column (Columns 6-12) */}
-            <ScrollReveal variant="fadeLeft" duration={0.9} delay={0.2} className="lg:col-span-7">
+            {/* Right 50% 3D Sculpture Column (Columns 7-12) */}
+            <ScrollReveal variant="fadeLeft" duration={0.9} delay={0.2} className="lg:col-span-6">
               <Sculpture3D isDark={isDark} />
             </ScrollReveal>
 
