@@ -24,7 +24,7 @@ export function Footer({ isDark = true }: FooterProps) {
     { label: 'Home', href: '/' },
     { label: 'Free Tools Hub', href: '/tools' },
     { label: 'Free Brand Audit', href: '/tools/brand-auditor' },
-    { label: 'Features', href: '/#capabilities' },
+    { label: 'Free ROI Calculator', href: '/tools/roi-calculator' },
     { label: 'Pricing', href: '/pricing' },
     { label: 'AI Visibility Audit', href: '/dashboard' },
   ];

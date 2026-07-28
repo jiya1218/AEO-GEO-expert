@@ -28,6 +28,17 @@ export default function ToolsHubPage() {
       highlights: ['Real Favicon & Logo Extraction', 'AI Executive Summary', 'Top 4 Competitor Snapshot', 'AEO Readiness Rating'],
     },
     {
+      id: 'roi-calculator',
+      name: 'AI Search ROI Calculator',
+      category: 'Revenue & ROI Estimation',
+      badge: 'Active & Free',
+      isActive: true,
+      href: '/tools/roi-calculator',
+      icon: Zap,
+      description: 'Calculate your projected revenue lift, conversion growth, and ROI multiplier from commanding citations across ChatGPT, Perplexity, and Gemini.',
+      highlights: ['Interactive Traffic Sliders', 'Annual Revenue Impact', 'Net Profit Projection', 'ROI Multiplier Score'],
+    },
+    {
       id: 'robots-inspector',
       name: 'AI Crawler & robots.txt Inspector',
       category: 'Technical AEO Compliance',
