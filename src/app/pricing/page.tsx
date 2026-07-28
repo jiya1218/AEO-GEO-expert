@@ -130,7 +130,7 @@ export default function PricingPage() {
               <Brain className="w-5 h-5 text-white" />
             </div>
             <span className={`font-extrabold text-lg ${isDark ? 'bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
-              AEO / GEO Expert System
+              TangentCore
             </span>
           </Link>
 

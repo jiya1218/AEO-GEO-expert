@@ -35,7 +35,7 @@ export function Footer({ isDark = true }: FooterProps) {
                 <Brain className="w-5 h-5 text-white" />
               </div>
               <span className={`font-extrabold text-lg ${isDark ? 'bg-gradient-to-r from-white via-slate-100 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
-                AEO / GEO Expert System
+                TangentCore
               </span>
             </div>
             
@@ -157,7 +157,7 @@ export function Footer({ isDark = true }: FooterProps) {
         <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-3 h-3 text-cyan-500" />
-            <span>© {new Date().getFullYear()} Scalezix AEO / GEO Expert System. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} TangentCore (<a href="https://tangentcore.in" target="_blank" rel="noreferrer" className="text-cyan-500 hover:underline font-bold">tangentcore.in</a>). All rights reserved.</span>
           </div>
           
           <div className="flex items-center gap-5">

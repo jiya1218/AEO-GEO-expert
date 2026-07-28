@@ -19,7 +19,7 @@ export default function LoginPage() {
     if (typeof window !== 'undefined' && !window.location.hostname.includes('localhost') && !window.location.hostname.includes('127.0.0.1')) {
       return `${window.location.origin}/auth/callback`;
     }
-    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aeo-geo-expert.vercel.app';
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://tangentcore.in';
     return `${baseUrl.replace(/\/$/, '')}/auth/callback`;
   };
 
@@ -114,7 +114,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full ${isDark ? 'bg-slate-900/80 border-slate-800 text-cyan-400' : 'bg-white border-slate-200 text-cyan-600'} border backdrop-blur-md mb-4 text-xs font-medium`}>
             <Brain className="w-4 h-4 animate-pulse" />
-            <span>AEO / GEO Engine Expert</span>
+            <span>TangentCore</span>
           </div>
           <h1 className={`text-3xl font-extrabold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
             {isSignUp ? 'Create your Account' : 'Welcome back'}

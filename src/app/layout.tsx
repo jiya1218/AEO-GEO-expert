@@ -3,8 +3,8 @@ import { Toaster } from 'sonner';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'AEO / GEO Expert System — Multi-Model AI Search Optimization',
-  description: 'Analyze, audit, and optimize website Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) across ChatGPT, Gemini, Claude & Perplexity.',
+  title: 'TangentCore — Multi-Model AI Search Optimization & GEO Platform',
+  description: 'Analyze, audit, and optimize website Answer Engine Optimization (AEO) and Generative Engine Optimization (GEO) across ChatGPT, Gemini, Claude & Perplexity at tangentcore.in.',
 };
 
 export default function RootLayout({

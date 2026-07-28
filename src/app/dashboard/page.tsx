@@ -131,7 +131,7 @@ export default function DashboardPage() {
             </div>
             <div>
               <span className={`font-extrabold text-base ${isDark ? 'bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
-                AEO / GEO Expert Platform
+                TangentCore
               </span>
               <span className={`block text-[10px] ${isDark ? 'text-slate-400' : 'text-slate-500'} font-semibold uppercase tracking-wider`}>
                 Multi-Model AI Visibility Analytics
@@ -702,7 +702,7 @@ export default function DashboardPage() {
       </main>
 
       <footer className={`border-t ${isDark ? 'border-slate-800/80 bg-slate-950' : 'border-slate-200 bg-white'} py-6 text-center text-xs text-slate-500`}>
-        © 2026 AEO / GEO Expert Platform. Unlimited Multi-Model Search Engine Analytics.
+        © {new Date().getFullYear()} TangentCore (<a href="https://tangentcore.in" target="_blank" rel="noreferrer" className="text-cyan-500 hover:underline font-bold">tangentcore.in</a>). Unlimited Multi-Model Search Engine Analytics.
       </footer>
     </div>
   );

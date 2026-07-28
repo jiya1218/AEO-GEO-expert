@@ -35,7 +35,7 @@ export default function HomePage() {
               <Brain className="w-5 h-5 text-white" />
             </div>
             <span className={`font-extrabold text-lg ${isDark ? 'bg-gradient-to-r from-white via-slate-200 to-cyan-400 bg-clip-text text-transparent' : 'text-slate-900'}`}>
-              AEO / GEO Expert Platform
+              TangentCore
             </span>
           </Link>
 

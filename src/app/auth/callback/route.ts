@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      const defaultAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aeo-geo-expert.vercel.app';
+      const defaultAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://tangentcore.in';
       const forwardedHost = request.headers.get('x-forwarded-host');
       
       let targetBaseUrl = defaultAppUrl;
@@ -45,7 +45,7 @@ export async function GET(request: Request) {
     }
   }
 
-  const defaultAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://aeo-geo-expert.vercel.app';
+  const defaultAppUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://tangentcore.in';
   const safeBaseUrl = (origin && !origin.includes('localhost') && !origin.includes('127.0.0.1'))
     ? origin
     : defaultAppUrl;
