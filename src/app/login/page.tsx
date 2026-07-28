@@ -112,10 +112,10 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Header Branding */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center mb-3">
-            <div className={`w-14 h-14 rounded-2xl ${
-              isDark ? 'bg-[#121315] border border-white/10 shadow-lg shadow-[#B87333]/20' : 'bg-white border border-[#E5E3DF] shadow-md'
-            } flex items-center justify-center p-2`}>
+          <div className="inline-flex items-center justify-center mb-4">
+            <div className={`w-20 h-20 rounded-3xl ${
+              isDark ? 'bg-[#121315] border border-white/10 shadow-2xl shadow-[#B87333]/30' : 'bg-white border border-[#E5E3DF] shadow-xl'
+            } flex items-center justify-center p-3.5`}>
               <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
             </div>
           </div>

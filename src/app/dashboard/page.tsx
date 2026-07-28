@@ -127,17 +127,17 @@ export default function DashboardPage() {
       {/* Top Header Navbar */}
       <header className={`border-b ${isDark ? 'border-white/10 bg-[#0B0B0C]/85' : 'border-[#E5E3DF] bg-[#FCFCFB]/85'} backdrop-blur-2xl sticky top-0 z-40 transition-colors`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3.5 group">
-            <div className={`w-10 h-10 rounded-2xl ${
-              isDark ? 'bg-[#121315] border border-white/10 shadow-lg shadow-[#B87333]/10' : 'bg-white border border-[#E5E3DF] shadow-xs'
-            } flex items-center justify-center p-1.5 transition-transform duration-300 group-hover:scale-105`}>
+          <Link href="/" className="flex items-center gap-4 group">
+            <div className={`w-13 h-13 rounded-2xl ${
+              isDark ? 'bg-[#121315] border border-white/10 shadow-xl shadow-[#B87333]/20' : 'bg-white border border-[#E5E3DF] shadow-md'
+            } flex items-center justify-center p-2 transition-transform duration-300 group-hover:scale-105`}>
               <img src="/logo.png" alt="TangentCore Logo" className="w-full h-full object-contain" />
             </div>
             <div>
-              <span className={`font-extrabold text-lg tracking-tight ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
+              <span className={`font-black text-xl tracking-tight ${isDark ? 'champagne-gradient-text' : 'text-[#181818]'}`}>
                 TangentCore
               </span>
-              <span className={`block text-[10px] ${isDark ? 'text-[#B7B7B5]/70' : 'text-[#5C5C5C]/70'} font-mono font-bold uppercase tracking-wider`}>
+              <span className={`block text-[11px] ${isDark ? 'text-[#B7B7B5]/80' : 'text-[#5C5C5C]/80'} font-mono font-bold uppercase tracking-wider`}>
                 Multi-Model AI Visibility Analytics
               </span>
             </div>
