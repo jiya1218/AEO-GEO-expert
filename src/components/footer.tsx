@@ -48,12 +48,12 @@ export function Footer({ isDark = true }: FooterProps) {
   ];
 
   const legalLinks = [
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms of Service', href: '#' },
-    { label: 'Cookie Policy', href: '#' },
-    { label: 'Security', href: '#' },
-    { label: 'Responsible AI', href: '#' },
-    { label: 'Status', href: '#' },
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Cookie Policy', href: '/cookie-policy' },
+    { label: 'Security', href: '/security' },
+    { label: 'Responsible AI', href: '/responsible-ai' },
+    { label: 'Status', href: '/status' },
   ];
 
   return (
