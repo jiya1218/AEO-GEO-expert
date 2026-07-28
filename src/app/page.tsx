@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import {
   Brain, Sparkles, ArrowRight, Bot, Zap, Layers, Sun, Moon, Search, Globe, ShieldCheck,
   CheckCircle2, TrendingUp, Building2, Cpu, Tag, Key, Star, ChevronRight, Check, Lock,
-  BarChart3, Users, Sliders, Clock
+  BarChart3, Users, Sliders, Clock, ShoppingCart, HeartPulse, Landmark
 } from 'lucide-react';
 import { AiBackground } from '@/components/ui/ai-background';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
@@ -42,24 +42,28 @@ export default function HomePage() {
       metrics: '3.8x Citation Rate Lift',
       description: 'Command brand positioning in AI evaluation responses for B2B software purchasing queries.',
       features: ['Software comparison matrix displacement', 'Integration & API schema injection', 'SOC2 & compliance entity mapping'],
+      icon: Layers,
     },
     {
       title: 'Global E-Commerce & Retail',
       metrics: '94.2% AI Recommendation Share',
       description: 'Ensure direct product recommendations when consumers prompt ChatGPT or Perplexity for purchasing guidance.',
       features: ['Product schema structured data', 'Category buying guide placement', 'Real-time inventory vector feed'],
+      icon: ShoppingCart,
     },
     {
       title: 'Healthcare & Life Sciences',
       metrics: '100% Medical Schema Accuracy',
       description: 'Validate authoritative clinical sources cited by AI engines for medical and bio-tech queries.',
       features: ['Clinical trial & study citations', 'Medical entity density optimization', 'Regulatory compliant AI briefs'],
+      icon: HeartPulse,
     },
     {
       title: 'Financial Services & Banking',
       metrics: '4.5x Share of Voice Expansion',
       description: 'Secure trusted brand citations in AI responses for wealth management, credit, and enterprise fintech searches.',
       features: ['Financial metric schema validation', 'Risk & compliance vector mapping', 'Executive leadership citations'],
+      icon: Landmark,
     },
   ];
 
@@ -598,8 +602,11 @@ export default function HomePage() {
               </div>
 
               <div className="lg:col-span-5 flex justify-center">
-                <div className="w-32 h-32 rounded-3xl bg-[#B87333]/15 text-[#C7A15A] flex items-center justify-center border border-[#B87333]/30 shadow-inner">
-                  <Building2 className="w-16 h-16" />
+                <div className="w-32 h-32 rounded-3xl bg-[#B87333]/15 text-[#C7A15A] flex items-center justify-center border border-[#B87333]/30 shadow-inner transition-all">
+                  {(() => {
+                    const ActiveIcon = industries[activeIndustryTab].icon;
+                    return <ActiveIcon className="w-16 h-16" />;
+                  })()}
                 </div>
               </div>
             </div>
