@@ -87,6 +87,7 @@ export function Footer({ isDark = true }: FooterProps) {
               ) : (
                 <form onSubmit={handleSubscribe} className="relative">
                   <input
+                    suppressHydrationWarning
                     type="email"
                     required
                     value={email}
@@ -95,6 +96,7 @@ export function Footer({ isDark = true }: FooterProps) {
                     className="w-full text-sm pl-4 pr-28 py-3 rounded-xl bg-[#0F1014] border border-white/15 text-white placeholder-[#85858A] focus:border-[#C7A15A] focus:outline-none transition-all"
                   />
                   <button
+                    suppressHydrationWarning
                     type="submit"
                     className="absolute right-1.5 top-1.5 bottom-1.5 px-4 rounded-lg luxury-btn-primary text-xs sm:text-sm font-bold shadow-xs"
                   >

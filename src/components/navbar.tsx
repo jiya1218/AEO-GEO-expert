@@ -77,6 +77,7 @@ export function Navbar({
         <div className="flex items-center gap-3.5 shrink-0">
           {/* Icon-Only Theme Toggle (Persistent Global State) */}
           <button
+            suppressHydrationWarning
             onClick={toggleTheme}
             className={`p-2.5 rounded-2xl border ${
               isDark

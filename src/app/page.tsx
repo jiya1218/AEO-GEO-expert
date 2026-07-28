@@ -141,6 +141,7 @@ export default function HomePage() {
                 <div className="relative">
                   <Globe className={`absolute left-4 top-4 h-4 w-4 ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`} />
                   <input
+                    suppressHydrationWarning
                     type="text"
                     value={searchUrl}
                     onChange={(e) => setSearchUrl(e.target.value)}
@@ -155,6 +156,7 @@ export default function HomePage() {
 
                 <div className="flex flex-wrap items-center gap-3">
                   <button
+                    suppressHydrationWarning
                     type="submit"
                     className="px-6 py-3.5 rounded-2xl luxury-btn-primary text-xs font-bold flex items-center gap-2 shadow-md hover:scale-[1.02] transition-transform"
                   >
@@ -562,6 +564,7 @@ export default function HomePage() {
             <div className="flex flex-wrap justify-center gap-3">
               {industries.map((ind, idx) => (
                 <button
+                  suppressHydrationWarning
                   key={idx}
                   onClick={() => setActiveIndustryTab(idx)}
                   className={`px-6 py-3 rounded-2xl text-xs font-bold transition-all border ${
@@ -920,6 +923,7 @@ export default function HomePage() {
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF]'
                 } overflow-hidden`}>
                   <button
+                    suppressHydrationWarning
                     onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
                     className="w-full p-6 text-left font-bold text-sm sm:text-base flex justify-between items-center gap-4"
                   >
