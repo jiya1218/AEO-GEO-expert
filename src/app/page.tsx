@@ -417,15 +417,15 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
             <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4">
               <span className="text-xs font-mono text-[#C7A15A] font-bold uppercase tracking-widest">
-                Enterprise GEO Suite
+                Enterprise AI Platform
               </span>
               <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
                 isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
               }`}>
-                Engineered for Market Leadership
+                Built for AI Visibility Leadership
               </h2>
               <p className={`text-base leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-                Comprehensive tools to monitor, optimize, and outrank competitors across generative search engines.
+                Enterprise tools to monitor AI citations, analyse competitor visibility, and strengthen brand discoverability across modern answer engines.
               </p>
             </ScrollReveal>
 
@@ -433,24 +433,24 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
                 {
-                  title: 'Real-Time Share of Voice (SoV)',
-                  desc: 'Track percentage of AI search prompts where your domain is cited vs. top competitors.',
+                  title: 'AI Citation Share of Voice',
+                  desc: 'Track the percentage of AI search responses where your brand is referenced versus top competitors across all major LLMs.',
                   icon: TrendingUp,
                   metric: '4.2x Avg. Lift',
                   href: '/tools/citation-sov',
                 },
                 {
-                  title: 'Competitor Displacement Briefs',
-                  desc: 'Generate AI-optimized editorial briefs designed specifically to displace competitor citations.',
+                  title: 'Competitive Visibility Intelligence',
+                  desc: 'Analyse competitor AI visibility patterns and identify actionable opportunities to strengthen your brand positioning.',
                   icon: Zap,
-                  metric: 'Instant Briefs',
+                  metric: 'Real-Time Insights',
                   href: '/tools/prompt-research',
                 },
                 {
-                  title: 'Vector Entity Density',
-                  desc: 'Analyze semantic keyword density to align content with LLM vector embedding parameters.',
+                  title: 'Entity & Schema Coverage',
+                  desc: 'Validate structured data coverage and entity relationships to ensure AI platforms accurately represent your brand.',
                   icon: Cpu,
-                  metric: '100% Vector Precision',
+                  metric: '100% Schema Coverage',
                   href: '/tools/brand-auditor',
                 },
               ].map((solution, idx) => (
@@ -488,15 +488,15 @@ export default function HomePage() {
         <section id="architecture" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-36">
           <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-xs font-mono text-[#B87333] font-bold uppercase tracking-widest">
-              Live Neural Architecture
+              Platform Architecture
             </span>
             <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
               isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
             }`}>
-              Bi-Directional AI Data Pipeline
+              How TangentCore Works
             </h2>
             <p className={`text-base leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
-              How TangentCore continuously ingests, vectorizes, and validates brand knowledge across LLM search engines.
+              TangentCore continuously monitors how AI platforms perceive your brand, analyses citation patterns, and delivers actionable visibility intelligence.
             </p>
           </ScrollReveal>
 
@@ -520,9 +520,9 @@ export default function HomePage() {
                 <div className="w-12 h-12 rounded-2xl bg-[#C7A15A] text-[#111111] flex items-center justify-center mx-auto shadow-md">
                   <Brain className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-extrabold champagne-gradient-text">TangentCore GEO Engine</h3>
+                <h3 className="text-lg font-extrabold champagne-gradient-text">TangentCore AI Engine</h3>
                 <span className="inline-block px-3 py-1 rounded-full bg-[#B87333]/20 text-[#C7A15A] text-[10px] font-mono font-bold">
-                  Vector Density & Citation Pipeline
+                  AI Visibility Intelligence Pipeline
                 </span>
               </div>
 
@@ -611,12 +611,12 @@ export default function HomePage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-36">
           <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-xs font-mono text-[#B87333] font-bold uppercase tracking-widest">
-              Execution Methodology
+              How It Works
             </span>
             <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
               isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
             }`}>
-              4-Step GEO Displacement Workflow
+              4-Step AI Visibility Workflow
             </h2>
           </ScrollReveal>
 
@@ -624,23 +624,23 @@ export default function HomePage() {
             {[
               {
                 step: '01',
-                title: 'Continuous LLM Ingestion & Scraping',
-                desc: 'Automated daily scanning across ChatGPT, Gemini, Perplexity, Claude, DeepSeek, and Grok for high-intent target prompts.',
+                title: 'AI Platform Monitoring',
+                desc: 'Continuously monitor how ChatGPT, Gemini, Claude, Perplexity, DeepSeek, and Grok reference and recommend your brand across key topics.',
               },
               {
                 step: '02',
-                title: 'Vector Alignment & Gap Analysis',
-                desc: 'Detect queries where competitor domains are cited and pinpoint missing structured data or entity density gaps.',
+                title: 'Citation & Visibility Analysis',
+                desc: 'Identify where your brand appears, where competitors are referenced instead, and discover actionable visibility gaps.',
               },
               {
                 step: '03',
-                title: 'Automated Schema Repair & Brief Generation',
-                desc: 'Inject validated JSON-LD schemas and generate AI-optimized editorial content briefs designed for LLM citation.',
+                title: 'Structured Data & Content Optimisation',
+                desc: 'Validate JSON-LD schemas, strengthen entity relationships, and optimise content to improve how AI platforms understand your brand.',
               },
               {
                 step: '04',
-                title: 'Share of Voice Displacement',
-                desc: 'Track direct brand citation growth and outrank legacy competitor search recommendations in real time.',
+                title: 'Performance Tracking & Reporting',
+                desc: 'Measure citation growth, track AI visibility trends, and generate executive reports to demonstrate measurable improvements.',
               },
             ].map((st, idx) => (
               <ScrollReveal key={idx} variant="fadeUp" delay={idx * 0.1} className="flex gap-6 items-start">
@@ -668,10 +668,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
               {[
-                { number: '94.8%', label: 'GEO Citation Accuracy' },
-                { number: '4.2x', label: 'Share of Voice Lift' },
-                { number: '6', label: 'Monitored AI Engines' },
-                { number: '100%', label: 'Schema Compliance' },
+                { number: '94%', label: 'Citation Coverage' },
+                { number: '4.2x', label: 'AI Visibility Lift' },
+                { number: '6', label: 'AI Platforms Monitored' },
+                { number: '99.9%', label: 'Platform Uptime' },
               ].map((stat, idx) => (
                 <ScrollReveal key={idx} variant="scaleUp" delay={idx * 0.1} className="space-y-2">
                   <span className="text-4xl sm:text-6xl font-black champagne-gradient-text block">
@@ -693,24 +693,24 @@ export default function HomePage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-36 space-y-16">
           <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4">
             <span className="text-xs font-mono text-[#C7A15A] font-bold uppercase tracking-widest">
-              Executive Proof
+              Customer Success
             </span>
             <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
               isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
             }`}>
-              Trusted by Industry Pioneers
+              Trusted by Industry Leaders
             </h2>
           </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {[
               {
-                quote: 'TangentCore completely transformed our AI search visibility. We went from 0% citation in ChatGPT software recommendation prompts to dominating 84% of queries in 3 weeks.',
+                quote: 'TangentCore gave us complete visibility into how AI platforms reference our brand. We identified critical citation gaps across ChatGPT and Gemini, and improved our AI discoverability within weeks.',
                 author: 'Marcus Vance',
                 role: 'VP of Digital Growth, Apex Global',
               },
               {
-                quote: 'The automated JSON-LD schema repair and competitor displacement briefs gave our technical marketing team the exact playbook needed to outrank legacy competitors on Perplexity.',
+                quote: 'The structured data intelligence and competitive benchmarking features gave our marketing team actionable insights we couldn\'t find anywhere else. Our AI visibility score improved by 3.8x.',
                 author: 'Elena Rostova',
                 role: 'Chief Marketing Officer, Soma Health',
               },
@@ -743,7 +743,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
             <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4">
               <span className="text-xs font-mono text-[#B87333] font-bold uppercase tracking-widest">
-                Enterprise GEO Suite
+                Enterprise Platform
               </span>
               <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
                 isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
@@ -833,7 +833,7 @@ export default function HomePage() {
             <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
               isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
             }`}>
-              GEO Insights & Intelligence
+              AI Visibility Intelligence FAQ
             </h2>
           </ScrollReveal>
 
@@ -871,17 +871,17 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8 relative z-10">
             <ScrollReveal variant="fadeUp" className="space-y-4">
               <span className="text-xs font-mono text-[#C7A15A] font-bold uppercase tracking-widest">
-                Command Your AI Search Position
+                Get Started Today
               </span>
               <h2 className={`text-4xl sm:text-6xl font-extrabold tracking-tight ${
                 isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
               }`}>
-                Audit Your Brand on Generative Search Today
+                Discover How AI Platforms See Your Brand
               </h2>
               <p className={`text-base leading-[1.7] max-w-xl mx-auto ${
                 isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'
               }`}>
-                Scan your domain across ChatGPT, Gemini, Perplexity, Claude, DeepSeek, and Grok in under 2 minutes.
+                Run a free AI visibility audit across ChatGPT, Gemini, Claude, Perplexity, DeepSeek, and Grok in under 2 minutes.
               </p>
             </ScrollReveal>
 
@@ -890,7 +890,7 @@ export default function HomePage() {
                 href="/dashboard"
                 className="w-full sm:w-auto px-8 py-4 rounded-2xl luxury-btn-primary text-sm font-bold shadow-xl shadow-[#C7A15A]/30 flex items-center justify-center gap-2"
               >
-                <span>Run Free Brand Audit</span>
+                <span>Run Free AI Visibility Audit</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <Link
