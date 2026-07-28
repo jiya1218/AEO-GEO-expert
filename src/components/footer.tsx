@@ -73,8 +73,8 @@ export function Footer({ isDark = true }: FooterProps) {
           <div className="lg:col-span-4 space-y-5">
             <BrandLogo isDark={isDark || true} size="lg" subtitle="INTELLIGENT ROUTING ENGINE" />
             
-            <p className={`text-sm sm:text-base ${isDark ? 'text-[#B7B7B5]' : 'text-[#A0A0A5]'} leading-relaxed max-w-sm`}>
-              The enterprise standard for Generative Engine Optimization (GEO) & Answer Engine Optimization (AEO). Command AI recommendations across ChatGPT, Gemini, Claude, Perplexity, DeepSeek, and Grok.
+            <p className={`text-sm ${isDark ? 'text-[#B7B7B5]' : 'text-[#A0A0A5]'} leading-relaxed max-w-sm`}>
+              The enterprise standard for GEO & AEO. Command AI recommendations across major LLM search engines.
             </p>
 
             {/* Newsletter Inline Subscription Box */}

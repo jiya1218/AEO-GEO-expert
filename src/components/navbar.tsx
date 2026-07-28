@@ -22,13 +22,10 @@ export function Navbar({
   const { isDark, toggleTheme } = useTheme();
 
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Capabilities', href: '/#capabilities' },
-    { label: 'Free Tools', href: '/tools' },
-    { label: 'Pricing', href: '/pricing' },
-    { label: 'Case Studies', href: '/case-studies' },
+    { label: 'Features', href: '/#capabilities' },
+    { label: 'Prices', href: '/pricing' },
+    { label: 'EEAT Analyses', href: '/tools/eeat-analyzer' },
     { label: 'Blog', href: '/blog' },
-    { label: 'Dashboard', href: '/dashboard' },
   ];
 
   return (
