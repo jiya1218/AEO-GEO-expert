@@ -22,7 +22,7 @@ export function Footer({ isDark = true }: FooterProps) {
 
   const platformLinks = [
     { label: 'Home', href: '/' },
-    { label: 'Tool Hub', href: '/tools' },
+    { label: 'Tools Hub', href: '/tools' },
     { label: 'Brand Audit Matrix', href: '/tools/brand-auditor' },
     { label: 'AI ROI Estimator', href: '/tools/roi-calculator' },
     { label: 'Pricing', href: '/pricing' },

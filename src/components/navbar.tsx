@@ -23,7 +23,7 @@ export function Navbar({
 
   const navLinks = [
     { label: 'Features', href: '/#capabilities' },
-    { label: 'Tool Hub', href: '/tools' },
+    { label: 'Tools Hub', href: '/tools' },
     { label: 'Prices', href: '/pricing' },
     { label: 'EEAT Analyses', href: '/tools/eeat-analyzer' },
     { label: 'Blog', href: '/blog' },
