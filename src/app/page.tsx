@@ -618,13 +618,16 @@ export default function HomePage() {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-36">
           <ScrollReveal variant="fadeUp" className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-xs font-mono text-[#B87333] font-bold uppercase tracking-widest">
-              How It Works
+              Enterprise AI Workflow
             </span>
             <h2 className={`text-3xl sm:text-5xl font-extrabold tracking-tight ${
               isDark ? 'text-[#F6F6F4]' : 'text-[#181818]'
             }`}>
-              4-Step AI Visibility Workflow
+              Enterprise AI Visibility Workflow
             </h2>
+            <p className={`text-base leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
+              From continuous AI search monitoring to structured data optimisation and executive reporting, TangentCore provides an end-to-end workflow for improving your brand&apos;s visibility across modern AI search platforms.
+            </p>
           </ScrollReveal>
 
           <div className="space-y-8 max-w-3xl mx-auto">
@@ -632,32 +635,41 @@ export default function HomePage() {
               {
                 step: '01',
                 title: 'AI Platform Monitoring',
-                desc: 'Continuously monitor how ChatGPT, Gemini, Claude, Perplexity, DeepSeek, and Grok reference and recommend your brand across key topics.',
+                desc: 'Continuously monitor how ChatGPT, Gemini, Claude, Perplexity, Grok, and DeepSeek discover, reference, and recommend your brand across relevant prompts and customer journeys.',
+                badge: 'Live Monitoring',
               },
               {
                 step: '02',
-                title: 'Citation & Visibility Analysis',
-                desc: 'Identify where your brand appears, where competitors are referenced instead, and discover actionable visibility gaps.',
+                title: 'AI Citation Intelligence',
+                desc: 'Analyse citation frequency, competitor mentions, answer quality, and visibility gaps to understand where your brand gains—or loses—AI exposure.',
+                badge: 'AI Analysis',
               },
               {
                 step: '03',
-                title: 'Structured Data & Content Optimisation',
-                desc: 'Validate JSON-LD schemas, strengthen entity relationships, and optimise content to improve how AI platforms understand your brand.',
+                title: 'Structured Data & Entity Optimisation',
+                desc: 'Validate structured data, strengthen entity relationships, optimise knowledge signals, and improve how AI platforms interpret your website and content.',
+                badge: 'Optimisation Ready',
               },
               {
                 step: '04',
-                title: 'Performance Tracking & Reporting',
-                desc: 'Measure citation growth, track AI visibility trends, and generate executive reports to demonstrate measurable improvements.',
+                title: 'Continuous Performance Intelligence',
+                desc: 'Track AI visibility trends, benchmark competitors, measure citation growth, and generate executive-ready reports that demonstrate long-term business impact.',
+                badge: 'Executive Reporting',
               },
             ].map((st, idx) => (
               <ScrollReveal key={idx} variant="fadeUp" delay={idx * 0.1} className="flex gap-6 items-start">
-                <div className="w-12 h-12 rounded-2xl bg-[#C7A15A] text-[#111111] flex items-center justify-center shrink-0 font-mono font-extrabold text-sm shadow-md">
+                <div className="w-12 h-12 mt-1 rounded-2xl bg-[#C7A15A] text-[#111111] flex items-center justify-center shrink-0 font-mono font-extrabold text-sm shadow-md">
                   {st.step}
                 </div>
                 <div className={`p-6 rounded-2xl border flex-1 ${
                   isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-white border-[#E5E3DF] shadow-md'
                 }`}>
-                  <h3 className="text-lg font-bold mb-1">{st.title}</h3>
+                  <div className="flex items-center gap-3 mb-1 flex-wrap">
+                    <h3 className="text-lg font-bold">{st.title}</h3>
+                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#B87333]/15 text-[#C7A15A] text-[10px] font-mono font-bold uppercase tracking-wide">
+                      {st.badge}
+                    </span>
+                  </div>
                   <p className={`text-xs leading-[1.7] ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'}`}>
                     {st.desc}
                   </p>
@@ -675,10 +687,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
               {[
-                { number: '94%', label: 'Citation Coverage' },
-                { number: '4.2x', label: 'AI Visibility Lift' },
                 { number: '6', label: 'AI Platforms Monitored' },
-                { number: '99.9%', label: 'Platform Uptime' },
+                { number: '100+', label: 'AI Visibility Signals' },
+                { number: '24/7', label: 'Continuous Monitoring' },
+                { number: 'Enterprise', label: 'Ready' },
               ].map((stat, idx) => (
                 <ScrollReveal key={idx} variant="scaleUp" delay={idx * 0.1} className="space-y-2">
                   <span className="text-4xl sm:text-6xl font-black champagne-gradient-text block">
