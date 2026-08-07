@@ -71,7 +71,14 @@ export function Footer({ isDark = true }: FooterProps) {
           
           {/* Col 1: Brand Column (lg:col-span-4) */}
           <div className="lg:col-span-4 space-y-5">
-            <BrandLogo isDark={isDark || true} size="lg" subtitle="AI VISIBILITY INTELLIGENCE" />
+            {/* Brand Logo & Venture Badge */}
+            <div className="space-y-3">
+              <BrandLogo isDark={isDark || true} size="lg" subtitle="AI VISIBILITY INTELLIGENCE" />
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#C7A15A]/10 border border-[#C7A15A]/30 text-xs font-mono font-bold text-[#C7A15A]">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>A Scalezix Venture</span>
+              </div>
+            </div>
             
             <p className={`text-sm ${isDark ? 'text-[#B7B7B5]' : 'text-[#A0A0A5]'} leading-relaxed max-w-sm`}>
               Enterprise AI Visibility Intelligence for monitoring, analysing, and optimising how your brand is discovered across AI-powered search and answer engines.
@@ -200,9 +207,10 @@ export function Footer({ isDark = true }: FooterProps) {
 
         {/* Bottom Bar Matching Reference Image */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm font-mono text-[#85858A]">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <Sparkles className="w-4 h-4 text-[#C7A15A]" />
             <span>© {new Date().getFullYear()} TangentCore. All rights reserved.</span>
+            <span className="text-[#C7A15A] font-semibold">• A Scalezix Venture</span>
           </div>
           
           <div className="flex items-center gap-2">

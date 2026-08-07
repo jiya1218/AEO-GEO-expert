@@ -32,10 +32,10 @@ export default function ContactPage() {
   };
 
   const contacts = [
-    { label: 'Sales Enquiries', email: 'sales@tangentcore.in', desc: 'Interested in TangentCore for your organisation?' },
-    { label: 'Customer Support', email: 'support@tangentcore.in', desc: 'Need help using the platform or dashboard?' },
-    { label: 'Technical Support', email: 'developers@tangentcore.in', desc: 'Questions about REST API or webhooks?' },
-    { label: 'Enterprise Solutions', email: 'enterprise@tangentcore.in', desc: 'Discuss custom enterprise deployments & SSO.' },
+    { label: 'Sales Enquiries', email: 'tangentcoreindia@gmail.com', desc: 'Interested in TangentCore for your organisation?' },
+    { label: 'Customer Support', email: 'tangentcoreindia@gmail.com', desc: 'Need help using the platform or dashboard?' },
+    { label: 'Technical Support', email: 'tangentcoreindia@gmail.com', desc: 'Questions about REST API or webhooks?' },
+    { label: 'Enterprise Solutions', email: 'tangentcoreindia@gmail.com', desc: 'Discuss custom enterprise deployments & SSO.' },
   ];
 
   return (

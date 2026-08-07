@@ -32,7 +32,7 @@ export default function StatusPage() {
     }`}>
       <ScrollProgress />
       <AiBackground isDark={isDark} />
-      <Navbar ctaText="Support" ctaHref="mailto:support@tangentcore.in" />
+      <Navbar ctaText="Support" ctaHref="mailto:tangentcoreindia@gmail.com" />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 space-y-12">
         
@@ -93,9 +93,13 @@ export default function StatusPage() {
         </div>
 
         {/* Subscribe CTA */}
-        <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-8 text-center space-y-4 shadow-2xl max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold text-white">Subscribe to Status Notifications</h3>
-          <p className="text-xs text-[#E5E3DF]/80">
+        <div className={`rounded-3xl p-8 text-center space-y-4 shadow-2xl max-w-3xl mx-auto border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-[#181818]'}`}>Subscribe to Status Notifications</h3>
+          <p className={`text-xs ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
             Receive automated alerts whenever platform maintenance or status incidents occur.
           </p>
           <button

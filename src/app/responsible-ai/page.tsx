@@ -25,7 +25,7 @@ export default function ResponsibleAiPage() {
     }`}>
       <ScrollProgress />
       <AiBackground isDark={isDark} />
-      <Navbar ctaText="Feedback" ctaHref="mailto:ai@tangentcore.in" />
+      <Navbar ctaText="Feedback" ctaHref="mailto:tangentcoreindia@gmail.com" />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 space-y-16">
         
@@ -60,14 +60,18 @@ export default function ResponsibleAiPage() {
         </div>
 
         {/* Feedback Banner */}
-        <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-8 text-center space-y-4 shadow-2xl max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold text-white">AI Feedback & Oversight</h3>
-          <p className="text-xs text-[#E5E3DF]/80">
+        <div className={`rounded-3xl p-8 text-center space-y-4 shadow-2xl max-w-3xl mx-auto border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-[#181818]'}`}>AI Feedback & Oversight</h3>
+          <p className={`text-xs ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
             If you identify potential bias, inaccurate results, or opportunities for AI improvement, we encourage you to contact our governance team.
           </p>
-          <a href="mailto:ai@tangentcore.in" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl luxury-btn-primary font-bold text-xs shadow-lg">
+          <a href="mailto:tangentcoreindia@gmail.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl luxury-btn-primary font-bold text-xs shadow-lg">
             <Mail className="w-4 h-4" />
-            <span>Send Feedback to ai@tangentcore.in</span>
+            <span>Send Feedback to tangentcoreindia@gmail.com</span>
           </a>
         </div>
 

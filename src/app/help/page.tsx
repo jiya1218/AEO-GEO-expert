@@ -39,10 +39,10 @@ export default function HelpCenterPage() {
   ];
 
   const supportContacts = [
-    { label: 'General Support', email: 'support@tangentcore.in' },
-    { label: 'Technical Support', email: 'developers@tangentcore.in' },
-    { label: 'Sales Enquiries', email: 'sales@tangentcore.in' },
-    { label: 'Enterprise Support', email: 'enterprise@tangentcore.in' },
+    { label: 'General Support', email: 'tangentcoreindia@gmail.com' },
+    { label: 'Technical Support', email: 'tangentcoreindia@gmail.com' },
+    { label: 'Sales Enquiries', email: 'tangentcoreindia@gmail.com' },
+    { label: 'Enterprise Support', email: 'tangentcoreindia@gmail.com' },
   ];
 
   return (

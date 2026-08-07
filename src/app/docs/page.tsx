@@ -195,16 +195,22 @@ export default function DocsPage() {
         </div>
 
         {/* Support Footer Card */}
-        <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-8 text-center space-y-4 shadow-2xl">
-          <h3 className="text-2xl font-bold text-white">Need More Help?</h3>
-          <p className="text-xs text-[#E5E3DF]/80 max-w-md mx-auto">
+        <div className={`rounded-3xl p-8 text-center space-y-4 shadow-2xl border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-[#181818]'}`}>Need More Help?</h3>
+          <p className={`text-xs max-w-md mx-auto ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
             Our support team is available to help with onboarding, integrations, API implementation, and enterprise deployment.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link href="/contact" className="px-6 py-3 rounded-xl luxury-btn-primary font-bold text-xs shadow-lg">
               Contact Support
             </Link>
-            <Link href="/api-reference" className="px-6 py-3 rounded-xl border border-white/20 text-white font-bold text-xs hover:border-[#C7A15A]">
+            <Link href="/api-reference" className={`px-6 py-3 rounded-xl border font-bold text-xs transition-colors ${
+              isDark ? 'border-white/20 text-white hover:border-[#C7A15A]' : 'border-[#E5E3DF] text-[#181818] hover:border-[#B87333]'
+            }`}>
               View API Reference
             </Link>
           </div>

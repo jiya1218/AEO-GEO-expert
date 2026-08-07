@@ -192,13 +192,17 @@ export default function ApiReferencePage() {
         </div>
 
         {/* Developer Contact */}
-        <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-8 text-center space-y-4 shadow-2xl">
-          <h3 className="text-2xl font-bold text-white">Need Developer Assistance?</h3>
-          <p className="text-xs text-[#E5E3DF]/80 max-w-md mx-auto">
+        <div className={`rounded-3xl p-8 text-center space-y-4 shadow-2xl border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-[#181818]'}`}>Need Developer Assistance?</h3>
+          <p className={`text-xs max-w-md mx-auto ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
             Questions about custom webhooks, rate limits, enterprise SSO, or SDK implementation?
           </p>
-          <a href="mailto:developers@tangentcore.in" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl luxury-btn-primary font-bold text-xs shadow-lg">
-            <span>Contact Developer Support (developers@tangentcore.in)</span>
+          <a href="mailto:tangentcoreindia@gmail.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl luxury-btn-primary font-bold text-xs shadow-lg">
+            <span>Contact Developer Support (tangentcoreindia@gmail.com)</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </a>
         </div>

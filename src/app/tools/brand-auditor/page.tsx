@@ -441,12 +441,16 @@ export default function BrandAuditorToolPage() {
             </div>
 
             {/* Card 4: CTA to Full Audit */}
-            <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-8 text-center space-y-6 shadow-2xl">
+            <div className={`rounded-3xl p-8 text-center space-y-6 shadow-2xl border ${
+              isDark 
+                ? 'luxury-gradient-card border-[#C7A15A]/40' 
+                : 'bg-white border-[#E5E3DF]'
+            }`}>
               <div className="space-y-2 max-w-xl mx-auto">
-                <h3 className="text-2xl font-extrabold text-white">
+                <h3 className={`text-2xl font-extrabold ${isDark ? 'text-white' : 'text-[#181818]'}`}>
                   Ready to Audit Citation Share Across All 6 LLMs?
                 </h3>
-                <p className="text-xs text-[#E5E3DF]/80 leading-relaxed">
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
                   Run a full GEO multi-model scan on ChatGPT-4o, Google Gemini, Perplexity Pro, Claude 3.5, DeepSeek R1, and Grok 2.
                 </p>
               </div>

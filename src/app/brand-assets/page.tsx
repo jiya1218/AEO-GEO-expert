@@ -151,14 +151,18 @@ export default function BrandAssetsPage() {
         </div>
 
         {/* Custom Asset Request */}
-        <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-8 text-center space-y-4 shadow-2xl max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold text-white">Need Custom Branding Materials?</h3>
-          <p className="text-xs text-[#E5E3DF]/80">
+        <div className={`rounded-3xl p-8 text-center space-y-4 shadow-2xl max-w-3xl mx-auto border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h3 className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-[#181818]'}`}>Need Custom Branding Materials?</h3>
+          <p className={`text-xs ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
             If you require custom vector assets, press badges, or high-res vector graphics, our brand design team is happy to assist.
           </p>
-          <a href="mailto:brand@tangentcore.in" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl luxury-btn-primary font-bold text-xs shadow-lg">
+          <a href="mailto:tangentcoreindia@gmail.com" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl luxury-btn-primary font-bold text-xs shadow-lg">
             <Mail className="w-4 h-4" />
-            <span>Contact Brand Team (brand@tangentcore.in)</span>
+            <span>Contact Brand Team (tangentcoreindia@gmail.com)</span>
           </a>
         </div>
 

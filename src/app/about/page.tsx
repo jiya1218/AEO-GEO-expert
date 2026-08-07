@@ -120,13 +120,19 @@ export default function AboutPage() {
         </div>
 
         {/* CTA Footer Card */}
-        <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-10 text-center space-y-6 shadow-2xl">
-          <h3 className="text-3xl font-bold text-white">Ready to See How AI Platforms Perceive Your Brand?</h3>
+        <div className={`rounded-3xl p-10 text-center space-y-6 shadow-2xl border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h3 className={`text-3xl font-bold ${isDark ? 'text-white' : 'text-[#181818]'}`}>Ready to See How AI Platforms Perceive Your Brand?</h3>
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
             <Link href="/contact" className="px-8 py-4 rounded-2xl luxury-btn-primary font-bold text-sm shadow-xl hover:scale-105 transition-transform">
               Book a Demo
             </Link>
-            <Link href="/tools/brand-auditor" className="px-8 py-4 rounded-2xl border border-white/20 text-white font-bold text-sm hover:border-[#C7A15A]">
+            <Link href="/tools/brand-auditor" className={`px-8 py-4 rounded-2xl border font-bold text-sm transition-colors ${
+              isDark ? 'border-white/20 text-white hover:border-[#C7A15A]' : 'border-[#E5E3DF] text-[#181818] hover:border-[#B87333]'
+            }`}>
               Start Free AI Visibility Audit
             </Link>
           </div>

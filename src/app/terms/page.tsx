@@ -18,7 +18,7 @@ export default function TermsPage() {
     }`}>
       <ScrollProgress />
       <AiBackground isDark={isDark} />
-      <Navbar ctaText="Contact Legal" ctaHref="mailto:legal@tangentcore.in" />
+      <Navbar ctaText="Contact Legal" ctaHref="mailto:tangentcoreindia@gmail.com" />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 space-y-12">
         
@@ -73,7 +73,7 @@ export default function TermsPage() {
             </p>
             <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs font-mono">
               <span className="text-[#C7A15A] font-bold block">Legal Team Contact:</span>
-              <a href="mailto:legal@tangentcore.in" className="text-white hover:underline">legal@tangentcore.in</a>
+              <a href="mailto:tangentcoreindia@gmail.com" className="text-white hover:underline">tangentcoreindia@gmail.com</a>
             </div>
           </section>
 

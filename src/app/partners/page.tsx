@@ -104,17 +104,21 @@ export default function PartnersPage() {
         </div>
 
         {/* Become a Partner Application CTA */}
-        <div id="apply" className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-10 text-center space-y-6 shadow-2xl max-w-3xl mx-auto">
-          <h3 className="text-3xl font-extrabold text-white">Become a TangentCore Partner</h3>
-          <p className="text-xs text-[#E5E3DF]/80 leading-relaxed">
+        <div id="apply" className={`rounded-3xl p-10 text-center space-y-6 shadow-2xl max-w-3xl mx-auto border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h3 className={`text-3xl font-extrabold ${isDark ? 'text-white' : 'text-[#181818]'}`}>Become a TangentCore Partner</h3>
+          <p className={`text-xs leading-relaxed ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
             Interested in joining our growing partner network? Contact our partnerships team to receive sales enablement materials and platform access.
           </p>
           <a
-            href="mailto:partners@tangentcore.in"
+            href="mailto:tangentcoreindia@gmail.com"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl luxury-btn-primary font-bold text-sm shadow-xl"
           >
             <Mail className="w-4 h-4" />
-            <span>Apply to Become a Partner (partners@tangentcore.in)</span>
+            <span>Apply to Become a Partner (tangentcoreindia@gmail.com)</span>
           </a>
         </div>
 

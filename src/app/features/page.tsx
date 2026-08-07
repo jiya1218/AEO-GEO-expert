@@ -236,9 +236,13 @@ export default function FeaturesPage() {
         </div>
 
         {/* Why TangentCore? */}
-        <div className="rounded-3xl luxury-gradient-card border border-[#C7A15A]/40 p-10 sm:p-12 text-center space-y-6 shadow-2xl">
-          <h2 className="text-3xl font-extrabold text-white">Why TangentCore?</h2>
-          <p className="text-base text-[#E5E3DF]/80 max-w-2xl mx-auto leading-relaxed">
+        <div className={`rounded-3xl p-10 sm:p-12 text-center space-y-6 shadow-2xl border ${
+          isDark 
+            ? 'luxury-gradient-card border-[#C7A15A]/40' 
+            : 'bg-white border-[#E5E3DF]'
+        }`}>
+          <h2 className={`text-3xl font-extrabold ${isDark ? 'text-white' : 'text-[#181818]'}`}>Why TangentCore?</h2>
+          <p className={`text-base max-w-2xl mx-auto leading-relaxed ${isDark ? 'text-[#E5E3DF]/80' : 'text-[#5C5C5C]'}`}>
             Traditional SEO tells you how you rank on search engines. <br />
             <strong>TangentCore tells you how AI systems understand, reference, and recommend your organisation.</strong>
           </p>

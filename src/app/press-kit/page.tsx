@@ -20,7 +20,7 @@ export default function PressKitPage() {
     { label: 'Founded', val: '2026' },
     { label: 'Headquarters', val: 'India' },
     { label: 'Website', val: 'https://tangentcore.in' },
-    { label: 'Media Contact', val: 'press@tangentcore.in' },
+    { label: 'Media Contact', val: 'tangentcoreindia@gmail.com' },
   ];
 
   const resources = [
@@ -107,11 +107,11 @@ export default function PressKitPage() {
               For interview requests, speaking opportunities at podcasts/conferences, or media enquiries, please contact:
             </p>
             <div className="space-y-2 pt-2">
-              <a href="mailto:press@tangentcore.in" className="text-xs font-mono font-bold text-[#C7A15A] hover:underline block">
-                📧 press@tangentcore.in
+              <a href="mailto:tangentcoreindia@gmail.com" className="text-xs font-mono font-bold text-[#C7A15A] hover:underline block">
+                📧 tangentcoreindia@gmail.com
               </a>
-              <a href="mailto:events@tangentcore.in" className="text-xs font-mono font-bold text-[#C7A15A] hover:underline block">
-                🎙️ events@tangentcore.in
+              <a href="mailto:tangentcoreindia@gmail.com" className="text-xs font-mono font-bold text-[#C7A15A] hover:underline block">
+                🎙️ tangentcoreindia@gmail.com
               </a>
             </div>
           </div>

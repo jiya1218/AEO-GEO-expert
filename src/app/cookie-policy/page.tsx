@@ -18,7 +18,7 @@ export default function CookiePolicyPage() {
     }`}>
       <ScrollProgress />
       <AiBackground isDark={isDark} />
-      <Navbar ctaText="Privacy Office" ctaHref="mailto:privacy@tangentcore.in" />
+      <Navbar ctaText="Privacy Office" ctaHref="mailto:tangentcoreindia@gmail.com" />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 space-y-12">
         

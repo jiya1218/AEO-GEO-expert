@@ -25,7 +25,7 @@ export default function SecurityPage() {
     }`}>
       <ScrollProgress />
       <AiBackground isDark={isDark} />
-      <Navbar ctaText="Report Vulnerability" ctaHref="mailto:security@tangentcore.in" />
+      <Navbar ctaText="Report Vulnerability" ctaHref="mailto:tangentcoreindia@gmail.com" />
 
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 relative z-10 space-y-16">
         
@@ -66,10 +66,10 @@ export default function SecurityPage() {
         <div className={`p-8 rounded-3xl border ${isDark ? 'bg-[#121315] border-white/10' : 'bg-white border-[#E5E3DF]'} space-y-4 shadow-xl`}>
           <h2 className="text-xl font-bold text-[#C7A15A]">Responsible Disclosure</h2>
           <p className={`text-xs ${isDark ? 'text-[#B7B7B5]' : 'text-[#5C5C5C]'} leading-relaxed`}>
-            If you believe you have discovered a security vulnerability affecting TangentCore, please report it responsibly to our security team at <strong>security@tangentcore.in</strong>. Please include steps to reproduce, impact assessment, and proof of concept.
+            If you believe you have discovered a security vulnerability affecting TangentCore, please report it responsibly to our security team at <strong>tangentcoreindia@gmail.com</strong>. Please include steps to reproduce, impact assessment, and proof of concept.
           </p>
           <div className="p-4 rounded-2xl bg-white/5 border border-white/10 text-xs font-mono text-white">
-            <span>Security Operations: <a href="mailto:security@tangentcore.in" className="text-[#C7A15A] hover:underline">security@tangentcore.in</a></span>
+            <span>Security Operations: <a href="mailto:tangentcoreindia@gmail.com" className="text-[#C7A15A] hover:underline">tangentcoreindia@gmail.com</a></span>
           </div>
         </div>
 
