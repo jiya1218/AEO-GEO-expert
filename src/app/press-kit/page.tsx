@@ -17,7 +17,7 @@ export default function PressKitPage() {
   const companyFactSheet = [
     { label: 'Company Name', val: 'TangentCore' },
     { label: 'Industry', val: 'AI Visibility Intelligence' },
-    { label: 'Founded', val: '2026' },
+    { label: 'Founded', val: '2025' },
     { label: 'Headquarters', val: 'India' },
     { label: 'Website', val: 'https://tangentcore.in' },
     { label: 'Media Contact', val: 'tangentcoreindia@gmail.com' },

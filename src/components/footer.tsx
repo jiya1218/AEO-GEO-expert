@@ -209,7 +209,7 @@ export function Footer({ isDark = true }: FooterProps) {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm font-mono text-[#85858A]">
           <div className="flex items-center gap-2 flex-wrap">
             <Sparkles className="w-4 h-4 text-[#C7A15A]" />
-            <span>© 2025 - {new Date().getFullYear()} TangentCore. All rights reserved.</span>
+            <span>© 2025 TangentCore. All rights reserved.</span>
             <span className="text-[#C7A15A] font-semibold">• A Scalezix Venture</span>
           </div>
           
