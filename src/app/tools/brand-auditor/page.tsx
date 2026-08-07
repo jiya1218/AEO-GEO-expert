@@ -56,9 +56,12 @@ export default function BrandAuditorToolPage() {
     }
   };
 
-  const handleLogoError = () => {
+  const handleLogoError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.onerror = null;
     if (auditResult?.logoCandidates && logoIdx < auditResult.logoCandidates.length - 1) {
       setLogoIdx((prev) => prev + 1);
+    } else {
+      e.currentTarget.style.display = 'none';
     }
   };
 
@@ -412,7 +415,10 @@ export default function BrandAuditorToolPage() {
                           src={`https://www.google.com/s2/favicons?domain=${comp.domain}&sz=128`}
                           alt={comp.name}
                           className="w-6 h-6 rounded-md object-contain bg-white/10 p-0.5"
-                          onError={(e: any) => { e.target.src = 'https://google.com/favicon.ico'; }}
+                          onError={(e: any) => { 
+                            e.target.onerror = null; 
+                            e.target.style.display = 'none'; 
+                          }}
                         />
                         <div>
                           <span className={`text-sm font-bold block ${isDark ? 'text-white' : 'text-[#181818]'}`}>
