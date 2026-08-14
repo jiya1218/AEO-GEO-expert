@@ -373,86 +373,40 @@ export default function DashboardPage() {
               </div>
 
               {/* LAYER 3: Full-Width Clean Segmented Navigation Tab Bar */}
-              <ScrollReveal variant="fadeUp" delay={0.1} duration={0.45} className={`p-1.5 rounded-2xl border ${
-                isDark ? 'bg-[#1B1C1F] border-white/10' : 'bg-[#F6F5F3] border-[#E5E3DF]'
-              } flex items-center gap-1.5 overflow-x-auto text-xs font-bold no-print`}>
-                <button
-                  onClick={() => setActiveTab('overview')}
-                  className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                    activeTab === 'overview'
-                      ? isDark
-                        ? 'bg-[#C7A15A] text-[#111111] font-black shadow-md'
-                        : 'bg-[#B87333] text-white font-black shadow-md'
-                      : isDark ? 'text-[#B7B7B5] hover:text-white hover:bg-[#242529]' : 'text-[#5C5C5C] hover:text-[#181818] hover:bg-white'
-                  }`}
-                >
-                  <TrendingUp className="w-4 h-4" /> Overview
-                </button>
-                
-                <button
-                  onClick={() => setActiveTab('crawler')}
-                  className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                    activeTab === 'crawler'
-                      ? isDark
-                        ? 'bg-[#C7A15A] text-[#111111] font-black shadow-md'
-                        : 'bg-[#B87333] text-white font-black shadow-md'
-                      : isDark ? 'text-[#B7B7B5] hover:text-white hover:bg-[#242529]' : 'text-[#5C5C5C] hover:text-[#181818] hover:bg-white'
-                  }`}
-                >
-                  <Layers className="w-4 h-4" /> Site Crawler & Schema
-                </button>
-                
-                <button
-                  onClick={() => setActiveTab('heatmap')}
-                  className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                    activeTab === 'heatmap'
-                      ? isDark
-                        ? 'bg-[#C7A15A] text-[#111111] font-black shadow-md'
-                        : 'bg-[#B87333] text-white font-black shadow-md'
-                      : isDark ? 'text-[#B7B7B5] hover:text-white hover:bg-[#242529]' : 'text-[#5C5C5C] hover:text-[#181818] hover:bg-white'
-                  }`}
-                >
-                  <Bot className="w-4 h-4" /> AI Heatmap
-                </button>
-                
-                <button
-                  onClick={() => setActiveTab('keywords')}
-                  className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                    activeTab === 'keywords'
-                      ? isDark
-                        ? 'bg-[#D4AF37] text-[#111111] font-black shadow-md shadow-[#D4AF37]/20'
-                        : 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                      : isDark ? 'text-[#9E9E9E] hover:text-white hover:bg-[#202020]' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                  }`}
-                >
-                  <Key className="w-4 h-4" /> Keywords
-                </button>
-                
-                <button
-                  onClick={() => setActiveTab('gaps')}
-                  className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                    activeTab === 'gaps'
-                      ? isDark
-                        ? 'bg-[#D4AF37] text-[#111111] font-black shadow-md shadow-[#D4AF37]/20'
-                        : 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                      : isDark ? 'text-[#9E9E9E] hover:text-white hover:bg-[#202020]' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                  }`}
-                >
-                  <Target className="w-4 h-4" /> Gaps & GEO Briefs
-                </button>
-                
-                <button
-                  onClick={() => setActiveTab('citations')}
-                  className={`px-4.5 py-2.5 rounded-xl transition-all flex items-center gap-2 whitespace-nowrap ${
-                    activeTab === 'citations'
-                      ? isDark
-                        ? 'bg-[#D4AF37] text-[#111111] font-black shadow-md shadow-[#D4AF37]/20'
-                        : 'bg-cyan-600 text-white font-extrabold shadow-md shadow-cyan-600/30'
-                      : isDark ? 'text-[#9E9E9E] hover:text-white hover:bg-[#202020]' : 'text-slate-600 hover:text-slate-950 hover:bg-white'
-                  }`}
-                >
-                  <Link2 className="w-4 h-4" /> Citations Map
-                </button>
+              <ScrollReveal variant="fadeUp" delay={0.1} duration={0.45} className={`p-2 rounded-2xl border ${
+                isDark ? 'bg-[#18191C] border-white/10' : 'bg-[#F4F3F0] border-[#E5E3DF]'
+              } no-print`}>
+                <div className="flex items-center gap-2.5 overflow-x-auto py-0.5 px-0.5 scrollbar-none">
+                  {[
+                    { id: 'overview', label: 'Overview', icon: TrendingUp },
+                    { id: 'crawler', label: 'Site Crawler & Schema', icon: Layers },
+                    { id: 'heatmap', label: 'AI Heatmap', icon: Bot },
+                    { id: 'keywords', label: 'Keywords', icon: Key },
+                    { id: 'gaps', label: 'Gaps & GEO Briefs', icon: Target },
+                    { id: 'citations', label: 'Citations Map', icon: Link2 },
+                  ].map(({ id, label, icon: Icon }) => {
+                    const isActive = activeTab === id;
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setActiveTab(id as ActiveTab)}
+                        className={`px-4 py-2.5 rounded-xl font-mono text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap shrink-0 border ${
+                          isActive
+                            ? isDark
+                              ? 'bg-[#C7A15A] text-[#0B0B0C] border-[#C7A15A] shadow-md font-extrabold'
+                              : 'bg-[#B87333] text-white border-[#B87333] shadow-md font-extrabold'
+                            : isDark
+                            ? 'bg-[#121315] border-white/10 text-[#CFCFCF] hover:text-white hover:border-[#C7A15A]/50 hover:bg-[#202226]'
+                            : 'bg-white border-[#E5E3DF] text-[#2C2C2C] hover:text-[#181818] hover:border-[#B87333]/50 hover:bg-white shadow-xs'
+                        }`}
+                      >
+                        <Icon className={`w-4 h-4 shrink-0 ${isActive ? (isDark ? 'text-[#0B0B0C]' : 'text-white') : (isDark ? 'text-[#C7A15A]' : 'text-[#B87333]')}`} />
+                        <span>{label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </ScrollReveal>
 
               {/* TAB CONTENT 1: OVERVIEW */}
