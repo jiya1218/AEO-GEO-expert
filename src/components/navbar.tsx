@@ -1,11 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sun, Moon, ArrowRight } from 'lucide-react';
+import { Sun, Moon, ArrowRight, LogOut, User, LayoutDashboard } from 'lucide-react';
 import { BrandLogo } from '@/components/ui/brand-logo';
 import { useTheme } from '@/components/theme-provider';
+import { createClient } from '@/lib/supabase/client';
+import { toast } from 'sonner';
 
 interface NavbarProps {
   isDark?: boolean;
@@ -20,6 +22,33 @@ export function Navbar({
 }: NavbarProps) {
   const pathname = usePathname();
   const { isDark, toggleTheme } = useTheme();
+  const [user, setUser] = useState<any>(null);
+
+  const supabase = createClient();
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      toast.success('Signed out successfully');
+      window.location.href = '/login';
+    } catch (err: any) {
+      toast.error(err.message || 'Failed to sign out');
+    }
+  };
 
   const navLinks = [
     { label: 'Features', href: '/#capabilities' },
@@ -73,9 +102,9 @@ export function Navbar({
           })}
         </div>
 
-        {/* Right: Icon-Only Theme Toggle & Primary CTA Button */}
-        <div className="flex items-center gap-3.5 shrink-0">
-          {/* Icon-Only Theme Toggle (Persistent Global State) */}
+        {/* Right: Theme Toggle & Auth / CTA Actions */}
+        <div className="flex items-center gap-3 shrink-0">
+          {/* Theme Toggle */}
           <button
             suppressHydrationWarning
             onClick={toggleTheme}
@@ -94,14 +123,67 @@ export function Navbar({
             )}
           </button>
 
-          {/* Primary CTA */}
-          <Link
-            href={ctaHref}
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-primary font-bold text-sm shadow-lg shadow-[#C7A15A]/20 transition-transform hover:scale-105"
-          >
-            <span>{ctaText}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          {user ? (
+            /* Logged-In User State: User pill + Sign Out button */
+            <div className="flex items-center gap-2">
+              <div
+                className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded-2xl border text-xs font-mono font-medium ${
+                  isDark ? 'bg-[#121315] border-white/10 text-[#B7B7B5]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#5C5C5C]'
+                }`}
+                title={user.email}
+              >
+                <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#C7A15A]' : 'bg-[#B87333]'} animate-pulse`} />
+                <span className="max-w-[130px] truncate">{user.email || 'User'}</span>
+              </div>
+
+              {pathname !== '/dashboard' && (
+                <Link
+                  href="/dashboard"
+                  className={`hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border text-xs font-bold transition-all ${
+                    isDark
+                      ? 'bg-[#18191C] border-white/10 text-white hover:border-[#C7A15A]'
+                      : 'bg-white border-[#E5E3DF] text-[#181818] hover:border-[#B87333]'
+                  }`}
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5" />
+                  <span>Dashboard</span>
+                </Link>
+              )}
+
+              <button
+                type="button"
+                onClick={handleLogout}
+                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border text-xs font-bold transition-all ${
+                  isDark
+                    ? 'bg-[#121315] border-red-500/20 text-red-400 hover:bg-red-500/10 hover:border-red-500/40'
+                    : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100 hover:border-red-300'
+                }`}
+                title="Sign Out"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Logout</span>
+              </button>
+            </div>
+          ) : (
+            /* Logged-Out State: Login link + CTA Button */
+            <div className="flex items-center gap-2">
+              <Link
+                href="/login"
+                className={`hidden sm:inline-flex items-center px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider transition-colors ${
+                  isDark ? 'text-[#B7B7B5] hover:text-white' : 'text-[#5C5C5C] hover:text-[#181818]'
+                }`}
+              >
+                Login
+              </Link>
+              <Link
+                href={ctaHref}
+                className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl luxury-btn-primary font-bold text-sm shadow-lg shadow-[#C7A15A]/20 transition-transform hover:scale-105"
+              >
+                <span>{ctaText}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          )}
         </div>
 
       </div>

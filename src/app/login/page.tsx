@@ -51,28 +51,17 @@ export default function LoginPage() {
       setLoading(true);
 
       if (isSignUp) {
-        // Sign up new user
-        const redirectUrl = getRedirectUrl();
-
+        // Sign up new user without email verification
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: {
-            emailRedirectTo: redirectUrl,
-          },
         });
 
         if (error && !error.message?.toLowerCase().includes('rate limit')) {
           throw error;
         }
 
-        // Show clear user notification window
-        toast.success(
-          '🎉 Account created successfully! Please check your inbox to confirm your email ID, or directly Sign In below.',
-          { duration: 6000 }
-        );
-
-        // Redirect to Sign In view so user can directly log in with credentials
+        // Directly show login page
         setIsSignUp(false);
       } else {
         const { error } = await supabase.auth.signInWithPassword({
