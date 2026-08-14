@@ -64,15 +64,15 @@ export function Navbar({
         isDark ? 'border-white/10 bg-[#0B0B0C]/90 text-[#F6F6F4]' : 'border-[#E5E3DF] bg-[#FCFCFB]/90 text-[#181818]'
       } backdrop-blur-2xl sticky top-0 z-40 transition-colors duration-300`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         
         {/* Left: Brand Logo */}
         <div className="flex items-center shrink-0">
           <BrandLogo isDark={isDark} size="md" subtitle="INTELLIGENT ROUTING ENGINE" />
         </div>
 
-        {/* Center: Main Navigation Menu Links - Mathematically Centered */}
-        <div className="hidden lg:flex items-center justify-center gap-6 xl:gap-8 text-sm font-mono font-bold uppercase tracking-wider absolute left-1/2 -translate-x-1/2">
+        {/* Center: Main Navigation Menu Links (Responsive Flex without Absolute Overlap) */}
+        <div className="hidden xl:flex items-center justify-center gap-5 2xl:gap-7 text-xs 2xl:text-sm font-mono font-bold uppercase tracking-wider flex-1 min-w-0">
           {navLinks.map((link) => {
             const isActive = pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href) && !link.href.includes('#'));
             return (
@@ -103,12 +103,12 @@ export function Navbar({
         </div>
 
         {/* Right: Theme Toggle & Auth / CTA Actions */}
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
           {/* Theme Toggle */}
           <button
             suppressHydrationWarning
             onClick={toggleTheme}
-            className={`p-2.5 rounded-2xl border ${
+            className={`p-2 sm:p-2.5 rounded-2xl border ${
               isDark
                 ? 'bg-[#121315] border-white/10 text-[#C7A15A] hover:border-[#C7A15A] hover:bg-[#1B1C1F]'
                 : 'bg-white border-[#E5E3DF] text-[#B87333] hover:border-[#B87333] hover:bg-[#F6F5F3]'
@@ -127,22 +127,22 @@ export function Navbar({
             /* Logged-In User State: User pill + Sign Out button */
             <div className="flex items-center gap-2">
               <div
-                className={`hidden md:flex items-center gap-2 px-3 py-1.5 rounded-2xl border text-xs font-mono font-medium ${
+                className={`hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-mono font-medium ${
                   isDark ? 'bg-[#121315] border-white/10 text-[#B7B7B5]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#5C5C5C]'
                 }`}
                 title={user.email}
               >
                 <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#C7A15A]' : 'bg-[#B87333]'} animate-pulse`} />
-                <span className="max-w-[130px] truncate">{user.email || 'User'}</span>
+                <span className="max-w-[110px] 2xl:max-w-[150px] truncate">{user.email || 'User'}</span>
               </div>
 
               {pathname !== '/dashboard' && (
                 <Link
                   href="/dashboard"
-                  className={`hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border text-xs font-bold transition-all ${
+                  className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all ${
                     isDark
                       ? 'bg-[#18191C] border-white/10 text-white hover:border-[#C7A15A]'
-                      : 'bg-white border-[#E5E3DF] text-[#181818] hover:border-[#B87333]'
+                      : 'bg-white border-[#E5E3DF] text-[#181818] hover:border-[#B87333] shadow-xs'
                   }`}
                 >
                   <LayoutDashboard className="w-3.5 h-3.5" />
@@ -153,7 +153,7 @@ export function Navbar({
               <button
                 type="button"
                 onClick={handleLogout}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border text-xs font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-bold transition-all ${
                   isDark
                     ? 'bg-[#121315] border-red-500/20 text-red-400 hover:bg-red-500/10 hover:border-red-500/40'
                     : 'bg-red-50 border-red-200 text-red-600 hover:bg-red-100 hover:border-red-300'
