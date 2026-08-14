@@ -90,11 +90,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleGuestDemoAccess = () => {
-    toast.success('Accessing AEO/GEO Dashboard as Guest...');
-    window.location.href = '/dashboard';
-  };
-
   return (
     <div className={`min-h-screen ${isDark ? 'bg-[#0B0B0C] text-[#F6F6F4]' : 'bg-[#FCFCFB] text-[#181818]'} flex flex-col justify-center items-center relative overflow-hidden p-4 transition-colors duration-500`}>
       <AiBackground isDark={isDark} />
@@ -207,7 +202,7 @@ export default function LoginPage() {
           </form>
 
           {/* Toggle Login / Signup */}
-          <div className="mt-6 text-center space-y-3">
+          <div className="mt-6 text-center">
             <button
               onClick={() => setIsSignUp(!isSignUp)}
               className={`text-xs ${isDark ? 'text-[#B7B7B5] hover:text-[#C7A15A]' : 'text-[#5C5C5C] hover:text-[#B87333]'} transition-colors font-medium`}
@@ -218,19 +213,6 @@ export default function LoginPage() {
                 <>Don't have an account? <span className={`${isDark ? 'text-[#C7A15A]' : 'text-[#B87333]'} underline font-bold`}>Create one</span></>
               )}
             </button>
-
-            <div className={`pt-3 border-t ${isDark ? 'border-white/10' : 'border-[#E5E3DF]'}`}>
-              <button
-                type="button"
-                onClick={handleGuestDemoAccess}
-                className={`w-full py-2.5 px-4 rounded-2xl border ${
-                  isDark ? 'bg-[#121315] border-white/10 text-white hover:border-[#C7A15A] hover:text-[#C7A15A]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#181818] hover:bg-[#E5E3DF]'
-                } text-xs font-bold transition-all flex items-center justify-center gap-1.5`}
-              >
-                <Sparkles className="w-3.5 h-3.5 text-[#C7A15A]" />
-                <span>Instant Demo Access (Skip Login)</span>
-              </button>
-            </div>
           </div>
         </div>
 
