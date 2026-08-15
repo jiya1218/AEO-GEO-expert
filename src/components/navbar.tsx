@@ -124,17 +124,8 @@ export function Navbar({
           </button>
 
           {user ? (
-            /* Logged-In User State: User pill + Sign Out button */
+            /* Logged-In User State: Dashboard + Sign Out button */
             <div className="flex items-center gap-2">
-              <div
-                className={`hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-mono font-medium ${
-                  isDark ? 'bg-[#121315] border-white/10 text-[#B7B7B5]' : 'bg-[#F6F5F3] border-[#E5E3DF] text-[#5C5C5C]'
-                }`}
-                title={user.email}
-              >
-                <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#C7A15A]' : 'bg-[#B87333]'} animate-pulse`} />
-                <span className="max-w-[110px] 2xl:max-w-[150px] truncate">{user.email || 'User'}</span>
-              </div>
 
               {pathname !== '/dashboard' && (
                 <Link
